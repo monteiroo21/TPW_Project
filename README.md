@@ -4,3 +4,14 @@
 ```bash
 pip install -r requirements.txt
 ```
+
+
+npm init -y
+
+npm install -D tailwindcss postcss autoprefixer
+
+npx tailwindcss init -p
+
+npx tailwindcss -i ./app/static/content/tailwind.css -o ./app/static/content/style.css --watch
+
+
