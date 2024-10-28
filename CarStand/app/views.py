@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from forms import SignUpForm
+from app.forms import SignUpForm
 from django.contrib.auth import login, authenticate
 
 # Create your views here.
