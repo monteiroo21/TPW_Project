@@ -1,0 +1,11 @@
+Lista de items:
+
+Groupo (groupo que gere várias marcas)
+
+Marcas (têm várias marcas, definir também sua origem (país) e ano de criação)
+
+Modelos (ano, preço, tipo combustivel, cilindragem, imagem, descrição)
+
+Estatísticas
+
+
