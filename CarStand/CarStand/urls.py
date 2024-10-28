@@ -18,11 +18,15 @@ from django.contrib import admin
 from django.urls import path
 from app import views
 from django.views.generic import RedirectView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', views.index),
     path('', RedirectView.as_view(url='index/', permanent=True), name='index'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html', next_page=''), name='login'),
+    path('signup/', views.sign_up, name='signup'),
+    path('logout/', auth_views.LogoutView.as_view(next_page=''), name='logout'),
     path('index/', views.index, name='index'),
     path('cars/', views.cars, name='cars'),
     path('motorbikes/', views.motorbikes, name='motorbikes'),
