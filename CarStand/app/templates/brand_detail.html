@@ -1,0 +1,9 @@
+{% block content %}
+<h1>{{ brand.name }}</h1>
+<img src="{{ brand.logo.url }}" alt="{{ brand.name }}" width="200" height="200">
+<p><strong>Country:</strong> {{ brand.country }}</p>
+<p><strong>Email:</strong> {{ brand.email }}</p>
+<p><strong>Website:</strong> <a href="{{ brand.website }}" target="_blank">{{ brand.website }}</a></p>
+<p><strong>Description:</strong> {{ brand.description }}</p>
+<p><strong>Phone:</strong> {{ brand.cellPhone }}</p>
+{% endblock %}

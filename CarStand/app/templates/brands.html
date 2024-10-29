@@ -1,7 +1,16 @@
 {% extends "index.html" %}
 
 {% block content %}
-<h1 class="text-white text-3xl">Brands</h1>
+{% for group in groups %}
+<h2>{{ group.name }}</h2>
+<div class="brand-images">
+    {% for brand in group.brands.all %}
+    <a href="{% url 'brand_detail' brand.id %}">
+        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" width="100" height="100">
+    </a>
+    {% endfor %}
+</div>
+{% endfor %}
 {% endblock %}
 
 <!-- Ensures this block does not appear on the homepage (index.html) -->

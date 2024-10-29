@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from app.forms import SignUpForm
 from django.contrib.auth import login, authenticate
+from .models import Group, Brand
 
 # Create your views here.
 
@@ -35,5 +36,11 @@ def motorbikes(request):
     return render(request, 'motorbikes.html', context)
 
 def brands(request):
-    context = {}
+    groups = Group.objects.prefetch_related('brands')
+    context = {'groups': groups}
     return render(request, 'brands.html', context)
+
+def brand_detail(request, brand_id):
+    brand = get_object_or_404(Brand, id=brand_id)
+    context = {'brand': brand}
+    return render(request, 'brand_detail.html', context)
