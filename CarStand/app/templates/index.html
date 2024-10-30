@@ -9,7 +9,6 @@
     {% load static %}
     <link href="{% static 'content/style.css' %}" rel="stylesheet">
     <style>
-        /* Estilo para aumentar o tamanho do texto dos botões */
         .nav-link {
             font-size: 1.25rem;
             font-weight: medium;
@@ -18,7 +17,6 @@
             transition: color 0.2s, border-bottom 0.2s;
         }
 
-        /* Efeito de hover com sublinhado branco */
         .nav-link:hover {
             border-bottom: 2px solid white;
             color: white;
@@ -29,15 +27,12 @@
 <body class="bg-zinc-900 flex flex-col min-h-screen">
     <nav class="bg-zinc-800">
         <div class="mx-auto max-w-7xl px-4 sm:px-4">
-            <!-- Aumenta a altura mínima para h-20 -->
             <div class="relative flex h-20 items-center justify-between">
-                <!-- Logo do lado esquerdo com altura maior -->
                 <div class="flex flex-shrink-0 items-center">
                     <img class="h-24 w-auto mt-3" src="{% static 'imgs/logo-removebg-preview.png' %}"
                         alt="TPWStand Logo">
                 </div>
 
-                <!-- Links de navegação ao centro -->
                 <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-center">
                     <div class="hidden sm:block">
                         <div class="flex lg:space-x-20 space-x-4">
@@ -50,7 +45,6 @@
                     </div>
                 </div>
 
-                <!-- Imagem do usuário do lado direito -->
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <img class="h-11 w-11 p-0.5 border-4 border-white rounded-full filter invert brightness-0"
                         src="{% static 'imgs/user.png' %}" alt="User Avatar">
@@ -60,7 +54,7 @@
     </nav>
 
     <main role="main" class="flex-grow">
-        <div class="container">
+        <div class="px-4 mt-20">
             {% block content %}
             {% endblock %}
 

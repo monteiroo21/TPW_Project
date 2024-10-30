@@ -1,18 +1,19 @@
 {% extends "index.html" %}
 
 {% block content %}
-{% for group in groups %}
-<h2>{{ group.name }}</h2>
-<div class="brand-images">
-    {% for brand in group.brands.all %}
-    <a href="{% url 'brand_detail' brand.id %}">
-        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" width="100" height="100">
-    </a>
+<div class="flex flex-col items-center px-4 mt-10">
+    {% for group in groups %}
+    <h2 class="text-3xl text-white text-center mb-4">{{ group.name }}</h2>
+    <div class="flex justify-center flex-wrap gap-8 mb-14 w-full max-w-3xl">
+        {% for brand in group.brands.all %}
+        <a href="{% url 'brand_detail' brand.id %}">
+            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-24 h-24 object-cover">
+        </a>
+        {% endfor %}
+    </div>
     {% endfor %}
 </div>
-{% endfor %}
 {% endblock %}
 
-<!-- Ensures this block does not appear on the homepage (index.html) -->
 {% block extra_content %}
 {% endblock %}
