@@ -1,13 +1,22 @@
 {% extends "index.html" %}
 
 {% block content %}
-<h1>{{ brand.name }}</h1>
-<img src="{{ brand.logo.url }}" alt="{{ brand.name }}" width="200" height="200">
-<p><strong>Country:</strong> {{ brand.country }}</p>
-<p><strong>Email:</strong> {{ brand.email }}</p>
-<p><strong>Website:</strong> <a href="{{ brand.website }}" target="_blank">{{ brand.website }}</a></p>
-<p><strong>Description:</strong> {{ brand.description }}</p>
-<p><strong>Phone:</strong> {{ brand.cellPhone }}</p>
+<a href="{% url 'brands' %}" class="absolute top-4 left-4 flex items-center space-x-2 group">
+    {% load static %}
+    <img src="{% static 'imgs/left.png' %}" alt="back"
+        class="w-8 h-8 group-hover:border-white group-hover:border-2 rounded">
+    <span class="text-gray-700 group-hover:text-white">back page</span>
+</a>
+
+<div class="flex flex-col items-center px-4 mt-10">
+    <h1>{{ brand.name }}</h1>
+    <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" width="200" height="200">
+    <p><strong>Country:</strong> {{ brand.country }}</p>
+    <p><strong>Email:</strong> {{ brand.email }}</p>
+    <p><strong>Website:</strong> <a href="{{ brand.website }}" target="_blank">{{ brand.website }}</a></p>
+    <p><strong>Description:</strong> {{ brand.description }}</p>
+    <p><strong>Phone:</strong> {{ brand.cellPhone }}</p>
+</div>
 {% endblock %}
 
 {% block extra_content %}
