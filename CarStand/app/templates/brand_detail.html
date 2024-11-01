@@ -8,13 +8,17 @@
 </a>
 
 <div class="flex flex-col items-center px-4 mt-10">
-    <h1 class="text-white">{{ brand.name }}</h1>
-    <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-32 h-32 object-contain">
+    <h1 class="text-white text-3xl font-extrabold">{{ brand.name }}</h1>
+    <div class="flex items-center justify-center w-32 h-32 mt-5">
+        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="max-w-full max-h-full object-contain">
+    </div>
     <p><strong>Country:</strong> {{ brand.country }}</p>
     <p><strong>Email:</strong> {{ brand.email }}</p>
-    <p><strong>Website:</strong> <a href="{{ brand.website }}" target="_blank">{{ brand.website }}</a></p>
-    <p><strong>Description:</strong> {{ brand.description }}</p>
     <p><strong>Phone:</strong> {{ brand.cellPhone }}</p>
+    <p><strong>Website:</strong> <a href="{{ brand.website }}" target="_blank">{{ brand.website }}</a></p>
+    <div class="description-box">
+        <p><strong>Description:</strong> {{ brand.description }}</p>
+    </div>
 </div>
 {% endblock %}
 
