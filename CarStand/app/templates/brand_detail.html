@@ -3,14 +3,13 @@
 {% block content %}
 <a href="{% url 'brands' %}" class="absolute top-4 left-4 flex items-center space-x-2 group">
     {% load static %}
-    <img src="{% static 'imgs/left.png' %}" alt="back"
-        class="w-8 h-8 group-hover:border-white group-hover:border-2 rounded">
-    <span class="text-gray-700 group-hover:text-white">back page</span>
+    <img src="{% static 'imgs/left.png' %}" alt="back" class="w-10 h-10 filter invert brightness-0">
+    <span class="text-white text-lg hover:text-white">Go Back</span>
 </a>
 
 <div class="flex flex-col items-center px-4 mt-10">
-    <h1>{{ brand.name }}</h1>
-    <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" width="200" height="200">
+    <h1 class="text-white">{{ brand.name }}</h1>
+    <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-32 h-32 object-contain">
     <p><strong>Country:</strong> {{ brand.country }}</p>
     <p><strong>Email:</strong> {{ brand.email }}</p>
     <p><strong>Website:</strong> <a href="{{ brand.website }}" target="_blank">{{ brand.website }}</a></p>
