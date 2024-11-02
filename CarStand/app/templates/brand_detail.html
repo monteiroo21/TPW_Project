@@ -5,31 +5,35 @@
 <div>
     <a href="{% url 'brands' %}" class="absolute top-4 left-4 flex items-center space-x-2 group"
         style="margin-top: 80px; margin-left: 10px;">
-        {% load static %}
         <img src="{% static 'imgs/left.png' %}" alt="back"
-            class="w-10 h-10 filter invert brightness-0 hover:brightness-0 group-hover:filter-none group-hover:border-2 group-hover:border-white group-hover:bg-white rounded-full">
-
-
+            class="w-10 h-10 filter invert brightness-0 hover:brightness-0 group-hover:filter-none group-hover:bg-white rounded-full">
         <span class="text-white text-lg group-hover:border-b-2 group-hover:border-white">Go Back</span>
     </a>
 
-    <div class="flex flex-col items-center px-4 mt-10">
-        <h1 class="text-white text-3xl font-extrabold">{{ brand.name }}</h1>
-        <div class="flex items-center justify-center w-32 h-32 mt-5">
-            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="max-w-full max-h-full object-contain">
+    <div class="flex flex-col lg:flex-row items-center lg:items-start justify-between px-44 mt-16">
+        <div class="flex flex-col items-start text-white lg:w-2/3 space-y-4">
+            <h1 class="text-5xl font-extrabold ml-10 mb-4">{{ brand.name }}</h1>
+            <p class="text-lg"><strong>Country:</strong> {{ brand.country }}</p>
+            <p class="text-lg"><strong>Email:</strong> {{ brand.email }}</p>
+            <p class="text-lg"><strong>Phone:</strong> {{ brand.cellPhone }}</p>
+            <p class="text-lg">
+                <strong>Website:</strong>
+                <a href="{{ brand.website }}" target="_blank" class="underline hover:text-gray-300">
+                    Visit {{ brand.name }}'s website
+                </a>
+            </p>
         </div>
-        <p class="text-white"><strong>Country:</strong> {{ brand.country }}</p>
-        <p class="text-white"><strong>Email:</strong> {{ brand.email }}</p>
-        <p class="text-white"><strong>Phone:</strong> {{ brand.cellPhone }}</p>
-        <p class="text-white">
-            <strong>Website:</strong>
-            <a href="{{ brand.website }}" target="_blank" class="underline hover:text-gray-300">
-                Visit {{ brand.name }}'s website
-            </a>
-        </p>
-        <div class="description-box">
-            <p><strong>Description:</strong> {{ brand.description }}</p>
+
+        <div
+            class="flex items-center justify-center w-56 h-56 mt-10 lg:mt-2 lg:ml-10 rounded-2xl shadow-2xl shadow-zinc-950 p-2">
+            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}"
+                class="max-w-full max-h-full object-contain my-auto mx-auto">
         </div>
+
+
+    </div>
+    <div class="border-4 border-white rounded-2xl text-white px-6 py-4 mt-10 mx-20 mb-8">
+        <p class="text-base"><strong>Description:</strong> {{ brand.description }}</p>
     </div>
 </div>
 
