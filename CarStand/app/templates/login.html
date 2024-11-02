@@ -56,11 +56,11 @@
         <h4 class="text-xl ml-6 font-bold text-white">Immerse yourself in a hassle-free login journey with our intuitively designed login form. Effortlessly access your account.</h4>
       </div>
 
-      <form class="bg-white rounded-xl px-6 py-8 space-y-6 max-w-md md:ml-auto w-full">
+      <form method="post" class="bg-white rounded-xl px-6 py-8 space-y-6 max-w-md md:ml-auto w-full" action="{% url 'login' %}">
+        {% csrf_token %}
         <h3 class="text-3xl font-extrabold mb-12">
           Login
         </h3>
-        {% csrf_token %}
               {% for field in form %}
                   <div class="mb-4">
                       <p class="text-black">{{ field.label_tag }}</p>

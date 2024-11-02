@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', views.index),
     path('', RedirectView.as_view(url='index/', permanent=True), name='index'),
-    path('login/', views.login, name='login'),
+    path('login/', views.log_in, name='login'),
     path('signup/', views.sign_up, name='signup'),
     path('logout/', views.logout_view, name='logout'),
     path('index/', views.index, name='index'),
