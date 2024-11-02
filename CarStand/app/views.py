@@ -3,7 +3,7 @@ from app.forms import SignUpForm, LoginForm
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile
 from django.db.models import Q
-
+from app.loadBackup import *
 # Create your views here.
 
 def sign_up(request):
@@ -45,10 +45,19 @@ def logout_view(request):
     return redirect('index') 
 
 def index(request):
+    Group.objects.all().delete()
+    Brand.objects.all().delete()
+    Moto.objects.all().delete()
+    CarModel.objects.all().delete()
+    creategroups()
+    createBrandCarro()
+    createBrandMota()
+    createMotas()
     context = {}
     return render(request, 'index.html', context)
 
 def cars(request):
+    #creategroups()
     context = {}
     return render(request, 'cars.html', context)
 
@@ -77,3 +86,5 @@ def brand_detail(request, brand_id):
     brand = get_object_or_404(Brand, id=brand_id)
     context = {'brand': brand}
     return render(request, 'brand_detail.html', context)
+
+    

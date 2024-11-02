@@ -71,9 +71,16 @@ class Car(models.Model):
     new = models.BooleanField(default=True)
     kilometers = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    image=models.ImageField(upload_to='./static/imgs/cars',default="./static/imgs/motos/aprilia_rs660.png")
 
     def __str__(self):
         return self.model.name + ", " + self.model.brand.name
 
-# class Moto(models.Model):
-#     pass
+class Moto(models.Model):
+    model = models.ForeignKey(CarModel, on_delete=models.CASCADE)
+    year = models.PositiveIntegerField(validators=[MinValueValidator(1990), MaxValueValidator(2024)])
+    new = models.BooleanField(default=True)
+    kilometers = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    image=models.ImageField(upload_to='./static/imgs/motos',default="./static/imgs/motos/aprilia_rs660.png")
+
