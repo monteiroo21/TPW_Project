@@ -1,26 +1,37 @@
 {% extends "index.html" %}
 
 {% block content %}
-<a href="{% url 'brands' %}" class="absolute top-4 left-4 flex items-center space-x-2 group">
-    {% load static %}
-    <img src="{% static 'imgs/left.png' %}" alt="back" class="w-10 h-10 filter invert brightness-0">
-    <span class="text-white text-lg hover:text-white">Go Back</span>
-</a>
+{% load static %}
+<div>
+    <a href="{% url 'brands' %}" class="absolute top-4 left-4 flex items-center space-x-2 group"
+        style="margin-top: 80px; margin-left: 10px;">
+        {% load static %}
+        <img src="{% static 'imgs/left.png' %}" alt="back"
+            class="w-10 h-10 filter invert brightness-0 hover:brightness-0 group-hover:filter-none group-hover:border-2 group-hover:border-white group-hover:bg-white rounded-full">
 
-<div class="flex flex-col items-center px-4 mt-10">
-    <h1 class="text-white text-3xl font-extrabold">{{ brand.name }}</h1>
-    <div class="flex items-center justify-center w-32 h-32 mt-5">
-        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="max-w-full max-h-full object-contain">
-    </div>
-    <p><strong>Country:</strong> {{ brand.country }}</p>
-    <p><strong>Email:</strong> {{ brand.email }}</p>
-    <p><strong>Phone:</strong> {{ brand.cellPhone }}</p>
-    <p><strong>Website:</strong> <a href="{{ brand.website }}" target="_blank">{{ brand.website }}</a></p>
-    <div class="description-box">
-        <p><strong>Description:</strong> {{ brand.description }}</p>
+
+        <span class="text-white text-lg group-hover:border-b-2 group-hover:border-white">Go Back</span>
+    </a>
+
+    <div class="flex flex-col items-center px-4 mt-10">
+        <h1 class="text-white text-3xl font-extrabold">{{ brand.name }}</h1>
+        <div class="flex items-center justify-center w-32 h-32 mt-5">
+            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="max-w-full max-h-full object-contain">
+        </div>
+        <p><strong>Country:</strong> {{ brand.country }}</p>
+        <p><strong>Email:</strong> {{ brand.email }}</p>
+        <p><strong>Phone:</strong> {{ brand.cellPhone }}</p>
+        <p><strong>Website:</strong> <a href="{{ brand.website }}" target="_blank">{{ brand.website }}</a></p>
+        <div class="description-box">
+            <p><strong>Description:</strong> {{ brand.description }}</p>
+        </div>
     </div>
 </div>
+
 {% endblock %}
 
 {% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet">
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
 {% endblock %}
