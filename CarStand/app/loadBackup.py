@@ -10,7 +10,7 @@ def loadMota():
     cellPhone="+5113870967",
     group=Group.objects.get(name__icontains='Volk'),
     description="",
-    logo="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Ducati_red_logo.svg/1931px-Ducati_red_logo.svg.png",
+    logo="static/imgs/Ducati_red_logo.png",
     ).save()
     Brand(
     name="Harley-Davidson",
@@ -20,7 +20,7 @@ def loadMota():
     cellPhone="+137053208",
     group=Group.objects.get(name__icontains='Harley-Davidson'),
     description="",
-    logo="https://i.pinimg.com/originals/22/74/36/227436f3527429aff822a82a55aecd35.png",
+    logo="static/imgs/Harley-Davidson.png",
     ).save()
 
     Brand(
@@ -31,7 +31,7 @@ def loadMota():
     cellPhone="808200807",
     group=Group.objects.get(name__icontains='BMW'),
     description="",
-    logo="https://e7.pngegg.com/pngimages/596/844/png-clipart-bmw-motorrad-car-logo-bmw-logo-emblem-trademark-thumbnail.png",
+    logo="static/imgs/BMW-Logo-1963.png",
     ).save()
 
     Brand(
@@ -42,7 +42,7 @@ def loadMota():
     cellPhone="+447700900123",
     group=Group.objects.get(name__icontains='Triumph'),
     description="",
-    logo="https://i.pinimg.com/originals/b4/2b/35/b42b35e9090c65d5fabeeae8d111c953.png",
+    logo="static/imgs/Triumph.png",
     ).save()
 
     Brand(
@@ -53,7 +53,7 @@ def loadMota():
     cellPhone="12345678765432",
     group=Group.objects.get(name__icontains='MV Agusta'),
     description="",
-    logo="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/MV_Agusta_Logo.svg/1200px-MV_Agusta_Logo.svg.png",
+    logo="static/imgs/MV_Agusta_Logo.png",
     ).save()
 
     Brand(
@@ -64,7 +64,7 @@ def loadMota():
     cellPhone="23456543216",
     group=Group.objects.get(name__icontains='Polaris'),
     description="",
-    logo="https://upload.wikimedia.org/wikipedia/commons/c/c3/Indian_Motorcycle_logo.svg",
+    logo="static/imgs/Indian_Motorcycle_logo.png",
     ).save()
 
     Brand(
@@ -75,7 +75,7 @@ def loadMota():
     cellPhone="219609110",
     group=Group.objects.get(name__icontains='Piaggio'),
     description="",
-    logo="https://wlassets.aprilia.com/wlassets/aprilia/master/Aprilia_World/Racing/Loghi/new-logo/Aprilia_Racing_NERO-ROSSO_Regist/original/Aprilia_Racing_NERO%2BROSSO_Regist.png?1594911215659",
+    logo="static/imgs/Aprilia_Racing_NERO+ROSSO_Regist.png",
     ).save()
 
     Brand(
@@ -86,7 +86,7 @@ def loadMota():
     cellPhone="219709311",
     group=Group.objects.get(name__icontains='Piaggio'),
     description="",
-    logo="https://car-logos.net/wp-content/uploads/2023/04/moto-guzzi-logo-2007-present-scaled.webp",
+    logo="static/imgs/moto-guzzi-logo-2007-present-scaled.png",
     ).save()
 
     Brand(
@@ -97,7 +97,7 @@ def loadMota():
     cellPhone="987654321",
     group=Group.objects.get(name__icontains='Pierer'),
     description="",
-    logo="https://cdn.worldvectorlogo.com/logos/ktm-logo-1.svg",
+    logo="static/imgs/logo-ktm.png",
     ).save()
 
     Brand(
@@ -108,7 +108,7 @@ def loadMota():
     cellPhone=" +7811215115202",
     group=Group.objects.get(name__icontains='Pierer'),
     description="",
-    logo="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Husqvarna_Logo.png/200px-Husqvarna_Logo.png",
+    logo="static/imgs/Husqvarna_Logo.png",
     ).save()
 
     Brand(
@@ -118,8 +118,8 @@ def loadMota():
     website="https://www.royalenfield.com/pt/pt/home/",
     cellPhone="123456789",
     group=Group.objects.get(name__icontains='Eicher'),
-    description="",
-    logo="https://w7.pngwing.com/pngs/727/702/png-transparent-royal-enfield-logo-royal-enfield-bullet-bajaj-auto-enfield-cycle-co-ltd-motorcycle-royal-enfield-classic-motorcycle-text-logo-motorcycle-thumbnail.png",
+    description="enfield-logo.png",
+    logo="static/imgs/enfield-logo.png",
     ).save()
 
     Brand(
@@ -130,7 +130,7 @@ def loadMota():
     cellPhone="+351256000200",
     group=Group.objects.get(name__icontains='Bimota'),
     description="",
-    logo="https://cdn-0.motorcycle-logos.com/wp-content/uploads/2017/02/Bimota-Logo.png",
+    logo="static/imgs/Bimota-Logo.png",
     ).save()
 
     Brand(
@@ -141,7 +141,7 @@ def loadMota():
     cellPhone="+441214203000",
     group=Group.objects.get(name__icontains='TVS'),
     description="",
-    logo="https://w7.pngwing.com/pngs/939/365/png-transparent-encapsulated-postscript-logo-cdr-revitalization-of-the-chinese-anti-japanese-victor-cdr-text-label.png",
+    logo="static/imgs/Norton-Logo.png",
     ).save()
 
     Brand(
@@ -152,7 +152,7 @@ def loadMota():
     cellPhone="+390587272111",
     group=Group.objects.get(name__icontains='Piaggio'),
     description="",
-    logo="https://dbdzm869oupei.cloudfront.net/img/sticker/preview/1784.png",
+    logo="static/imgs/Vespa_logo.png",
     ).save()
 def creategroups():
     Group(
