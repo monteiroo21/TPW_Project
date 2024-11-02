@@ -18,10 +18,15 @@
         <div class="flex items-center justify-center w-32 h-32 mt-5">
             <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="max-w-full max-h-full object-contain">
         </div>
-        <p><strong>Country:</strong> {{ brand.country }}</p>
-        <p><strong>Email:</strong> {{ brand.email }}</p>
-        <p><strong>Phone:</strong> {{ brand.cellPhone }}</p>
-        <p><strong>Website:</strong> <a href="{{ brand.website }}" target="_blank">{{ brand.website }}</a></p>
+        <p class="text-white"><strong>Country:</strong> {{ brand.country }}</p>
+        <p class="text-white"><strong>Email:</strong> {{ brand.email }}</p>
+        <p class="text-white"><strong>Phone:</strong> {{ brand.cellPhone }}</p>
+        <p class="text-white">
+            <strong>Website:</strong>
+            <a href="{{ brand.website }}" target="_blank" class="underline hover:text-gray-300">
+                Visit {{ brand.name }}'s website
+            </a>
+        </p>
         <div class="description-box">
             <p><strong>Description:</strong> {{ brand.description }}</p>
         </div>
