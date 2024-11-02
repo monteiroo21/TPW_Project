@@ -27,7 +27,7 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
-def login(request):
+def log_in(request):
     form = LoginForm(request.POST)
     if form.is_valid():
         username = form.cleaned_data.get('username')
