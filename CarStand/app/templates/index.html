@@ -24,11 +24,25 @@
             border-bottom: 2px solid white;
             color: white;
         }
+
+        .hidden-nav {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .visible-nav {
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 50;
+        }
     </style>
 </head>
 
 <body class="bg-zinc-900 flex flex-col min-h-screen">
-    <nav class="bg-zinc-800">
+    <nav id="navbar" class="bg-zinc-800 visible-nav">
         <div class="mx-auto max-w-7xl px-4 sm:px-4">
             <div class="relative flex h-20 items-center justify-between">
                 <div class="flex flex-shrink-0 items-center">
@@ -58,7 +72,7 @@
         </div>
     </nav>
 
-    <main role="main" class="flex-grow">
+    <main role="main" class="flex-grow pt-20"> <!-- added padding to main content to offset fixed navbar -->
         <div class="px-4">
             {% block content %}
             {% endblock %}
@@ -78,6 +92,23 @@
         </div>
     </footer>
 
+    <script>
+        let lastScrollY = window.scrollY;
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > lastScrollY) {
+                // Rolagem para baixo - esconde a navbar
+                navbar.classList.remove('visible-nav');
+                navbar.classList.add('hidden-nav');
+            } else {
+                // Rolagem para cima - mostra a navbar e fixa no topo
+                navbar.classList.remove('hidden-nav');
+                navbar.classList.add('visible-nav');
+            }
+            lastScrollY = window.scrollY;
+        });
+    </script>
 </body>
 
 </html>
