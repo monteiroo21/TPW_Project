@@ -45,14 +45,6 @@ def logout_view(request):
     return redirect('index') 
 
 def index(request):
-    Group.objects.all().delete()
-    Brand.objects.all().delete()
-    Moto.objects.all().delete()
-    CarModel.objects.all().delete()
-    creategroups()
-    createBrandCarro()
-    createBrandMota()
-    createMotas()
     context = {}
     return render(request, 'index.html', context)
 
