@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TPWStand</title>
+
+    {% load static %}
+    <link href="{% static 'content/style.css' %}" rel="stylesheet">
+    <link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
+    <link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
+
+    <style>
+        .nav-link {
+            font-size: 1.25rem;
+            font-weight: medium;
+            margin: 0 1rem;
+            padding-bottom: 2px;
+            transition: color 0.2s, border-bottom 0.2s;
+        }
+
+        .nav-link:hover {
+            border-bottom: 2px solid white;
+            color: white;
+        }
+
+        .modal-bg.show {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col min-h-screen">
+    <div id="signupModal" class="modal-bg fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-zinc-700 p-6 rounded-lg max-w-md w-full mt-20">
+          <h2 class="text-white text-xl mb-4">Log In</h2>
+          <form method="post" action="{% url 'login' %}">
+              {% csrf_token %}
+              {% for field in form %}
+                  <div class="mb-4">
+                      <p class="text-white">{{ field.label_tag }}</p>
+                      {{ field }}
+                  </div>
+              {% endfor %}
+              <button type="submit" class="bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Log In</button>
+              <h4 class="text-blue underline"><a href="{% url 'signup' %}">You don't have an account?</a></h4>
+          </form>
+      </div>
+    </div>
+
+    <main role="main" class="flex-grow">
+        <div class="px-4">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+</body>
+
+</html>

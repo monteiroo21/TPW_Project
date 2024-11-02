@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from app.forms import SignUpForm
-from django.contrib.auth import login, authenticate
+from app.forms import SignUpForm, LoginForm
+from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile
 from django.db.models import Q
 
@@ -26,6 +26,23 @@ def sign_up(request):
         print(form.errors)
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
+def login(request):
+    form = LoginForm(request.POST)
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        user = authenticate(request, username=username, password=password)
+        login(request, user)
+        return redirect('index')
+    else:
+        print(form.errors)
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('index') 
 
 def index(request):
     context = {}
