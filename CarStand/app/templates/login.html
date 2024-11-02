@@ -34,27 +34,12 @@
 <body class="bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col min-h-screen">
     <div id="signupModal" class="modal-bg fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div class="bg-zinc-700 p-6 rounded-lg max-w-md w-full mt-20">
-          <h2 class="text-white text-xl mb-4">Sign Up</h2>
-          <form method="post" action="{% url 'signup' %}">
+          <h2 class="text-white text-xl mb-4">Log In</h2>
+          <form method="post" action="{% url 'login' %}">
               {% csrf_token %}
-              {% for field in form %}
-                  <div class="mb-4">
-                      <p class="text-white">{{ field.label_tag }}</p>
-                      {{ field }}
-                      {% if field.errors %}
-                          <div style="color: red;">
-                              {% for error in field.errors %}
-                                  <p>{{ error }}</p>
-                              {% endfor %}
-                          </div>
-                      {% endif %}
-                      {% for error in field.errors %}
-                          <p class="text-red-500">{{ error }}</p>
-                      {% endfor %}
-                  </div>
-              {% endfor %}
-              <button type="submit" class="bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Sign Up</button>
-              <h4 class="text-blue underline"><a href="{% url 'login' %}">Already have an account?</a></h4>
+              {{ form }}
+              <button type="submit" class="bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Log In</button>
+              <h4 class="text-blue underline"><a href="{% url 'signup' %}">You don't have an account?</a></h4>
           </form>
       </div>
     </div>
