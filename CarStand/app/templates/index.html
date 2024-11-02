@@ -24,10 +24,24 @@
             border-bottom: 2px solid white;
             color: white;
         }
+
+        .hidden-nav {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .visible-nav {
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 50;
+        }
     </style>
 </head>
 
-<body class="bg-zinc-900 flex flex-col min-h-screen">
+<body class="bg-gradient-to-r from-slate-900 to-slate-700 flex flex-col min-h-screen">
     <nav class="bg-zinc-800">
         <div class="mx-auto max-w-7xl px-4 sm:px-4">
             <div class="relative flex h-20 items-center justify-between">
@@ -49,14 +63,22 @@
                 </div>
 
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <img class="h-11 w-11 p-0.5 border-4 border-white rounded-full filter invert brightness-0"
-                        src="{% static 'imgs/user.png' %}" alt="User Avatar">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}">
+                            <img class="h-11 w-11 p-0.5 border-4 border-white rounded-full filter invert brightness-0"
+                                src="{% static 'imgs/user.png' %}" alt="User Avatar">
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">
+                            Log in
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </nav>
 
-    <main role="main" class="flex-grow">
+    <main role="main" class="flex-grow pt-20"> <!-- added padding to main content to offset fixed navbar -->
         <div class="px-4">
             {% block content %}
             {% endblock %}
@@ -72,10 +94,27 @@
 
     <footer>
         <div class="bg-zinc-800 text-center text-gray-300 py-4">
-            <p>&copy; 2021 TPWStand. All rights reserved.</p>
+            <p>&copy; 2024 TPWStand. All rights reserved.</p>
         </div>
     </footer>
 
+    <script>
+        let lastScrollY = window.scrollY;
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > lastScrollY) {
+                // Rolagem para baixo - esconde a navbar
+                navbar.classList.remove('visible-nav');
+                navbar.classList.add('hidden-nav');
+            } else {
+                // Rolagem para cima - mostra a navbar e fixa no topo
+                navbar.classList.remove('hidden-nav');
+                navbar.classList.add('visible-nav');
+            }
+            lastScrollY = window.scrollY;
+        });
+    </script>
 </body>
 
 </html>

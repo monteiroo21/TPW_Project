@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from app.forms import SignUpForm
-from django.contrib.auth import login, authenticate
-from .models import Group, Brand
+from app.forms import SignUpForm, LoginForm
+from django.contrib.auth import login, authenticate, logout
+from .models import Group, Brand, Profile
+from django.db.models import Q
 from app.loadBackup import *
 # Create your views here.
 
@@ -10,18 +11,38 @@ def sign_up(request):
     if form.is_valid():
         user = form.save()
         user.refresh_from_db()
-        user.profile.first_name = form.cleaned_data.get('first_name')
-        user.profile.last_name = form.cleaned_data.get('last_name')
-        user.profile.email = form.cleaned_data.get('email')
-        user.save()
+        Profile.objects.create(
+            user=user,
+            first_name=form.cleaned_data.get('first_name'),
+            last_name=form.cleaned_data.get('last_name'),
+            email=form.cleaned_data.get('email')
+        )
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password1')
         user = authenticate(username=username, password=password)
         login(request, user)
-        return redirect('home')
+        return redirect('index')
     else:
+        print(form.errors)
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
+def log_in(request):
+    form = LoginForm(request.POST)
+    if form.is_valid():
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        user = authenticate(request, username=username, password=password)
+        login(request, user)
+        return redirect('index')
+    else:
+        print(form.errors)
+        form = LoginForm()
+    return render(request, 'login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('index') 
 
 def index(request):
     Group.objects.all().delete()
@@ -44,9 +65,21 @@ def motorbikes(request):
     context = {}
     return render(request, 'motorbikes.html', context)
 
+# def brands(request):
+#     groups = Group.objects.prefetch_related('brands')
+#     context = {'groups': groups}
+#     return render(request, 'brands.html', context)
+
 def brands(request):
-    groups = Group.objects.prefetch_related('brands')
-    context = {'groups': groups}
+    groups = Group.objects.filter(name__iendswith='group').prefetch_related('brands')
+
+    independent_brands = Brand.objects.filter(
+        Q(group__isnull=True) | ~Q(group__name__iendswith='group')
+    )
+    context = {
+        'groups': groups,
+        'independent_brands': independent_brands,
+    }
     return render(request, 'brands.html', context)
 
 def brand_detail(request, brand_id):
