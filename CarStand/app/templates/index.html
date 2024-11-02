@@ -27,7 +27,7 @@
     </style>
 </head>
 
-<body class="bg-zinc-900 flex flex-col min-h-screen">
+<body class="bg-gradient-to-r from-slate-900 to-slate-700 flex flex-col min-h-screen">
     <nav class="bg-zinc-800">
         <div class="mx-auto max-w-7xl px-4 sm:px-4">
             <div class="relative flex h-20 items-center justify-between">
@@ -55,8 +55,8 @@
                                 src="{% static 'imgs/user.png' %}" alt="User Avatar">
                         </a>
                     {% else %}
-                        <a href="{% url 'login' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Log In
+                        <a href="{% url 'login' %}" class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">
+                            Log in
                         </a>
                     {% endif %}
                 </div>

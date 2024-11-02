@@ -28,18 +28,42 @@
         .modal-bg.show {
             display: flex;
         }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            background: lightgrey;
+            padding: 8px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 
-<body class="bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col min-h-screen">
-    <div id="signupModal" class="modal-bg fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div class="bg-zinc-700 p-6 rounded-lg max-w-md w-full mt-20">
-          <h2 class="text-white text-xl mb-4">Sign Up</h2>
-          <form method="post" action="{% url 'signup' %}">
-              {% csrf_token %}
+<div class="font-[sans-serif] bg-gradient-to-r from-slate-900 to-slate-700 text-gray-800">
+  <div class="min-h-screen flex fle-col items-center justify-center lg:p-6 p-4">
+    <div class="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
+      <div>
+        <div class="flex items-center space-x-2"> 
+          <a href="{% url 'index' %}">
+            <img src="{% static 'imgs/logo-removebg-preview.png' %}" alt="logo" class="w-20 h-20 md:w-32 md:h-32" /> <!-- Large logo size -->
+          </a>
+          <h1 class="text-6xl font-extrabold mb-6 lg:leading-[50px] text-white">
+            <a href="{% url 'index' %}">
+              CarStand
+            </a>
+          </h2>
+        </div>
+        <h4 class="text-xl ml-6 font-bold text-white">Immerse yourself in a hassle-free login journey with our intuitively designed login form. Effortlessly access your account.</h4>
+      </div>
+
+      <form class="bg-white rounded-xl px-6 py-8 space-y-6 max-w-md md:ml-auto w-full">
+        <h3 class="text-3xl font-extrabold mb-12">
+          Sign up
+        </h3>
+        {% csrf_token %}
               {% for field in form %}
                   <div class="mb-4">
-                      <p class="text-white">{{ field.label_tag }}</p>
+                      <p class="text-black">{{ field.label_tag }}</p>
                       {{ field }}
                       {% if field.errors %}
                           <div style="color: red;">
@@ -53,18 +77,13 @@
                       {% endfor %}
                   </div>
               {% endfor %}
-              <button type="submit" class="bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Sign Up</button>
-              <h4 class="text-blue underline"><a href="{% url 'login' %}">Already have an account?</a></h4>
-          </form>
-      </div>
+              <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
+                <button type="submit" class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">Sign Up</button>
+                <p class="text-sm text-blue"><a href="{% url 'login' %}" class="text-blue font-semibold underline ml-1">Already have an account?</a></p>
+              </div>
+      </form>
     </div>
-
-    <main role="main" class="flex-grow">
-        <div class="px-4">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </main>
-</body>
+  </div>
+</div>
 
 </html>
