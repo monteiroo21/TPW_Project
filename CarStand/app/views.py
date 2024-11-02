@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from app.forms import SignUpForm
 from django.contrib.auth import login, authenticate
-from .models import Group, Brand
+from .models import Group, Brand, Profile
 
 # Create your views here.
 
@@ -10,16 +10,19 @@ def sign_up(request):
     if form.is_valid():
         user = form.save()
         user.refresh_from_db()
-        user.profile.first_name = form.cleaned_data.get('first_name')
-        user.profile.last_name = form.cleaned_data.get('last_name')
-        user.profile.email = form.cleaned_data.get('email')
-        user.save()
+        Profile.objects.create(
+            user=user,
+            first_name=form.cleaned_data.get('first_name'),
+            last_name=form.cleaned_data.get('last_name'),
+            email=form.cleaned_data.get('email')
+        )
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password1')
         user = authenticate(username=username, password=password)
         login(request, user)
-        return redirect('home')
+        return redirect('index')
     else:
+        print(form.errors)
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 

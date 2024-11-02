@@ -49,8 +49,10 @@
                 </div>
 
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <img class="h-11 w-11 p-0.5 border-4 border-white rounded-full filter invert brightness-0"
-                        src="{% static 'imgs/user.png' %}" alt="User Avatar">
+                    <a href="{% url 'signup' %}">
+                        <img class="h-11 w-11 p-0.5 border-4 border-white rounded-full filter invert brightness-0"
+                            src="{% static 'imgs/user.png' %}" alt="User Avatar">
+                    </a>
                 </div>
             </div>
         </div>
