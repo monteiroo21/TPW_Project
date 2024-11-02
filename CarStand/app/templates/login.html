@@ -37,7 +37,12 @@
           <h2 class="text-white text-xl mb-4">Log In</h2>
           <form method="post" action="{% url 'login' %}">
               {% csrf_token %}
-              {{ form }}
+              {% for field in form %}
+                  <div class="mb-4">
+                      <p class="text-white">{{ field.label_tag }}</p>
+                      {{ field }}
+                  </div>
+              {% endfor %}
               <button type="submit" class="bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Log In</button>
               <h4 class="text-blue underline"><a href="{% url 'signup' %}">You don't have an account?</a></h4>
           </form>

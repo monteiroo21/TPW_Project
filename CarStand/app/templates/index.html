@@ -49,10 +49,16 @@
                 </div>
 
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <a href="{% url 'signup' %}">
-                        <img class="h-11 w-11 p-0.5 border-4 border-white rounded-full filter invert brightness-0"
-                            src="{% static 'imgs/user.png' %}" alt="User Avatar">
-                    </a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}">
+                            <img class="h-11 w-11 p-0.5 border-4 border-white rounded-full filter invert brightness-0"
+                                src="{% static 'imgs/user.png' %}" alt="User Avatar">
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Log In
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
