@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from app.forms import SignUpForm
 from django.contrib.auth import login, authenticate
 from .models import Group, Brand
-
+from app.loadBackup import *
 # Create your views here.
 
 def sign_up(request):
@@ -24,6 +24,14 @@ def sign_up(request):
     return render(request, 'signup.html', {'form': form})
 
 def index(request):
+    Group.objects.all().delete()
+    Brand.objects.all().delete()
+    Moto.objects.all().delete()
+    CarModel.objects.all().delete()
+    creategroups()
+    createBrandCarro()
+    createBrandMota()
+    createMotas()
     context = {}
     return render(request, 'index.html', context)
 

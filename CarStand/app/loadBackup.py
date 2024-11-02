@@ -1,7 +1,149 @@
-from CarStand.app.models import *
+from app.models import *
+
+def creategroups():
+    Group(
+        name="BMW Group",
+        email="info@bmw.pt",
+        country="Germany",
+        website="https://www.bmwgroup.com/en.html"
+    ).save()
+    
+    Group(
+        name="Volkswagen Group",
+        email="vw@volkswagen.de",
+        country="Germany",
+        website="https://www.volkswagen-group.com/en"
+    ).save()
+    
+    Group(
+        name="Mercedes-Benz Group",
+        email="me-connect.prt@cac.mercedes-benz.com",
+        country="Germany",
+        website="https://group.mercedes-benz.com/en/"
+    ).save()
+    
+    Group(
+        name="Toyota Motor Corporation Group",
+        email="servicocliente@toyota-fs.com",
+        country="Japan",
+        website="https://global.toyota/en/"
+    ).save()
+    
+    Group(
+        name="Tata Motors Group",
+        email="cac@tatamotors.com",
+        country="India",
+        website="https://www.tatamotors.com/"
+    ).save()
+    
+    Group(
+        name="Aston Martin",
+        email="dan.connell@astonmartin.com",
+        country="United Kingdom",
+        website="https://www.astonmartin.com/en"
+    ).save()
+    
+    Group(
+        name="Ferrari",
+        email="customercare@ferraristore.com",
+        country="Italy",
+        website="https://www.ferrari.com/en-PT"
+    ).save()
+    
+    Group(
+        name="Stellantis Group",
+        email="jorge.magalhaes@stellantis.com",
+        country="Netherlands",
+        website="https://www.stellantis.com/en"
+    ).save()
+    
+    Group(
+        name="Tesla",
+        email="eupress@tesla.com",
+        country="United States of America",
+        website="https://www.tesla.com/pt_pt"
+    ).save()
+    
+    Group(
+        name="McLaren",
+        email="guest.relations@mclaren.com",
+        country="United Kingdom",
+        website="https://www.mclaren.com/"
+    ).save()
+    
+    Group(
+        name="Piaggio Group",
+        email="geral@cmachado.pt",
+        country="Italy",
+        website="https://www.piaggio.com/pt_PT/"
+    ).save()
+    
+    Group(
+        name="Polaris Group",
+        email="privacy@polaris.com",
+        country="United States",
+        website="https://www.polarisportugal.com/"
+    ).save()
+    
+    Group(
+        name="Pierer Group",
+        email="privacy@piererindustrie.com",
+        country="Austria",
+        website="https://www.pierermobility.com/en"
+    ).save()
+    
+    Group(
+        name="Eicher Motors Group",
+        email="info@eichermotors.com",
+        country="India",
+        website="https://eicher.in/"
+    ).save()
+    
+    Group(
+        name="Harley-Davidson",
+        email="privacy@harley-davidson.com",
+        country="United States",
+        website="https://www.harley-davidson.com/"
+    ).save()
+    
+    Group(
+        name="Triumph",
+        email="info@triumphmotorcycles.com",
+        country="United Kingdom",
+        website="https://www.triumphmotorcycles.com/"
+    ).save()
+    
+    Group(
+        name="MV Agusta",
+        email="info@mvagusta.com",
+        country="Italy",
+        website="https://www.mvagusta.com/"
+    ).save()
+    
+
+    Group(
+        name="TVS Motor Company",
+        email="info@tvsmotor.com",
+        country="Chennai",
+        website="https://www.tvsmotor.com/"
+    ).save()
+    
+    Group(
+        name="Norton Motorcycles Group",
+        email="customer.data@nortonmotorcycles.com",
+        country="United Kingdom",
+        website="https://nortonmotorcycles.com/"
+    ).save()
+    
+    Group(
+        name="Bimota",
+        email="info@bimotaportugal.pt",
+        country="Italy",
+        website="https://bimotaportugal.pt/"
+    ).save()
 
 
-def loadMota():
+def createBrandMota():
     Brand(
     name="Ducati",
     email="privacy@ducati.com",
@@ -117,7 +259,7 @@ def loadMota():
     country="England",
     website="https://www.royalenfield.com/pt/pt/home/",
     cellPhone="123456789",
-    group=Group.objects.get(name__icontains='Eicher'),
+    group=Group.objects.get(name__icontains='Eicher Motors'),
     description="enfield-logo.png",
     logo="static/imgs/enfield-logo.png",
     ).save()
@@ -154,7 +296,7 @@ def loadMota():
     description="",
     logo="static/imgs/Vespa_logo.png",
     ).save()
-def createBranchMota():
+def createBrandCarro():
     # Criação de McLaren
     Brand(
     name="McLaren",
@@ -293,7 +435,8 @@ def createBranchMota():
     website="https://www.audi.pt/",
     cellPhone="+800308030",
     group=Group.objects.get(name__icontains='Volkswagen'),
-    description="Audi is a German luxury automobile brand known for its modern design, advanced technology, and superior engineering, with a brand philosophy captured by its slogan, 'Vorsprung durch Technik' (Progress through Technology). Founded in 1909 and now part of the Volkswagen Group, Audi has developed a reputation for producing vehicles that blend performance with refinement, featuring advanced engineering, sophisticated design, and all-wheel-drive systems like its renowned Quattro technology. Audi’s lineup spans a variety of vehicles, from sleek sedans like the A4 and A8 to high-performance RS models and popular SUVs like the Q series. Audi has also been at the forefront of electric vehicle innovation with its e-tron series, making strides in sustainable luxury with models like the Q8"
+    description="Audi is a German luxury automobile brand known for its modern design, advanced technology, and superior engineering, with a brand philosophy captured by its slogan, 'Vorsprung durch Technik' (Progress through Technology). Founded in 1909 and now part of the Volkswagen Group, Audi has developed a reputation for producing vehicles that blend performance with refinement, featuring advanced engineering, sophisticated design, and all-wheel-drive systems like its renowned Quattro technology. Audi’s lineup spans a variety of vehicles, from sleek sedans like the A4 and A8 to high-performance RS models and popular SUVs like the Q series. Audi has also been at the forefront of electric vehicle innovation with its e-tron series, making strides in sustainable luxury with models like the Q8",
+    logo="static/imgs/audilogo.png"
 ).save()
     
 # Criação de BMW
@@ -344,43 +487,12 @@ def createBranchMota():
     logo="static/imgs/rollsroyce-logo-white.png",
 ).save()
 
-def creategroups():
-    Group(
-    name="Piaggio Group",
-    email="geral@cmachado.pt",
-    country="Italy",
-    website="https://www.piaggio.com/pt_PT/"
-    ).save()   
-    Group(
-    name="Polaris Group",
-    email="privacy@polaris.com",
-    country="United States",
-    website="https://www.polarisportugal.com/"
-    ).save()
-    Group(
-    name="Pierer Group",
-    email="privacy@piererindustrie.com",
-    country="Austria",
-    website="https://www.pierermobility.com/en"
-    ).save()
-    Group(
-    name="Eicher Group",
-    email="info@eichermotors.com",
-    country="India",
-    website="https://eicher.in/"
-)
-    Group(name="Harley-Davidson", email="privacy@harley-davidson.com", country="United States", website="https://www.harley-davidson.com/").save()
-    Group(name="Triumph", email="info@triumphmotorcycles.com", country="United Kingdom", website="https://www.triumphmotorcycles.com/").save()
-    Group(name="Bimota", email="info@bimotaportugal.pt", country="Italian", website="https://bimotaportugal.pt/").save()
-    Group(name="MV Agusta", email="info@mvagusta.com", country="Italy", website="https://www.mvagusta.com/").save()
-    Group(name="Royal Enfield Group", email="support@royalenfield.com", country="India", website="https://www.royalenfield.com/").save()
-    Group(name="TVS Motor Company", email="info@tvsmotor.com", country="Chennai", website="https://www.tvsmotor.com/").save()
-    Group(name="Norton Motorcycles Group", email="customer.data@nortonmotorcycles.com", country="United Kingdom", website="https://nortonmotorcycles.com/").save()
 
 def createMotas():
     # car_model = CarModel(brand=brand, name="Generic Car", base_price=20000, specifications="Standard car", releaseYear=2023).save()
     # car = Car.objects.create(model=car_model, year=2023, new=True, kilometers=0, price=21000)
-    moto_model = Moto(brand=Brand.objects.get(name__icontains='Ducati'),
+    print(Brand.objects.get(name__icontains='Ducati'))
+    moto_model = CarModel(brand=Brand.objects.get(name__icontains='Ducati'),
     name="SCRAMBLER DUCATI 10°anniversario RIZOMA EDITION",
     base_price=13000,
     specifications="4.3″ TFT color display, ride by wire, full LED lighting system, USB socket under the seat, variable section low handlebar, black exhaust manifold and silencer, Ducati Performance LED turn indicators*, sporty tail, bar-end rearview mirrors, dedicated seat, dedicated livery, Rizoma billet aluminium componentry (clutch and front brake levers, clutch and front brake master cylinder caps, fuel tank cap, passenger footpegs), Rizoma billet aluminium componentry in Metal Rose finishing (windscreen, timing belt covers, frame covers, engine inspection covers, rider footpegs)",
@@ -391,7 +503,7 @@ def createMotas():
     image="static\imgs\motos\Scrambler-Rizoma-MY25-Model-Blocks-3-4-630x390.png"
     ).save()
 
-    moto_model = Moto(brand=Brand.objects.get(name__icontains=''),
+    moto_model = CarModel(brand=Brand.objects.get(name__icontains='Ducati'),
     name="Multistrada V4",
     base_price=20680,
     specifications="The new Multistrada V4 MY2025 combines an optimised aerodynamic design for greater protection, fuel-saving technology, and a heightened anti-squat effect for more stable riding. With new riding modes and increased passenger comfort, this motorcycle is ready to redefine every journey",
@@ -401,7 +513,7 @@ def createMotas():
     image="static\imgs\motos\Multistrada-V4-MY25-Model-Blocks-3-4-630x390.png").save()
 
 
-    moto_model = Moto(brand=Brand.objects.get(name__icontains='BMW Motorr'),
+    moto_model = CarModel(brand=Brand.objects.get(name__icontains='BMW Motorr'),
     name="F 900 XR",
     base_price=14597.98,
     specifications="A XR representa a conjugação perfeita entre carácter desportivo e aptidão para longas viagens: adrenalina dia após dia, curva após curva.\n Com a nova F 900 XR, desfrutas das curvas do princípio ao fim, quilómetro após quilómetro. O seu apelativo design é um reflexo das prestações em estado puro. Além disso, a posição de condução descontraída e direita, bem como a proteção aerodinâmica e as condições meteorológicas, indicam que és tu quem decide quando termina a viagem.",
@@ -413,7 +525,7 @@ def createMotas():
     ).save()
 
 
-    moto_model = Moto(brand=Brand.objects.get(
+    moto_model = CarModel(brand=Brand.objects.get(
         name__icontains='BMW Motorr'),
     name="C 400 X",
     base_price=8826.36,
@@ -426,7 +538,7 @@ def createMotas():
     ).save()
 
 
-    moto_model = Moto(brand=Brand.objects.get(
+    moto_model = CarModel(brand=Brand.objects.get(
         name__icontains='Triumph'),
     name="TF 450-RC",
     base_price=10995.00,
@@ -439,7 +551,7 @@ def createMotas():
     ).save()
 
 
-    moto_model = Moto(brand=Brand.objects.get(name__icontains='Triumph'),
+    moto_model = CarModel(brand=Brand.objects.get(name__icontains='Triumph'),
     name="ROCKET 3 STORM R",
     base_price=24995.00,
     specifications="With interchangeable R and GT foot controls, rider and passenger seats for tailored ergonomics, plug and play technology for greater convenience, styling parts to customize the look, and luggage solutions for longer rides, there are more than 50 genuine Triumph accessories available to create your perfect Rocket",
@@ -451,7 +563,7 @@ def createMotas():
     ).save()
 
 
-    moto_model = Moto(brand=Brand.objects.get(name__icontains='MV Agusta'),
+    moto_model = CarModel(brand=Brand.objects.get(name__icontains='MV Agusta'),
     name="F3",
     base_price=17.490,
     specifications="A R leva todas as características da F3 ao extremo com linhas desenhadas para proporcionar o máximo desempenho e projetadas para o futuro. O estilo e o desempenho atingem a sua derradeira expressão no contraste entre a carenagem vermelha e os componentes todos pretos.",
@@ -463,7 +575,7 @@ def createMotas():
     ).save()
 
 
-    moto_model = Moto(brand=Brand.objects.get(name__icontains='MV Agusta'),
+    moto_model = CarModel(brand=Brand.objects.get(name__icontains='MV Agusta'),
     name="SuperVeloce",
     base_price=22975,
     specifications="",
@@ -475,7 +587,7 @@ def createMotas():
     ).save()
 
 
-    moto_model = Moto(brand=Brand.objects.get(name__icontains=''),
+    moto_model = CarModel(brand=Brand.objects.get(name__icontains='Indian'),
     name="Indian Springfield",
     base_price=30290,
     specifications="",
@@ -489,7 +601,7 @@ def createMotas():
 
 
     # Aprilia Motos
-    moto_model_aprilia_1 = Moto(
+    moto_model_aprilia_1 = CarModel(
         brand=Brand.objects.get(name__icontains='Aprilia'),
         name="Aprilia RS 660",
         base_price=10300,
@@ -506,7 +618,7 @@ def createMotas():
         image="static/imgs/motos/aprilia_rs660.png"
     ).save()
 
-    moto_model_aprilia_2 = Moto(
+    moto_model_aprilia_2 = CarModel(
         brand=Brand.objects.get(name__icontains='Aprilia'),
         name="Aprilia Tuono 1100",
         base_price=15500,
@@ -524,7 +636,7 @@ def createMotas():
     ).save()
 
     # Moto Guzzi Motos
-    moto_model_guzzi_1 = Moto(
+    moto_model_guzzi_1 = CarModel(
         brand=Brand.objects.get(name__icontains='Moto Guzzi'),
         name="Moto Guzzi V85 TT",
         base_price=12500,
@@ -541,7 +653,7 @@ def createMotas():
         image="static/imgs/motos/moto_guzzi_v85tt.png"
     ).save()
 
-    moto_model_guzzi_2 = Moto(
+    moto_model_guzzi_2 = CarModel(
         brand=Brand.objects.get(name__icontains='Moto Guzzi'),
         name="Moto Guzzi California Touring 1400",
         base_price=19000,
@@ -559,7 +671,7 @@ def createMotas():
     ).save()
 
     # KTM Motos
-    moto_model_ktm_1 = Moto(
+    moto_model_ktm_1 = CarModel(
         brand=Brand.objects.get(name__icontains='KTM'),
         name="KTM 390 Duke",
         base_price=6500,
@@ -576,7 +688,7 @@ def createMotas():
         image="static/imgs/motos/ktm_390_duke.png"
     ).save()
 
-    moto_model_ktm_2 = Moto(
+    moto_model_ktm_2 = CarModel(
         brand=Brand.objects.get(name__icontains='KTM'),
         name="KTM Adventure 1290",
         base_price=19000,
@@ -594,7 +706,7 @@ def createMotas():
     ).save()
 
     # Husqvarna Motos
-    moto_model_husqvarna_1 = Moto(
+    moto_model_husqvarna_1 = CarModel(
         brand=Brand.objects.get(name__icontains='Husqvarna Motorcycles'),
         name="Husqvarna Vitpilen 401",
         base_price=6500,
@@ -611,7 +723,7 @@ def createMotas():
         image="static/imgs/motos/husqvarna_vitpilen401.png"
     ).save()
 
-    moto_model_husqvarna_2 = Moto(
+    moto_model_husqvarna_2 = CarModel(
         brand=Brand.objects.get(name__icontains='Husqvarna Motorcycles'),
         name="Husqvarna Svartpilen 701",
         base_price=13000,
@@ -629,8 +741,8 @@ def createMotas():
     ).save()
 
     # Royal Enfield Motos
-    moto_model_enfield_1 = Moto(
-        brand=Brand.objects.get(name__icontains='Royal Enfield'),
+    moto_model_enfield_1 = CarModel(
+        brand=Brand.objects.get(name__icontains='Royal'),
         name="Royal Enfield Interceptor 650",
         base_price=8000,
         specifications="Classic style bike with 47 hp, twin-cylinder engine.",
@@ -646,8 +758,8 @@ def createMotas():
         image="static/imgs/motos/royal_enfield_interceptor650.png"
     ).save()
 
-    moto_model_enfield_2 = Moto(
-        brand=Brand.objects.get(name__icontains='Royal Enfield'),
+    moto_model_enfield_2 = CarModel(
+        brand=Brand.objects.get(name__icontains='Royal'),
         name="Royal Enfield Continental GT 650",
         base_price=8500,
         specifications="Cafe racer with 47 hp, retro styling and sporty performance.",
@@ -664,7 +776,7 @@ def createMotas():
     ).save()
 
     # Bimota Motos
-    moto_model_bimota_1 = Moto(
+    moto_model_bimota_1 = CarModel(
         brand=Brand.objects.get(name__icontains='Bimota'),
         name="Bimota Tesi H2",
         base_price=45000,
@@ -681,7 +793,7 @@ def createMotas():
         image="static/imgs/motos/bimota_tesi_h2.png"
     ).save()
 
-    moto_model_bimota_2 = Moto(
+    moto_model_bimota_2 = CarModel(
         brand=Brand.objects.get(name__icontains='Bimota'),
         name="Bimota KB4",
         base_price=25000,
@@ -699,7 +811,7 @@ def createMotas():
     ).save()
 
     # Norton Motorcycles Motos
-    moto_model_norton_1 = Moto(
+    moto_model_norton_1 = CarModel(
         brand=Brand.objects.get(name__icontains='Norton Motorcycles'),
         name="Norton Commando 961",
         base_price=18000,
@@ -716,7 +828,7 @@ def createMotas():
         image="static/imgs/motos/norton_commando961.png"
     ).save()
 
-    moto_model_norton_2 = Moto(
+    moto_model_norton_2 = CarModel(
         brand=Brand.objects.get(name__icontains='Norton Motorcycles'),
         name="Norton V4 RR",
         base_price=40000,
@@ -734,7 +846,7 @@ def createMotas():
     ).save()
 
     # Vespa Motos
-    moto_model_vespa_1 = Moto(
+    moto_model_vespa_1 = CarModel(
         brand=Brand.objects.get(name__icontains='Vespa'),
         name="Vespa Primavera 50",
         base_price=3500,
@@ -751,7 +863,7 @@ def createMotas():
         image="static/imgs/motos/vespa_primavera50.png"
     ).save()
 
-    moto_model_vespa_2 = Moto(
+    moto_model_vespa_2 = CarModel(
         brand=Brand.objects.get(name__icontains='Vespa'),
         name="Vespa GTS 300",
         base_price=5500,
