@@ -64,21 +64,22 @@
 
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     {% if user.is_authenticated %}
-                        <a href="{% url 'logout' %}">
-                            <img class="h-11 w-11 p-0.5 border-4 border-white rounded-full filter invert brightness-0"
-                                src="{% static 'imgs/user.png' %}" alt="User Avatar">
-                        </a>
+                    <a href="{% url 'logout' %}">
+                        <img class="h-11 w-11 p-0.5 border-4 border-white rounded-full filter invert brightness-0"
+                            src="{% static 'imgs/user.png' %}" alt="User Avatar">
+                    </a>
                     {% else %}
-                        <a href="{% url 'login' %}" class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">
-                            Log in
-                        </a>
+                    <a href="{% url 'login' %}"
+                        class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">
+                        Log in
+                    </a>
                     {% endif %}
                 </div>
             </div>
         </div>
     </nav>
 
-    <main role="main" class="flex-grow pt-20"> <!-- added padding to main content to offset fixed navbar -->
+    <main role="main" class="flex-grow pt-10"> <!-- added padding to main content to offset fixed navbar -->
         <div class="px-4">
             {% block content %}
             {% endblock %}
