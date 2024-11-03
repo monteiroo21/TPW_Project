@@ -2,88 +2,101 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TPWStand</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TPWStand</title>
 
-    {% load static %}
-    <link href="{% static 'content/style.css' %}" rel="stylesheet">
-    <link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
-    <link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
+  {% load static %}
+  <link href="{% static 'content/style.css' %}" rel="stylesheet">
+  <link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
+  <link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
 
-    <style>
-        .nav-link {
-            font-size: 1.25rem;
-            font-weight: medium;
-            margin: 0 1rem;
-            padding-bottom: 2px;
-            transition: color 0.2s, border-bottom 0.2s;
-        }
+  <style>
+    .nav-link {
+      font-size: 1.25rem;
+      font-weight: medium;
+      margin: 0 1rem;
+      padding-bottom: 2px;
+      transition: color 0.2s, border-bottom 0.2s;
+    }
 
-        .nav-link:hover {
-            border-bottom: 2px solid white;
-            color: white;
-        }
+    .nav-link:hover {
+      border-bottom: 2px solid white;
+      color: white;
+    }
 
-        .modal-bg.show {
-            display: flex;
-        }
+    .modal-bg.show {
+      display: flex;
+    }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            background: lightgrey;
-            padding: 8px;
-            border-radius: 4px;
-        }
-    </style>
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      background: lightgrey;
+      padding: 8px;
+      border-radius: 4px;
+    }
+  </style>
 </head>
 
-<div class="font-[sans-serif] bg-gradient-to-r from-slate-900 to-slate-700 text-gray-800">
-  <div class="min-h-screen flex fle-col items-center justify-center lg:p-6 p-4">
-    <div class="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
-      <div>
-        <div class="flex items-center space-x-2"> 
-          <a href="{% url 'index' %}">
-            <img src="{% static 'imgs/logo-removebg-preview.png' %}" alt="logo" class="w-20 h-20 md:w-32 md:h-32" /> <!-- Large logo size -->
-          </a>
-          <h1 class="text-6xl font-extrabold mb-6 lg:leading-[50px] text-white">
+<body>
+  <div class="font-[sans-serif] bg-gradient-to-r from-slate-900 to-slate-700 text-gray-800">
+    <a href="{% url 'login' %}" class="absolute top-4 left-4 flex items-center space-x-2 group">
+      <img src="{% static 'imgs/left.png' %}" alt="back"
+        class="w-10 h-10 filter invert brightness-0 hover:brightness-0 group-hover:filter-none group-hover:bg-white rounded-full">
+      <span class="text-white text-lg group-hover:border-b-2 group-hover:border-white">Go Back</span>
+    </a>
+    <div class="min-h-screen flex fle-col items-center justify-center lg:p-6 p-4">
+      <div class="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
+        <div>
+          <div class="flex items-center space-x-2">
             <a href="{% url 'index' %}">
-              CarStand
+              <img src="{% static 'imgs/logo-removebg-preview.png' %}" alt="logo" class="w-20 h-20 md:w-32 md:h-32" />
+              <!-- Large logo size -->
             </a>
-          </h2>
+            <h1 class="text-6xl font-extrabold mb-6 lg:leading-[50px] text-white">
+              <a href="{% url 'index' %}">
+                CarStand
+              </a>
+              </h2>
+          </div>
+          <h4 class="text-xl ml-6 font-bold text-white">Immerse yourself in a hassle-free login journey with our
+            intuitively designed login form. Effortlessly access your account.</h4>
         </div>
-        <h4 class="text-xl ml-6 font-bold text-white">Immerse yourself in a hassle-free login journey with our intuitively designed login form. Effortlessly access your account.</h4>
-      </div>
 
-      <form method="post" action="{% url 'signup' %}" class="bg-white rounded-xl px-6 py-8 space-y-6 max-w-md md:ml-auto w-full">
-        {% csrf_token %}
-        <h3 class="text-3xl font-extrabold mb-12">
-          Sign up
-        </h3>
+        <form method="post" action="{% url 'signup' %}"
+          class="bg-white rounded-xl px-6 py-8 space-y-6 max-w-md md:ml-auto w-full">
+          {% csrf_token %}
+          <h3 class="text-3xl font-extrabold mb-12">
+            Sign up
+          </h3>
           {% for field in form %}
-              <div class="mb-4">
-                  <p class="text-black">{{ field.label_tag }}</p>
-                  {{ field }}
-                  {% if field.errors %}
-                      <div style="color: red;">
-                          {% for error in field.errors %}
-                              <p>{{ error }}</p>
-                          {% endfor %}
-                      </div>
-                  {% endif %}
-                  {% for error in field.errors %}
-                      <p class="text-red-500">{{ error }}</p>
-                  {% endfor %}
-              </div>
+          <div class="mb-4">
+            <p class="text-black">{{ field.label_tag }}</p>
+            {{ field }}
+            {% if field.errors %}
+            <div style="color: red;">
+              {% for error in field.errors %}
+              <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% for error in field.errors %}
+            <p class="text-red-500">{{ error }}</p>
+            {% endfor %}
+          </div>
           {% endfor %}
           <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
-            <button type="submit" class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">Sign Up</button>
-            <p class="text-sm text-blue"><a href="{% url 'login' %}" class="text-blue font-semibold underline ml-1">Already have an account?</a></p>
+            <button type="submit"
+              class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">Sign
+              Up</button>
+            <p class="text-sm text-blue"><a href="{% url 'login' %}"
+                class="text-blue font-semibold underline ml-1">Already have an account?</a></p>
           </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
+</body>
 
 </html>
