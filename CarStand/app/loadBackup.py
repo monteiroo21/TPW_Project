@@ -5,28 +5,32 @@ def creategroups():
         name="BMW Group",
         email="info@bmw.pt",
         country="Germany",
-        website="https://www.bmwgroup.com/en.html"
+        website="https://www.bmwgroup.com/en.html",
+        headquarters="static/imgs/bmw-headquarter.png"
     ).save()
     
     Group(
         name="Volkswagen Group",
         email="vw@volkswagen.de",
         country="Germany",
-        website="https://www.volkswagen-group.com/en"
+        website="https://www.volkswagen-group.com/en",
+        headquarters="static/imgs/volkswagen-headquarter.png"
     ).save()
     
     Group(
         name="Mercedes-Benz Group",
         email="me-connect.prt@cac.mercedes-benz.com",
         country="Germany",
-        website="https://group.mercedes-benz.com/en/"
+        website="https://group.mercedes-benz.com/en/",
+        headquarters="static/imgs/mercedes-headquarter.png"
     ).save()
     
     Group(
         name="Toyota Motor Corporation Group",
         email="servicocliente@toyota-fs.com",
         country="Japan",
-        website="https://global.toyota/en/"
+        website="https://global.toyota/en/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(

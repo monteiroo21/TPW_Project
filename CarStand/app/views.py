@@ -79,4 +79,13 @@ def brand_detail(request, brand_id):
     context = {'brand': brand}
     return render(request, 'brand_detail.html', context)
 
+
+def groups(request):
+    groups = Group.objects.filter(name__iendswith='group')
+
+    context = {
+        'groups': groups,
+    }
+    return render(request, 'groups.html', context)
+
     
