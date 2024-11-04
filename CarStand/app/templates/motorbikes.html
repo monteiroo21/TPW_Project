@@ -2,6 +2,17 @@
 
 {% block content %}
 <h1 class="text-white text-3xl">Motor Bikes</h1>
+{% for moto in motos %}
+<p>
+    <div style="color: red;"><h1>{{ moto.model }}</h1></div>
+    <img src="{{ moto.image.url }}" alt="{{ moto.model }}" style="width:10%; height:auto;">
+    <div style="color: chartreuse;">{{ moto.year }}</div>
+    <div style="color: chartreuse;">{{ moto.new }}</div>
+    <div style="color: chartreuse;">{{ moto.kilometers }} Km</div>
+    <div style="color: chartreuse;">{{ moto.price }}€</div>
+   
+</p>
+{% endfor %}
 {% endblock %}
 
 <!-- Ensures this block does not appear on the homepage (index.html) -->
