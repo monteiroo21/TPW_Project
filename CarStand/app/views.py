@@ -7,24 +7,26 @@ from app.loadBackup import *
 # Create your views here.
 
 def sign_up(request):
-    form = SignUpForm(request.POST)
-    if form.is_valid():
-        user = form.save()
-        user.refresh_from_db()
-        Profile.objects.create(
-            user=user,
-            first_name=form.cleaned_data.get('first_name'),
-            last_name=form.cleaned_data.get('last_name'),
-            email=form.cleaned_data.get('email')
-        )
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password1')
-        user = authenticate(username=username, password=password)
-        login(request, user)
-        return redirect('index')
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()
+            Profile.objects.create(
+                user=user,
+                first_name=form.cleaned_data.get('first_name'),
+                last_name=form.cleaned_data.get('last_name'),
+                email=form.cleaned_data.get('email')
+            )
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('index')
+        else:
+            print(form.errors) 
     else:
-        print(form.errors)
-        form = SignUpForm()
+        form = SignUpForm()  
     return render(request, 'signup.html', {'form': form})
 
 def log_in(request):
@@ -33,11 +35,11 @@ def log_in(request):
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
         user = authenticate(request, username=username, password=password)
-        login(request, user)
-        return redirect('index')
-    else:
-        print(form.errors)
-        form = LoginForm()
+        if user!=None:
+            login(request, user)
+            return redirect('index')
+    
+    form = LoginForm()
     return render(request, 'login.html', {'form': form})
 
 def logout_view(request):
