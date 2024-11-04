@@ -52,11 +52,13 @@ def index(request):
 
 def cars(request):
     #creategroups()
-    context = {}
+    carsList=Car.objects.all()
+    context = {"cars":carsList}
     return render(request, 'cars.html', context)
 
 def motorbikes(request):
-    context = {}
+    motosList=Moto.objects.all()
+    context = {"motos":motosList}
     return render(request, 'motorbikes.html', context)
 
 # def brands(request):
