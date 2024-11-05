@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.core.handlers.wsgi import WSGIRequest
+from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from app.forms import SignUpForm, LoginForm
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile
@@ -55,6 +56,62 @@ def cars(request):
     carsList=Car.objects.all()
     context = {"cars":carsList}
     return render(request, 'cars.html', context)
+
+
+def car_detail(request, car_id):
+    car = get_object_or_404(Car, id=car_id) 
+    isSelected=False
+    isBuyed=None
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, user=request.user) 
+        isSelected = car.interestedCustomers.filter(id=profile.id).exists()
+        if car.purchaser is not None:
+            isBuyed = car.purchaser is not None and car.purchaser.id == profile.id
+    print(isSelected,isBuyed)
+    return render(request, 'car_detail.html', {'car': car,'isSelected':isSelected,'isBuyed':isBuyed}) 
+
+
+def selectCar(request, car_id):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    car = get_object_or_404(Car, id=car_id) 
+    profile = get_object_or_404(Profile, user=request.user) 
+    print(profile)
+    car.interestedCustomers.add(profile)
+    print(car)
+    return redirect('car_detail', car_id=car.id)  
+
+def managerConfirm(request:WSGIRequest):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    print(request.user.username)
+    if request.user.username!='admin':
+        return redirect("index")
+    listForAccept=[]
+    cars=Car.objects.all()
+    for car in cars:
+        for profile in car.interestedCustomers.all():
+            listForAccept.append({"car":car,"profile":profile})
+    context = {"listForAccept":listForAccept}
+    return render(request, 'managerConfirm.html', context)
+
+def approve(request, car_id,profile_id):
+    car = get_object_or_404(Car, id=car_id) 
+    profile = get_object_or_404(Profile, id=profile_id) 
+
+    car.interestedCustomers.clear()  
+    car.purchaser=profile
+    car.save()
+    
+    return redirect('managerConfirm')  
+
+def negate(request, car_id,profile_id):
+    car = get_object_or_404(Car, id=car_id) 
+    profile = get_object_or_404(Profile, id=profile_id) 
+
+    car.interestedCustomers.remove(profile)
+    
+    return redirect('managerConfirm')  
 
 def motorbikes(request):
     motosList=Moto.objects.all()
