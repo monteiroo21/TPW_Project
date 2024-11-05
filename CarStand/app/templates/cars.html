@@ -4,12 +4,29 @@
 {% load static %}
 <div class="flex flex-col items-center mx-20">
     <div class="flex justify-center gap-4 w-full mb-6 py-4">
-        <input type="text" placeholder="Search cars..."
-            class="w-80 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800">
-        <button
-            class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none">
-            Apply Filters
-        </button>
+        <div class="relative w-80">
+            <input type="text" placeholder="Search cars..."
+                class="w-full pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800">
+            <!-- Ícone de pesquisa SVG -->
+            <img src="{% static 'imgs/search.svg' %}" alt="Search Icon"
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500">
+        </div>
+
+        <div class="relative">
+            <button onclick="toggleDropdown()" id="dropdownButton"
+                class="bg-white text-sky-800 text-base border-2 border-sky-800 font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none">
+                Filters
+            </button>
+            <div id="dropdownMenu"
+                class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
+                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="closeDropdown()">Filter by
+                    Price</a>
+                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="closeDropdown()">Filter by
+                    Brand</a>
+                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="closeDropdown()">Filter by
+                    Year</a>
+            </div>
+        </div>
     </div>
 
     <div class="flex gap-8 w-full py-6 px-2 mt-1 justify-center flex-wrap">
@@ -38,4 +55,25 @@
 <link href="{% static 'content/style.css' %}" rel="stylesheet">
 <link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
 <link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
+
+<script>
+    function toggleDropdown() {
+        var dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.classList.toggle("hidden");
+    }
+
+    function closeDropdown() {
+        var dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.classList.add("hidden");
+    }
+
+    // Fechar o dropdown ao clicar fora dele
+    window.addEventListener("click", function (event) {
+        var dropdownMenu = document.getElementById("dropdownMenu");
+        var dropdownButton = document.getElementById("dropdownButton");
+        if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownMenu.classList.add("hidden");
+        }
+    });
+</script>
 {% endblock %}
