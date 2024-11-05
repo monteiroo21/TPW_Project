@@ -45,7 +45,7 @@
                 class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
                 <img src="{{ car.image.url }}" alt="{{ car.model.name }}" class="w-full h-52 object-contain">
                 <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
-                    <h3 class="text-lg font-bold">{{ car.model.brand.name }} {{ car.model.name }}</h3>
+                    <h3 class="text-lg text-black font-bold">{{ car.model.brand.name }} {{ car.model.name }}</h3>
                     <p class="text-sm text-gray-600">Price: {{ car.price }}€</p>
                     <a href="{% url 'car_detail' car.id %}">
                         <button
@@ -70,7 +70,7 @@
                 class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
                 <img src="{{ moto.image.url }}" alt="{{ moto.model.name }}" class="w-full h-52 object-contain">
                 <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
-                    <h3 class="text-lg font-bold">{{ moto.model.brand.name }} {{ moto.model.name }}</h3>
+                    <h3 class="text-lg text-black font-bold">{{ moto.model.brand.name }} {{ moto.model.name }}</h3>
                     <p class="text-sm text-gray-600">Price: {{ moto.price }}€</p>
                     <a href="{% url 'motorbike_detail' moto.id %}">
                         <button
