@@ -38,7 +38,5 @@ urlpatterns = [
     path('brands/<int:brand_id>/', views.brand_detail, name='brand_detail'),
     path('groups/', views.groups, name='groups'),
     path('groups/<int:group_id>/', views.group_detail, name='group_detail'),
-    path('motorbike/<int:moto_id>/', views.motorbike_detail, name='motorbike_detail'),
-    path('groups/', views.groups, name='groups'),
-    path('groups/<int:group_id>/', views.group_detail, name='group_detail')
+    path('motorbike/<int:moto_id>/', views.motorbike_detail, name='motorbike_detail')
 ]
