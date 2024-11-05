@@ -1,14 +1,24 @@
 {% extends "index.html" %}
 
 {% block content %}
-<h1 class="text-white text-3xl">{{ moto.model.name }} - {{ moto.year }}</h1>
-<div class="text-white">
-    <p><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
-    <p><strong>Price:</strong> €{{ moto.price }}</p>
-    <p><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
-    <p><strong>Condition:</strong> {{ moto.new|yesno:"New,Used" }}</p>
-    <p><strong>Color:</strong> {{ moto.color }}</p>
-    <img src="{{ moto.image.url }}" alt="{{ moto.model.name }}" class="w-1/2 rounded-md mt-4">
+{% load static %}
+<div>
+    <a href="{% url 'motorbikes' %}" class="absolute top-4 left-4 flex items-center space-x-2 group"
+        style="margin-top: 80px; margin-left: 10px;">
+        <img src="{% static 'imgs/left.png' %}" alt="back"
+            class="w-10 h-10 filter invert brightness-0 hover:brightness-0 group-hover:filter-none group-hover:bg-white rounded-full">
+        <span class="text-white text-lg group-hover:border-b-2 group-hover:border-white">Go Back</span>
+    </a>
+
+    <h1 class="text-white text-3xl">{{ moto.model.name }} - {{ moto.year }}</h1>
+    <div class="text-white">
+        <p><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
+        <p><strong>Price:</strong> €{{ moto.price }}</p>
+        <p><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
+        <p><strong>Condition:</strong> {{ moto.new|yesno:"New,Used" }}</p>
+        <p><strong>Color:</strong> {{ moto.color }}</p>
+        <img src="{{ moto.image.url }}" alt="{{ moto.model.name }}" class="w-1/2 rounded-md mt-4">
+    </div>
 </div>
 
 {% endblock %}

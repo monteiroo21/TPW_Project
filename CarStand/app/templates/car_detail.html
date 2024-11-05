@@ -1,49 +1,56 @@
 {% extends "index.html" %}
 
 {% block content %}
-<h1 class="text-white text-3xl">{{ car.model.name }} - {{ car.year }}</h1>
-<div class="text-white">
-    <p><strong>model:</strong> {{ car.model.brand.name }}</p>
-    <p><strong>price:</strong> €{{ car.price }}</p>
-    <p><strong>kilometers:</strong> {{ car.kilometers }} km</p>
-    <p><strong>color:</strong> {{ car.color }}</p>
-    <p><strong>doors:</strong> {{ car.doors }}</p>
-    <p><strong>specifications:</strong> {{ car.model.specifications }}</p>
-    <img src="{{ car.image.url }}" alt="{{ car.model.name }}" class="w-1/2 rounded-md">
-</div>
+{% load static %}
+<div>
+    <a href="{% url 'cars' %}" class="absolute top-4 left-4 flex items-center space-x-2 group"
+        style="margin-top: 80px; margin-left: 10px;">
+        <img src="{% static 'imgs/left.png' %}" alt="back"
+            class="w-10 h-10 filter invert brightness-0 hover:brightness-0 group-hover:filter-none group-hover:bg-white rounded-full">
+        <span class="text-white text-lg group-hover:border-b-2 group-hover:border-white">Go Back</span>
+    </a>
 
-{% if isBuyed %}
-<div style="color: brown;">Buyed</div>
-{% elif  isBuyed == False %}
-{% elif not isSelected %}
+    <h1 class="text-white text-3xl">{{ car.model.name }} - {{ car.year }}</h1>
+    <div class="text-white">
+        <p><strong>model:</strong> {{ car.model.brand.name }}</p>
+        <p><strong>price:</strong> €{{ car.price }}</p>
+        <p><strong>kilometers:</strong> {{ car.kilometers }} km</p>
+        <p><strong>color:</strong> {{ car.color }}</p>
+        <p><strong>doors:</strong> {{ car.doors }}</p>
+        <p><strong>specifications:</strong> {{ car.model.specifications }}</p>
+        <img src="{{ car.image.url }}" alt="{{ car.model.name }}" class="w-1/2 rounded-md">
+    </div>
+
+    {% if isBuyed %}
+    <div style="color: brown;">Buyed</div>
+    {% elif isBuyed == False %}
+    {% elif not isSelected %}
     <form action="{% url 'selectCar' car.id %}" method="post">
         {% csrf_token %}
-        <input 
-            type="submit" 
-            value="selectCar" 
+        <input type="submit" value="selectCar"
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" />
     </form>
-{% else %}
+    {% else %}
     <div style="color: rgb(70, 70, 255); font-size: 40px;">Selected</div>
-{% endif %}
+    {% endif %}
 
 
 
-{% load static %}
+    {% load static %}
 
-<form action="." method="post">
-    {% csrf_token %}
-    <button type="submit" class="focus:outline-none">
-        {% if isFavorite %}
-            <img src="{% static 'imgs/favorite_active.png' %}" alt="Remove from Favorites"  style="width:20%; height:auto;" class="w-8 h-8">
-        {% else %}
-            <img src="{% static 'imgs/favorite_inactive.png' %}" alt="Add to Favorites"  style="width:20%; height:auto;" class="w-8 h-8">
-        {% endif %}
-    </button>
-</form>
-
-
-
+    <form action="." method="post">
+        {% csrf_token %}
+        <button type="submit" class="focus:outline-none">
+            {% if isFavorite %}
+            <img src="{% static 'imgs/favorite_active.png' %}" alt="Remove from Favorites"
+                style="width:20%; height:auto;" class="w-8 h-8">
+            {% else %}
+            <img src="{% static 'imgs/favorite_inactive.png' %}" alt="Add to Favorites" style="width:20%; height:auto;"
+                class="w-8 h-8">
+            {% endif %}
+        </button>
+    </form>
+</div>
 
 {% endblock %}
 
