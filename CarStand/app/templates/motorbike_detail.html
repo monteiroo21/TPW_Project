@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+
+{% block content %}
+<h1 class="text-white text-3xl">{{ moto.model.name }} - {{ moto.year }}</h1>
+<div class="text-white">
+    <p><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
+    <p><strong>Price:</strong> €{{ moto.price }}</p>
+    <p><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
+    <p><strong>Condition:</strong> {{ moto.new|yesno:"New,Used" }}</p>
+    <p><strong>Color:</strong> {{ moto.color }}</p>
+    <img src="{{ moto.image.url }}" alt="{{ moto.model.name }}" class="w-1/2 rounded-md mt-4">
+</div>
+
+{% endblock %}
+
+{% block extra_content %}
+{% endblock %}

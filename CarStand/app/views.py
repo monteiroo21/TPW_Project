@@ -71,6 +71,10 @@ def car_detail(request, car_id):
     return render(request, 'car_detail.html', {'car': car,'isSelected':isSelected,'isBuyed':isBuyed}) 
 
 
+def motorbike_detail(request, moto_id):
+    moto = get_object_or_404(Moto, id=moto_id) 
+    return render(request, 'motorbike_detail.html', {'moto': moto})
+
 def selectCar(request, car_id):
     if not request.user.is_authenticated:
         return redirect("login")

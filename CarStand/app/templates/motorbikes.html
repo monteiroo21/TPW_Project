@@ -41,7 +41,7 @@
             <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
                 <h2 class="text-lg font-bold">{{ moto.model.brand.name }} {{ moto.model.name }}</h2>
                 <p class="text-sm text-gray-600">Price: {{ moto.price }}€</p>
-                <a href="#">
+                <a href="{% url 'motorbike_detail' moto.id %}">
                     <button
                         class="mt-6 bg-sky-800 text-white text-base font-bold px-3 py-1 rounded-lg hover:bg-sky-950 focus:outline-none mb-2">
                         View Details
