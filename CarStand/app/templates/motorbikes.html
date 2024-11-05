@@ -1,20 +1,81 @@
 {% extends "index.html" %}
 
 {% block content %}
-<h1 class="text-white text-3xl">Motor Bikes</h1>
-{% for moto in motos %}
-<p>
-    <div style="color: red;"><h1>{{ moto.model }}</h1></div>
-    <img src="{{ moto.image.url }}" alt="{{ moto.model }}" style="width:10%; height:auto;">
-    <div style="color: chartreuse;">{{ moto.year }}</div>
-    <div style="color: chartreuse;">{{ moto.new }}</div>
-    <div style="color: chartreuse;">{{ moto.kilometers }} Km</div>
-    <div style="color: chartreuse;">{{ moto.price }}€</div>
-   
-</p>
-{% endfor %}
+{% load static %}
+<div class="flex flex-col items-center mx-20">
+    <h1 class="text-white text-3xl mb-6">Motor Bikes</h1>
+
+    <div class="flex justify-center gap-4 w-full mb-6 py-4">
+        <div class="relative w-80">
+            <input type="text" placeholder="Search motor bikes..."
+                class="w-full pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800">
+            <img src="{% static 'imgs/search.svg' %}" alt="Search Icon"
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500">
+        </div>
+
+        <div class="relative">
+            <button onclick="toggleDropdown()" id="dropdownButton"
+                class="flex items-center bg-white text-sky-800 text-base border-2 border-sky-800 font-bold pl-10 pr-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none relative">
+                <img src="{% static 'imgs/sort.png' %}" alt="Sort Icon"
+                    class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500">
+                Sort
+            </button>
+            <div id="dropdownMenu"
+                class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
+                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="closeDropdown()">Filter by
+                    Price</a>
+                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="closeDropdown()">Filter by
+                    Brand</a>
+                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="closeDropdown()">Filter by
+                    Year</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex gap-8 w-full py-6 px-2 mt-1 justify-center flex-wrap">
+        {% for moto in motos %}
+        <div
+            class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
+            <img src="{{ moto.image.url }}" alt="{{ moto.model }}" class="w-full h-52 object-contain">
+
+            <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
+                <h2 class="text-lg font-bold">{{ moto.model.brand.name }} {{ moto.model.name }}</h2>
+                <p class="text-sm text-gray-600">Price: {{ moto.price }}€</p>
+                <a href="#">
+                    <button
+                        class="mt-6 bg-sky-800 text-white text-base font-bold px-3 py-1 rounded-lg hover:bg-sky-950 focus:outline-none mb-2">
+                        View Details
+                    </button>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
 
-<!-- Ensures this block does not appear on the homepage (index.html) -->
 {% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet">
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
+
+<script>
+    function toggleDropdown() {
+        var dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.classList.toggle("hidden");
+    }
+
+    function closeDropdown() {
+        var dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.classList.add("hidden");
+    }
+
+    window.addEventListener("click", function (event) {
+        var dropdownMenu = document.getElementById("dropdownMenu");
+        var dropdownButton = document.getElementById("dropdownButton");
+        if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownMenu.classList.add("hidden");
+        }
+    });
+</script>
 {% endblock %}
