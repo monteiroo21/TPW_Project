@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+
+{% block content %}
+<h1 class="text-white text-3xl">{{ car.model.name }} - {{ car.year }}</h1>
+<div class="text-white">
+    <p><strong>model:</strong> {{ car.model.brand.name }}</p>
+    <p><strong>price:</strong> €{{ car.price }}</p>
+    <p><strong>kilometers:</strong> {{ car.kilometers }} km</p>
+    <p><strong>color:</strong> {{ car.color }}</p>
+    <p><strong>doors:</strong> {{ car.doors }}</p>
+    <p><strong>specifications:</strong> {{ car.model.specifications }}</p>
+    <img src="{{ car.image.url }}" alt="{{ car.model.name }}" class="w-1/2 rounded-md">
+</div>
+
+{% if isBuyed %}
+<div style="color: brown;">Buyed</div>
+{% elif  isBuyed == False %}
+{% elif not isSelected %}
+    <form action="{% url 'selectCar' car.id %}" method="post">
+        {% csrf_token %}
+        <input 
+            type="submit" 
+            value="selectCar" 
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" />
+    </form>
+{% else %}
+    <div style="color: rgb(70, 70, 255); font-size: 40px;">Selected</div>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_content %}
+{% endblock %}
