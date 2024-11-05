@@ -724,6 +724,10 @@ video {
   margin-bottom: 0.5rem;
 }
 
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -876,8 +880,8 @@ video {
   margin-top: auto;
 }
 
-.mb-3 {
-  margin-bottom: 0.75rem;
+.mt-24 {
+  margin-top: 6rem;
 }
 
 .mr-4 {
@@ -1020,12 +1024,24 @@ video {
   height: 2.25rem;
 }
 
-.max-h-full {
-  max-height: 100%;
+.h-96 {
+  height: 24rem;
+}
+
+.h-60 {
+  height: 15rem;
+}
+
+.h-4 {
+  height: 1rem;
 }
 
 .max-h-64 {
   max-height: 16rem;
+}
+
+.max-h-full {
+  max-height: 100%;
 }
 
 .min-h-screen {
@@ -1148,6 +1164,10 @@ video {
   max-width: 48rem;
 }
 
+.max-w-4xl {
+  max-width: 56rem;
+}
+
 .max-w-5xl {
   max-width: 64rem;
 }
@@ -1232,12 +1252,12 @@ video {
   resize: both;
 }
 
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .grid-cols-4 {
@@ -1531,6 +1551,11 @@ video {
 .bg-zinc-950 {
   --tw-bg-opacity: 1;
   background-color: rgb(9 9 11 / var(--tw-bg-opacity));
+}
+
+.bg-sky-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(7 89 133 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -1970,6 +1995,11 @@ video {
   color: rgb(250 250 250 / var(--tw-text-opacity));
 }
 
+.text-gray-600 {
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+
 .underline {
   text-decoration-line: underline;
 }
@@ -2122,6 +2152,11 @@ video {
   background-color: rgb(34 34 34 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-blue-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
@@ -2132,9 +2167,9 @@ video {
   background-color: rgb(185 28 28 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-blue-600:hover {
+.hover\:bg-sky-950:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+  background-color: rgb(8 47 73 / var(--tw-bg-opacity));
 }
 
 .hover\:text-gray-300:hover {
@@ -2198,10 +2233,6 @@ video {
     display: block;
   }
 
-  .sm\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .sm\:items-stretch {
     align-items: stretch;
   }
@@ -2249,10 +2280,6 @@ video {
 
   .lg\:w-2\/3 {
     width: 66.666667%;
-  }
-
-  .lg\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .lg\:flex-row {
