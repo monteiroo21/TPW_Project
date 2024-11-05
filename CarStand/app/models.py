@@ -75,7 +75,7 @@ class Car(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image=models.ImageField(upload_to='./static/imgs/cars',default="./static/imgs/motos/aprilia_rs660.png")
     interestedCustomers=models.ManyToManyField(Profile, blank=True,default=None,related_name='interested_in_cars')
-    purchaser=models.ForeignKey(Profile, null=True,default=None, related_name='purchased_cars', on_delete=models.DO_NOTHING)
+    purchaser=models.ForeignKey(Profile, null=True,default=None, blank=True, related_name='purchased_cars', on_delete=models.DO_NOTHING)
     color = models.CharField(max_length=20, default="Black") 
     doors = models.IntegerField(default=4) 
 
@@ -90,6 +90,6 @@ class Moto(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image=models.ImageField(upload_to='./static/imgs/motos',default="./static/imgs/motos/aprilia_rs660.png")
     interestedCustomers=models.ManyToManyField(Profile, blank=True,default=None,related_name='interested_in_motos')
-    purchaser=models.ForeignKey(Profile, null=True,default=None, related_name='purchased_motos', on_delete=models.DO_NOTHING)
+    purchaser=models.ForeignKey(Profile, null=True, default=None, blank=True, related_name='purchased_motos', on_delete=models.DO_NOTHING)
     color = models.CharField(max_length=20, default="Black") 
 
