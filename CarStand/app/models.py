@@ -75,7 +75,8 @@ class Car(models.Model):
     interestedCustomers=models.ManyToManyField(Profile, blank=True,default=None,related_name='interested_in_cars')
     purchaser=models.ForeignKey(Profile, null=True,default=None, blank=True, related_name='purchased_cars', on_delete=models.DO_NOTHING)
     color = models.CharField(max_length=20, default="Black") 
-    doors = models.IntegerField(default=4) 
+    doors = models.IntegerField(default=4)
+    electric = models.BooleanField(default=False)
 
     def __str__(self):
         return self.model.name + ", " + self.model.brand.name
