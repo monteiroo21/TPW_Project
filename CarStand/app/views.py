@@ -48,6 +48,8 @@ def logout_view(request):
     return redirect('index') 
 
 def index(request):
+    for k,v in request.session.items():
+        print(k,v)
     context = {}
     return render(request, 'index.html', context)
 
@@ -59,16 +61,44 @@ def cars(request):
 
 
 def car_detail(request, car_id):
-    car = get_object_or_404(Car, id=car_id) 
-    isSelected=False
-    isBuyed=None
+    car = get_object_or_404(Car, id=car_id)
+    isSelected = False
+    isBuyed = None
+    
+    
+    if "favoriteCarList" not in request.session:
+        request.session["favoriteCarList"] = []
+
+    
+    isFavorite = car_id in request.session["favoriteCarList"]
+
+    
     if request.user.is_authenticated:
-        profile = get_object_or_404(Profile, user=request.user) 
+        profile = get_object_or_404(Profile, user=request.user)
         isSelected = car.interestedCustomers.filter(id=profile.id).exists()
-        if car.purchaser is not None:
-            isBuyed = car.purchaser is not None and car.purchaser.id == profile.id
-    print(isSelected,isBuyed)
-    return render(request, 'car_detail.html', {'car': car,'isSelected':isSelected,'isBuyed':isBuyed}) 
+        isBuyed = car.purchaser is not None and car.purchaser.id == profile.id
+
+
+    
+    if request.POST:
+        favoriteCarList = request.session["favoriteCarList"]
+        if isFavorite:
+            favoriteCarList.remove(car_id)
+        else:
+            favoriteCarList.append(car_id)
+        
+        request.session["favoriteCarList"] = favoriteCarList
+        isFavorite = car_id in request.session["favoriteCarList"]
+
+    
+    context = {
+        "car": car,
+        "isSelected": isSelected,
+        "isBuyed": isBuyed,
+        "isFavorite": isFavorite,
+    }
+    print(request.session["favoriteCarList"] )
+    return render(request, "car_detail.html", context)
 
 
 def selectCar(request, car_id):
@@ -81,7 +111,7 @@ def selectCar(request, car_id):
     print(car)
     return redirect('car_detail', car_id=car.id)  
 
-def managerConfirm(request:WSGIRequest):
+def managerConfirm(request):
     if not request.user.is_authenticated:
         return redirect("login")
     print(request.user.username)

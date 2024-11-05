@@ -27,6 +27,24 @@
     <div style="color: rgb(70, 70, 255); font-size: 40px;">Selected</div>
 {% endif %}
 
+
+
+{% load static %}
+
+<form action="." method="post">
+    {% csrf_token %}
+    <button type="submit" class="focus:outline-none">
+        {% if isFavorite %}
+            <img src="{% static 'imgs/favorite_active.png' %}" alt="Remove from Favorites"  style="width:20%; height:auto;" class="w-8 h-8">
+        {% else %}
+            <img src="{% static 'imgs/favorite_inactive.png' %}" alt="Add to Favorites"  style="width:20%; height:auto;" class="w-8 h-8">
+        {% endif %}
+    </button>
+</form>
+
+
+
+
 {% endblock %}
 
 {% block extra_content %}
