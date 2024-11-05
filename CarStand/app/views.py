@@ -88,4 +88,10 @@ def groups(request):
     }
     return render(request, 'groups.html', context)
 
+def group_detail(request, group_id):
+    group = get_object_or_404(Group, id=group_id)
+    brands = Brand.objects.filter(group=group)
+    context = {'group': group, 'brands': brands}
+    return render(request, 'group_detail.html', context)
+
     

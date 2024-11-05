@@ -31,5 +31,6 @@ urlpatterns = [
     path('motorbikes/', views.motorbikes, name='motorbikes'),
     path('brands/', views.brands, name='brands'),
     path('brands/<int:brand_id>/', views.brand_detail, name='brand_detail'),
-    path('groups/', views.groups, name='groups')
+    path('groups/', views.groups, name='groups'),
+    path('groups/<int:group_id>/', views.group_detail, name='group_detail')
 ]

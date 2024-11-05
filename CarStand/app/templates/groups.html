@@ -10,19 +10,23 @@
     {% for group in groups %}
         <!-- Individual Card -->
         <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
-            <!-- Image Section -->
-            <div class="flex items-center justify-center">
-                <img src="{{ group.headquarters.url }}" alt="{{ group.name }}" class="w-full h-40 object-contain p-4" />
-            </div>
-            <!-- Group Info Section -->
-            <div class="px-6 py-4">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-2xl text-gray-800 font-bold mr-4">{{ group.name }}</h3>
-                    <button type="button" class="px-4 py-2 bg-blue-600 text-black rounded-lg hover:bg-blue-700" style="background-color: blue;">
-                        See More
-                    </button>
+            <a href="{% url 'group_detail' group.id %}">
+                <!-- Image Section -->
+                <div class="flex items-center justify-center">
+                    {% if group.logo %}
+                        <img src="{{ group.logo.url }}" alt="{{ group.name }}" class="w-full h-40 object-contain p-4 bg-white" />
+                    {% else %}
+                        <!-- Optional placeholder image if no file is associated -->
+                        <img src="{% static 'path/to/placeholder.jpg' %}" alt="No Image" class="w-full h-40 object-contain p-4" />
+                    {% endif %}
                 </div>
-            </div>
+                <!-- Group Info Section -->
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl text-gray-800 font-bold mb-4">{{ group.name }}</h3>
+                    </div>
+                </div>
+            </a>
         </div>
     {% endfor %}
 </div>
