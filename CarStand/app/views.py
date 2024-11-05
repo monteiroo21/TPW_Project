@@ -81,7 +81,7 @@ def brand_detail(request, brand_id):
 
 
 def groups(request):
-    groups = Group.objects.filter(name__iendswith='group')
+    groups = Group.objects.filter()
 
     context = {
         'groups': groups,

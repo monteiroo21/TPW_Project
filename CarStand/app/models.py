@@ -32,8 +32,8 @@ class Group(models.Model):
     email = models.EmailField(unique=True)
     country = models.CharField(max_length=30)
     website = models.URLField()
-    logo = models.ImageField(upload_to='./static/imgs/')
-    headquarters = models.ImageField(upload_to='./static/imgs/')
+    logo = models.ImageField(upload_to='./static/imgs/', default="./static/imgs/motos/aprilia_rs660.png")
+    headquarters = models.ImageField(upload_to='./static/imgs/', null=True, blank=True)
 
     def __str__(self):
         return self.name
