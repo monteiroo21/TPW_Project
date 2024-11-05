@@ -171,7 +171,13 @@ def brands(request):
 
 def brand_detail(request, brand_id):
     brand = get_object_or_404(Brand, id=brand_id)
-    context = {'brand': brand}
+    cars = Car.objects.filter(model__brand=brand)
+    motos = Moto.objects.filter(model__brand=brand)
+    context = {
+        'brand': brand,
+        'cars': cars,
+        'motos': motos
+    }
     return render(request, 'brand_detail.html', context)
 
 
