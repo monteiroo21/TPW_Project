@@ -5,49 +5,56 @@ def creategroups():
         name="BMW Group",
         email="info@bmw.pt",
         country="Germany",
-        website="https://www.bmwgroup.com/en.html"
+        website="https://www.bmwgroup.com/en.html",
+        headquarters="static/imgs/bmw-headquarter.png"
     ).save()
     
     Group(
         name="Volkswagen Group",
         email="vw@volkswagen.de",
         country="Germany",
-        website="https://www.volkswagen-group.com/en"
+        website="https://www.volkswagen-group.com/en",
+        headquarters="static/imgs/volkswagen-headquarter.png"
     ).save()
     
     Group(
         name="Mercedes-Benz Group",
         email="me-connect.prt@cac.mercedes-benz.com",
         country="Germany",
-        website="https://group.mercedes-benz.com/en/"
+        website="https://group.mercedes-benz.com/en/",
+        headquarters="static/imgs/mercedes-headquarter.png"
     ).save()
     
     Group(
         name="Toyota Motor Corporation Group",
         email="servicocliente@toyota-fs.com",
         country="Japan",
-        website="https://global.toyota/en/"
+        website="https://global.toyota/en/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="Tata Motors Group",
         email="cac@tatamotors.com",
         country="India",
-        website="https://www.tatamotors.com/"
+        website="https://www.tatamotors.com/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="Aston Martin",
         email="dan.connell@astonmartin.com",
         country="United Kingdom",
-        website="https://www.astonmartin.com/en"
+        website="https://www.astonmartin.com/en",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="Ferrari",
         email="customercare@ferraristore.com",
         country="Italy",
-        website="https://www.ferrari.com/en-PT"
+        website="https://www.ferrari.com/en-PT",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
@@ -61,63 +68,72 @@ def creategroups():
         name="Tesla",
         email="eupress@tesla.com",
         country="United States of America",
-        website="https://www.tesla.com/pt_pt"
+        website="https://www.tesla.com/pt_pt",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="McLaren",
         email="guest.relations@mclaren.com",
         country="United Kingdom",
-        website="https://www.mclaren.com/"
+        website="https://www.mclaren.com/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="Piaggio Group",
         email="geral@cmachado.pt",
         country="Italy",
-        website="https://www.piaggio.com/pt_PT/"
+        website="https://www.piaggio.com/pt_PT/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="Polaris Group",
         email="privacy@polaris.com",
         country="United States",
-        website="https://www.polarisportugal.com/"
+        website="https://www.polarisportugal.com/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="Pierer Group",
         email="privacy@piererindustrie.com",
         country="Austria",
-        website="https://www.pierermobility.com/en"
+        website="https://www.pierermobility.com/en",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="Eicher Motors Group",
         email="info@eichermotors.com",
         country="India",
-        website="https://eicher.in/"
+        website="https://eicher.in/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="Harley-Davidson",
         email="privacy@harley-davidson.com",
         country="United States",
-        website="https://www.harley-davidson.com/"
+        website="https://www.harley-davidson.com/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="Triumph",
         email="info@triumphmotorcycles.com",
         country="United Kingdom",
-        website="https://www.triumphmotorcycles.com/"
+        website="https://www.triumphmotorcycles.com/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="MV Agusta",
         email="info@mvagusta.com",
         country="Italy",
-        website="https://www.mvagusta.com/"
+        website="https://www.mvagusta.com/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
 
@@ -125,21 +141,24 @@ def creategroups():
         name="TVS Motor Company",
         email="info@tvsmotor.com",
         country="Chennai",
-        website="https://www.tvsmotor.com/"
+        website="https://www.tvsmotor.com/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="Norton Motorcycles Group",
         email="customer.data@nortonmotorcycles.com",
         country="United Kingdom",
-        website="https://nortonmotorcycles.com/"
+        website="https://nortonmotorcycles.com/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
     
     Group(
         name="Bimota",
         email="info@bimotaportugal.pt",
         country="Italy",
-        website="https://bimotaportugal.pt/"
+        website="https://bimotaportugal.pt/",
+        headquarters="static/imgs/toyota-headquarter.png"
     ).save()
 
 

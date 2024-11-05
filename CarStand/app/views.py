@@ -174,4 +174,19 @@ def brand_detail(request, brand_id):
     context = {'brand': brand}
     return render(request, 'brand_detail.html', context)
 
+
+def groups(request):
+    groups = Group.objects.filter()
+
+    context = {
+        'groups': groups,
+    }
+    return render(request, 'groups.html', context)
+
+def group_detail(request, group_id):
+    group = get_object_or_404(Group, id=group_id)
+    brands = Brand.objects.filter(group=group)
+    context = {'group': group, 'brands': brands}
+    return render(request, 'group_detail.html', context)
+
     

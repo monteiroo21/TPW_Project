@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{% block content %}
+{% load static %}
+<div>
+    <a href="{% url 'groups' %}" class="absolute top-4 left-4 flex items-center space-x-2 group"
+        style="margin-top: 80px; margin-left: 10px;">
+        <img src="{% static 'imgs/left.png' %}" alt="back"
+            class="w-10 h-10 filter invert brightness-0 hover:brightness-0 group-hover:filter-none group-hover:bg-white rounded-full">
+        <span class="text-white text-lg group-hover:border-b-2 group-hover:border-white">Go Back</span>
+    </a>
+
+    <div class="flex flex-col lg:flex-row items-center lg:items-start justify-between px-44 mt-16">
+        <div class="flex flex-col items-start text-white lg:w-2/3 space-y-4">
+            <h1 class="text-5xl font-extrabold ml-10 mb-4">{{ group.name }}</h1>
+            <p class="text-lg"><strong>Country:</strong> {{ group.country }}</p>
+            <p class="text-lg"><strong>Email:</strong><a href="mailto:{{ group.email }}" class="underline hover:text-gray-300"> {{ group.email }}</a></p>
+            <p class="text-lg">
+                <strong>Website:</strong>
+                <a href="{{ group.website }}" target="_blank" class="underline hover:text-gray-300">
+                    Visit {{ group.name }}'s website
+                </a>
+            </p>
+        </div>
+        
+        <div>
+            <img src="{{ group.logo.url }}" alt="{{ group.name }}"
+                class="w-80 h-80 object-contain my-auto mx-auto">
+
+            <img src="{{ group.headquarters.url }}" alt="{{ group.name }}"
+                class="w-80 h-80 objec-contain my-auto mx-auto">
+
+        </div>
+    </div>
+
+    {% for brand in brands %}
+        <a href="{% url 'brand_detail' brand.id %}">
+            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}"
+                class="w-80 h-80 object-contain my-auto mx-auto">
+        </a>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet">
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
+{% endblock %}
