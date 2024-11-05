@@ -7,14 +7,16 @@
         <div class="relative w-80">
             <input type="text" placeholder="Search cars..."
                 class="w-full pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800">
-            <!-- Ícone de pesquisa SVG -->
             <img src="{% static 'imgs/search.svg' %}" alt="Search Icon"
                 class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500">
         </div>
 
         <div class="relative">
             <button onclick="toggleDropdown()" id="dropdownButton"
-                class="bg-white text-sky-800 text-base border-2 border-sky-800 font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none">
+                class="flex items-center bg-white text-sky-800 text-base border-2 border-sky-800 font-bold pl-10 pr-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none relative">
+                <!-- Ícone de filtro dentro do botão -->
+                <img src="{% static 'imgs/sort.png' %}" alt="Filter Icon"
+                    class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500">
                 Filters
             </button>
             <div id="dropdownMenu"
@@ -67,7 +69,6 @@
         dropdownMenu.classList.add("hidden");
     }
 
-    // Fechar o dropdown ao clicar fora dele
     window.addEventListener("click", function (event) {
         var dropdownMenu = document.getElementById("dropdownMenu");
         var dropdownButton = document.getElementById("dropdownButton");
