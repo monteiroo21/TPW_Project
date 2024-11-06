@@ -189,4 +189,9 @@ def group_detail(request, group_id):
     context = {'group': group, 'brands': brands}
     return render(request, 'group_detail.html', context)
 
+def get_5cars(request):
+    cars = CarModel.objects.filter()[0:4]
+    context = {'cars': cars}
+    return render(request, 'index.html', context)
+
     
