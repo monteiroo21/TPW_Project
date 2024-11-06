@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+
+{% block content %}
+{% load static %}
+<form action="." method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}
+
+{% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet">
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
+{% endblock %}
