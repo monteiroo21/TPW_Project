@@ -2,7 +2,7 @@
 
 {% block content %}
 {% load static %}
-<div>
+<div class="px-10 lg:px-32 py-10">
     <a href="{% url 'motorbikes' %}" class="absolute top-4 left-4 flex items-center space-x-2 group"
         style="margin-top: 80px; margin-left: 10px;">
         <img src="{% static 'imgs/left.png' %}" alt="back"
@@ -10,18 +10,36 @@
         <span class="text-white text-lg group-hover:border-b-2 group-hover:border-white">Go Back</span>
     </a>
 
-    <h1 class="text-white text-3xl">{{ moto.model.name }} - {{ moto.year }}</h1>
-    <div class="text-white">
-        <p><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
-        <p><strong>Price:</strong> €{{ moto.price }}</p>
-        <p><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
-        <p><strong>Condition:</strong> {{ moto.new|yesno:"New,Used" }}</p>
-        <p><strong>Color:</strong> {{ moto.color }}</p>
-        <img src="{{ moto.image.url }}" alt="{{ moto.model.name }}" class="w-1/2 rounded-md mt-4">
+    <!-- Motorbike Details and Image Container -->
+    <div
+        class="flex flex-col lg:flex-row items-center lg:items-start justify-between mt-16 space-y-6 lg:space-y-0 lg:space-x-10">
+
+        <!-- Motorbike Details -->
+        <div class="flex flex-col items-start text-white lg:w-2/3 space-y-2">
+            <h1 class="text-5xl font-extrabold mb-4">{{ moto.model.brand.name }} {{ moto.model.name }}</h1>
+            <div class="space-y-2">
+                <p class="text-lg"><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
+                <p class="text-lg"><strong>Model:</strong> {{ moto.model.name }}</p>
+                <p class="text-lg"><strong>Base Price:</strong> €{{ moto.model.base_price }}</p>
+                <p class="text-lg"><strong>Price:</strong> €{{ moto.price }}</p>
+                <p class="text-lg"><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
+                <p class="text-lg"><strong>Year:</strong> {{ moto.year }}</p>
+                <p class="text-lg"><strong>Condition:</strong> {{ moto.new|yesno:"New,Used" }}</p>
+                <p class="text-lg"><strong>Color:</strong> {{ moto.color }}</p>
+                <p class="text-lg"><strong>Specifications:</strong> {{ moto.model.specifications }}</p>
+            </div>
+        </div>
+
+        <!-- Motorbike Image -->
+        <div class="flex flex-col items-center w-96 lg:w-2/5 rounded-2xl shadow-lg bg-gray-800 p-6">
+            <img src="{{ moto.image.url }}" alt="{{ moto.model.name }}" class="w-full h-full object-contain rounded-lg">
+        </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet">
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
 {% endblock %}
