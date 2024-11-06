@@ -89,33 +89,39 @@
 
             <!-- Content exclusive to the homepage (index.html) -->
             {% block extra_content %}
-                {% for car in cars %}
-                    <div id="controls-carousel" class="relative w-full" data-carousel="static">
-                        <!-- Carousel wrapper -->
-                        <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                                <img src="/docs/images/carousel/carousel-1.svg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <div class="carousel relative w-full max-w-6xl mx-auto mt-8 h-[40rem] shadow-2xl shadow-zinc-950">
+                    <!-- Carousel Items Container -->
+                    <div class="carousel-inner relative overflow-hidden h-[40rem]"> <!-- Adjust height here -->
+                        {% for car in cars %}
+                            <!-- Each Slide -->
+                            <div class="carousel-item {% if forloop.first %}block{% else %}hidden{% endif %} w-full h-full">
+                                <a href="{% url 'car_detail' car.id %}">
+                                    <div class="bg-white rounded-lg shadow-lg p-4 h-full flex justify-center items-center">
+                                        <!-- Car Image -->
+                                        {% if car.image %}
+                                            <img src="{{ car.image.url }}" alt="{{ car.name }}" class="w-full h-[32rem] object-cover rounded-lg mb-4">
+                                        {% else %}
+                                            <img src="{% static 'path/to/placeholder.jpg' %}" alt="Placeholder" class="w-full h-full object-cover rounded-lg mb-4">
+                                        {% endif %}
+                    
+                                        <!-- Car Name -->
+                                        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white px-6 py-3 rounded-lg">
+                                            <h3 class="text-center text-2xl font-semibold">{{ car.name }}</h3>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
-                        </div>
-                        <!-- Slider controls -->
-                        <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-                                </svg>
-                                <span class="sr-only">Previous</span>
-                            </span>
-                        </button>
-                        <button type="button" class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                                </svg>
-                                <span class="sr-only">Next</span>
-                            </span>
-                        </button>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+                
+                    <!-- Carousel Navigation Buttons -->
+                    <button id="prev" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-3 py-2 rounded-full hover:bg-gray-800 ml-4">
+                        &lt;
+                    </button>
+                    <button id="next" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-3 py-2 rounded-full hover:bg-gray-800 mr-4">
+                        &gt;
+                    </button>
+                </div>
             {% endblock %}
         </div>
     </main>
@@ -143,22 +149,29 @@
             lastScrollY = window.scrollY;
         });
 
-        let currentSlide = 0;
-        const totalSlides = document.getElementById("carousel").getAttribute("data-total-slides");
+        document.addEventListener('DOMContentLoaded', function() {
+            const items = document.querySelectorAll('.carousel-item');
+            let currentIndex = 0;
 
-        function updateCarousel() {
-            document.querySelector('.flex').style.transform = `translateX(-${currentSlide * 100}%)`;
-        }
+            function updateCarousel() {
+                items.forEach((item, index) => {
+                    item.classList.toggle('hidden', index !== currentIndex);
+                    item.classList.toggle('block', index === currentIndex);
+                });
+            }
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            updateCarousel();
-        }
+            document.getElementById('prev').addEventListener('click', () => {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
+                updateCarousel();
+            });
 
-        function previousSlide() {
-            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            updateCarousel();
-        }
+            document.getElementById('next').addEventListener('click', () => {
+                currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+                updateCarousel();
+            });
+
+            updateCarousel(); // Initialize carousel display
+        });
     </script>
 </body>
 

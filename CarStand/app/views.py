@@ -48,9 +48,10 @@ def logout_view(request):
     return redirect('index') 
 
 def index(request):
+    cars = Car.objects.order_by('year')[:4]
     for k,v in request.session.items():
         print(k,v)
-    context = {}
+    context = {'cars': cars}
     return render(request, 'index.html', context)
 
 def cars(request):
@@ -305,11 +306,6 @@ def group_detail(request, group_id):
     brands = Brand.objects.filter(group=group)
     context = {'group': group, 'brands': brands}
     return render(request, 'group_detail.html', context)
-
-def get_5cars(request):
-    cars = CarModel.objects.filter()[0:4]
-    context = {'cars': cars}
-    return render(request, 'index.html', context)
 
 def createCar(request):
     if request.method == 'POST':
