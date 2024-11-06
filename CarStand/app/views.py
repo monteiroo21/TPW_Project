@@ -53,57 +53,119 @@ def index(request):
     context = {}
     return render(request, 'index.html', context)
 
+# def cars(request):
+#     #creategroups()
+#     carsList=Car.objects.all()
+#     form = CarSortAndFilter(request.POST)
+
+#     if request.method == 'POST' and form.is_valid():
+#         if form.cleaned_data['name']:
+#             # carsList = carsList.filter(model__name__icontains=form.cleaned_data['name'])
+#             carsList = carsList.filter(
+#                 Q(model__name__icontains=form.cleaned_data['name']) | Q(model__brand__name__icontains=form.cleaned_data['name'])
+#             )
+        
+#         if form.cleaned_data['isElectric']:
+#             carsList = carsList.filter(electric=True)
+#         if form.cleaned_data.get('priceMin'):
+#             carsList = carsList.filter(price__gte=form.cleaned_data['priceMin'])
+#         if form.cleaned_data.get('priceMax'):
+#             carsList = carsList.filter(price__lte=form.cleaned_data['priceMax'])
+#         if form.cleaned_data['numberDoors']!="All":
+#             carsList = carsList.filter(doors=int(form.cleaned_data['numberDoors']))
+#         if form.cleaned_data['newOrUsed']!="All":
+#             carsList = carsList.filter(new=form.cleaned_data['newOrUsed']=="true")
+
+#         if form.cleaned_data['color']!="None":
+#             carsList = carsList.filter(color__icontains=form.cleaned_data['color'])
+
+#         sort_option = form.cleaned_data['sort']
+#         if sort_option == "1":
+#             carsList = carsList.order_by('model__name')
+#         elif sort_option == "2":
+#             carsList = carsList.order_by('price')
+#         elif sort_option == "3":
+#             carsList = carsList.order_by('year')
+#     context = {"cars":carsList,"form":form}
+#     form = CarSortAndFilter(request.POST)
+
+#     if request.method == 'POST' and form.is_valid():
+#         if form.cleaned_data['name']:
+#             carsList = carsList.filter(model__name__icontains=form.cleaned_data['name'])
+        
+#         if form.cleaned_data['isElectric']:
+#             carsList = carsList.filter(electric=True)
+#         if form.cleaned_data.get('priceMin'):
+#             carsList = carsList.filter(price__gte=form.cleaned_data['priceMin'])
+#         if form.cleaned_data.get('priceMax'):
+#             carsList = carsList.filter(price__lte=form.cleaned_data['priceMax'])
+#         if form.cleaned_data['numberDoors']!="All":
+#             carsList = carsList.filter(doors=int(form.cleaned_data['numberDoors']))
+#         if form.cleaned_data['newOrUsed']!="All":
+#             carsList = carsList.filter(new=form.cleaned_data['newOrUsed']=="true")
+
+#         if form.cleaned_data['color']!="None":
+#             carsList = carsList.filter(color__icontains=form.cleaned_data['color'])
+
+#         sort_option = form.cleaned_data['sort']
+#         if sort_option == "1":
+#             carsList = carsList.order_by('model__brand__name')
+#         elif sort_option == "2":
+#             carsList = carsList.order_by('price')
+#         elif sort_option == "3":
+#             carsList = carsList.order_by('year')
+
+#     context = {"cars": carsList,"form": form}
+#     return render(request, 'cars.html', context)
+
+
 def cars(request):
-    #creategroups()
-    carsList=Car.objects.all()
-    form = CarSortAndFilter(request.POST)
+    carsList = Car.objects.all()
+    form = CarSortAndFilter(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
         if form.cleaned_data['name']:
-            carsList = carsList.filter(model__name__icontains=form.cleaned_data['name'])
+            # search_terms = form.cleaned_data['name'].split()
+            # name_query = Q()
+            # for term in search_terms:
+            #     name_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
+            # carsList = carsList.filter(name_query)
+            search_terms = form.cleaned_data['name'].split()
+            name_query = Q()
+
+            # Verificar se o primeiro termo coincide com uma marca
+            first_term = search_terms[0]
+            remaining_terms = search_terms[1:]
+            
+            # Construir a query baseada no primeiro termo como marca e os restantes como modelo
+            brand_query = Q(model__brand__name__icontains=first_term)
+            model_query = Q()
+            for term in remaining_terms:
+                model_query &= Q(model__name__icontains=term)
+            
+            # Caso tenha mais de um termo, usa a lógica da marca + modelo; senão, pesquisa normal
+            if remaining_terms:
+                name_query = brand_query & model_query
+            else:
+                name_query = Q(model__name__icontains=first_term) | Q(model__brand__name__icontains=first_term)
+            
+            carsList = carsList.filter(name_query)
         
+        # Filtrar por outros campos
         if form.cleaned_data['isElectric']:
             carsList = carsList.filter(electric=True)
-        if form.cleaned_data.get('priceMin'):
+        if form.cleaned_data.get('priceMin') is not None:
             carsList = carsList.filter(price__gte=form.cleaned_data['priceMin'])
-        if form.cleaned_data.get('priceMax'):
+        if form.cleaned_data.get('priceMax') is not None:
             carsList = carsList.filter(price__lte=form.cleaned_data['priceMax'])
-        if form.cleaned_data['numberDoors']!="All":
+        if form.cleaned_data['numberDoors'] != "All":
             carsList = carsList.filter(doors=int(form.cleaned_data['numberDoors']))
-        if form.cleaned_data['newOrUsed']!="All":
-            carsList = carsList.filter(new=form.cleaned_data['newOrUsed']=="true")
-
-        if form.cleaned_data['color']!="None":
+        if form.cleaned_data['newOrUsed'] != "All":
+            carsList = carsList.filter(new=form.cleaned_data['newOrUsed'] == "true")
+        if form.cleaned_data['color'] != "None":
             carsList = carsList.filter(color__icontains=form.cleaned_data['color'])
 
-        sort_option = form.cleaned_data['sort']
-        if sort_option == "1":
-            carsList = carsList.order_by('model__name')
-        elif sort_option == "2":
-            carsList = carsList.order_by('price')
-        elif sort_option == "3":
-            carsList = carsList.order_by('year')
-    context = {"cars":carsList,"form":form}
-    form = CarSortAndFilter(request.POST)
-
-    if request.method == 'POST' and form.is_valid():
-        if form.cleaned_data['name']:
-            carsList = carsList.filter(model__name__icontains=form.cleaned_data['name'])
-        
-        if form.cleaned_data['isElectric']:
-            carsList = carsList.filter(electric=True)
-        if form.cleaned_data.get('priceMin'):
-            carsList = carsList.filter(price__gte=form.cleaned_data['priceMin'])
-        if form.cleaned_data.get('priceMax'):
-            carsList = carsList.filter(price__lte=form.cleaned_data['priceMax'])
-        if form.cleaned_data['numberDoors']!="All":
-            carsList = carsList.filter(doors=int(form.cleaned_data['numberDoors']))
-        if form.cleaned_data['newOrUsed']!="All":
-            carsList = carsList.filter(new=form.cleaned_data['newOrUsed']=="true")
-
-        if form.cleaned_data['color']!="None":
-            carsList = carsList.filter(color__icontains=form.cleaned_data['color'])
-
+        # Ordenação
         sort_option = form.cleaned_data['sort']
         if sort_option == "1":
             carsList = carsList.order_by('model__brand__name')
@@ -111,12 +173,9 @@ def cars(request):
             carsList = carsList.order_by('price')
         elif sort_option == "3":
             carsList = carsList.order_by('year')
-    context = {"cars":carsList,"form":form}
+
+    context = {"cars": carsList, "form": form}
     return render(request, 'cars.html', context)
-
-
-
-
 
 
 def car_detail(request, car_id):
@@ -124,21 +183,16 @@ def car_detail(request, car_id):
     isSelected = False
     isBuyed = None
     
-    
     if "favoriteCarList" not in request.session:
         request.session["favoriteCarList"] = []
-
     
     isFavorite = car_id in request.session["favoriteCarList"]
-
     
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
         isSelected = car.interestedCustomers.filter(id=profile.id).exists()
         if car.purchaser is not None:
             isBuyed = car.purchaser.id == profile.id
-
-
     
     if request.POST:
         favoriteCarList = request.session["favoriteCarList"]
@@ -150,7 +204,6 @@ def car_detail(request, car_id):
         request.session["favoriteCarList"] = favoriteCarList
         isFavorite = car_id in request.session["favoriteCarList"]
 
-    
     context = {
         "car": car,
         "isSelected": isSelected,
