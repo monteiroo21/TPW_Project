@@ -29,6 +29,12 @@
             </div>
         </div>
     </div>
+    
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Search">
+      </form>
 
     <div class="flex gap-8 w-full py-6 px-2 mt-1 justify-center flex-wrap">
         {% for car in cars %}
