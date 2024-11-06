@@ -130,26 +130,59 @@ def cars(request):
             # for term in search_terms:
             #     name_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
             # carsList = carsList.filter(name_query)
+            # search_terms = form.cleaned_data['name'].split()
+            # name_query = Q()
+
+            # first_term = search_terms[0]
+            # remaining_terms = search_terms[1:]
+            
+            # brand_query = Q(model__brand__name__icontains=first_term)
+            # model_query = Q()
+            # for term in remaining_terms:
+            #     model_query &= Q(model__name__icontains=term)
+            
+            # if remaining_terms:
+            #     name_query = brand_query & model_query
+            # else:
+            #     name_query = Q(model__name__icontains=first_term) | Q(model__brand__name__icontains=first_term)
+            
+            # carsList = carsList.filter(name_query)
             search_terms = form.cleaned_data['name'].split()
             name_query = Q()
+            match_found = False
+            
+            # Iterar sobre cada possível divisão de termos em marca e modelo
+            for i in range(len(search_terms), 0, -1):
+                possible_brand = " ".join(search_terms[:i])
+                remaining_terms = search_terms[i:]
 
-            # Verificar se o primeiro termo coincide com uma marca
-            first_term = search_terms[0]
-            remaining_terms = search_terms[1:]
-            
-            # Construir a query baseada no primeiro termo como marca e os restantes como modelo
-            brand_query = Q(model__brand__name__icontains=first_term)
-            model_query = Q()
-            for term in remaining_terms:
-                model_query &= Q(model__name__icontains=term)
-            
-            # Caso tenha mais de um termo, usa a lógica da marca + modelo; senão, pesquisa normal
-            if remaining_terms:
-                name_query = brand_query & model_query
-            else:
-                name_query = Q(model__name__icontains=first_term) | Q(model__brand__name__icontains=first_term)
-            
-            carsList = carsList.filter(name_query)
+                # Verificar se existe uma marca que corresponde aos termos possíveis
+                brand_query = Q(model__brand__name__icontains=possible_brand)
+                model_query = Q()
+
+                # Aplicar filtro no modelo usando os termos restantes
+                for term in remaining_terms:
+                    model_query &= Q(model__name__icontains=term)
+
+                # Marca e modelo correspondem
+                if remaining_terms:
+                    name_query = brand_query & model_query
+                else:
+                    # Apenas a marca corresponde
+                    name_query = brand_query | Q(model__name__icontains=possible_brand)
+                
+                # Testar se o filtro retorna algum resultado
+                if carsList.filter(name_query).exists():
+                    match_found = True
+                    carsList = carsList.filter(name_query)
+                    break
+
+            # Se não encontrou nenhuma correspondência com marca + modelo, aplicar pesquisa genérica
+            if not match_found:
+                generic_query = Q()
+                for term in search_terms:
+                    generic_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
+                carsList = carsList.filter(generic_query)
         
         # Filtrar por outros campos
         if form.cleaned_data['isElectric']:
