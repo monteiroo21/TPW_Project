@@ -106,7 +106,7 @@ def cars(request):
 
         sort_option = form.cleaned_data['sort']
         if sort_option == "1":
-            carsList = carsList.order_by('model__name')
+            carsList = carsList.order_by('model__brand__name')
         elif sort_option == "2":
             carsList = carsList.order_by('price')
         elif sort_option == "3":
