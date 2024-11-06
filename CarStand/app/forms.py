@@ -34,7 +34,7 @@ class CarSortAndFilter(forms.Form):
         attrs={
             'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
                 'placeholder': 'Search for a group',
-                'style': 'background-image: url(/static/imgs/search.svg); background-repeat: no-repeat; background-position: 10px center; background-size: 1rem;'
+                'style': 'background-image: url(/static/imgs/search.svg); background-repeat: no-repeat; background-position: 10px center; background-size: 18px;'
             }
             ),
             label=''
