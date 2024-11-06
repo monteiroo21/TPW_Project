@@ -107,6 +107,8 @@ def car_detail(request, car_id):
         isSelected = car.interestedCustomers.filter(id=profile.id).exists()
         if car.purchaser is not None:
             isBuyed = car.purchaser.id == profile.id
+        if car.purchaser is not None:
+            isBuyed = car.purchaser.id == profile.id
 
 
     
