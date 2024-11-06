@@ -25,7 +25,7 @@
         
         <div>
             <img src="{{ group.headquarters.url }}" alt="{{ group.name }}"
-                class="w-80 h-80 objec-contain my-auto mx-auto">
+                class="w-90 h-60 objec-contain my-auto mx-auto rounded-2xl shadow-2xl shadow-zinc-950">
 
         </div>
     </div>
@@ -37,7 +37,7 @@
     </div>
     <div class="flex gap-8 w-full py-6 px-2 mt-1 justify-center  flex-wrap">
         {% for brand in brands %}
-            <div class="rounded-2xl shadow-2xl shadow-zinc-950 max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl mb-8">
+            <div class="rounded-2xl bg-white shadow-2xl shadow-zinc-950 max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl mb-8">
                 <a href="{% url 'brand_detail' brand.id %}">
                     <!-- Image Section without background -->
                     <div class="flex items-center justify-center p-4">
