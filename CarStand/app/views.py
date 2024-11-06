@@ -1,6 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from app.forms import SignUpForm, LoginForm, GroupSearchForm
+from app.forms import SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile
 from django.db.models import Q
@@ -158,14 +158,16 @@ def motorbikes(request):
 #     return render(request, 'brands.html', context)
 
 def brands(request):
-    groups = Group.objects.filter(name__iendswith='group').prefetch_related('brands')
+    form = BrandSearchForm(request.GET)
+    brands = Brand.objects.filter()
 
-    independent_brands = Brand.objects.filter(
-        Q(group__isnull=True) | ~Q(group__name__iendswith='group')
-    )
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        if query:
+            brands = brands.filter(name__icontains=query)
+
     context = {
-        'groups': groups,
-        'independent_brands': independent_brands,
+        'brands': brands,
     }
     return render(request, 'brands.html', context)
 

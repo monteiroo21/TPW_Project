@@ -3,38 +3,52 @@
 {% block content %}
 {% load static %}
 <div class="flex justify-center items-center">
-    <h1 class="text-4xl font-extrabold text-white">Groups</h1>
+    <h1 class="text-4xl font-extrabold text-white">Brands</h1>
 </div>
 
-<div class="flex flex-col px-4 mt-4 ml-8">
-    {% for group in groups %}
-    <h2 class="text-3xl text-white font-bold ml-8">{{ group.name }}</h2>
-    <div class="flex gap-8 mb-6 w-full overflow-x-auto overflow-visible flex-nowrap py-6 ml-8 px-2 mt-1">
-        {% for brand in group.brands.all %}
-        <a href="{% url 'brand_detail' brand.id %}">
-            <div class="w-40 h-40 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex items-center justify-center">
-                <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="max-w-full max-h-full object-contain">
-            </div>
-        </a>
-        {% endfor %}
-    </div>
-    {% endfor %}
+<div class="flex justify-center items-center mt-8">
+    <form method="get" action="{% url 'brands' %}" class="relative flex items-center">
+        <!-- Input Field -->
+        <input 
+            type="text" 
+            name="query" 
+            placeholder="Search brands..."
+            class="w-80 pl-12 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800"
+        >
 
-    <div class="flex justify-center items-center mb-4">
-        <h2 class="text-4xl text-white font-extrabold ml-8 mt-8">Independent Brands</h2>
-    </div>
-    <div class="flex justify-center">
-        <div class="flex gap-8 mb-6 w-full max-w-5xl py-6 px-2 mt-1 justify-center flex-wrap">
-            {% for brand in independent_brands %}
+        <!-- Search Icon -->
+        <img 
+            src="{% static 'imgs/search.svg' %}" 
+            alt="Search Icon" 
+            class="absolute left-4 w-5 h-5 text-gray-500"
+        >
+    
+    </form>
+</div>
+
+<div class="flex gap-8 w-full py-6 px-2 mt-10 justify-center flex-wrap">
+    {% for brand in brands %}
+        <!-- Individual Card -->
+        <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
             <a href="{% url 'brand_detail' brand.id %}">
-                <div class="w-40 h-40 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex items-center justify-center">
-                    <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="max-w-full max-h-full object-contain">
+                <!-- Image Section -->
+                <div class="flex items-center justify-center">
+                    {% if brand.logo %}
+                        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-full h-40 object-contain p-4 bg-white" />
+                    {% else %}
+                        <!-- Optional placeholder image if no file is associated -->
+                        <img src="{% static 'path/to/placeholder.jpg' %}" alt="No Image" class="w-full h-40 object-contain p-4" />
+                    {% endif %}
+                </div>
+                <!-- Brand Info Section -->
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl text-gray-800 font-bold mb-4">{{ brand.name }}</h3>
+                    </div>
                 </div>
             </a>
-            {% endfor %}
         </div>
-    </div>
-
+    {% endfor %}
 </div>
 {% endblock %}
 
