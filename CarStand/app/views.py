@@ -1,6 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from app.forms import SignUpForm, LoginForm
+from app.forms import SignUpForm, LoginForm, GroupSearchForm
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile
 from django.db.models import Q
@@ -182,7 +182,13 @@ def brand_detail(request, brand_id):
 
 
 def groups(request):
+    form = GroupSearchForm(request.GET)
     groups = Group.objects.filter()
+
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        if query:
+            groups = groups.filter(name__icontains=query)
 
     context = {
         'groups': groups,
@@ -194,5 +200,10 @@ def group_detail(request, group_id):
     brands = Brand.objects.filter(group=group)
     context = {'group': group, 'brands': brands}
     return render(request, 'group_detail.html', context)
+
+def get_5cars(request):
+    cars = CarModel.objects.filter()[0:4]
+    context = {'cars': cars}
+    return render(request, 'index.html', context)
 
     
