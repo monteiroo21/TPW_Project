@@ -30,8 +30,15 @@ class BrandSearchForm(forms.Form):
 
 class CarSortAndFilter(forms.Form):
     name = forms.CharField(
-        label="Search", max_length=100, required=False, widget=forms.TextInput(
-        attrs={'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800', 'placeholder': ('Search for a car model')}))
+        max_length=100, required=False, widget=forms.TextInput(
+        attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+                'placeholder': 'Search for a group',
+                'style': 'background-image: url(/static/imgs/search.svg); background-repeat: no-repeat; background-position: 10px center; background-size: 1rem;'
+            }
+            ),
+            label=''
+        )
     
     sort = forms.ChoiceField(
         choices=[
@@ -39,12 +46,14 @@ class CarSortAndFilter(forms.Form):
             ("2", "Sort by Price"),
             ("3", "Sort by Year")
         ],
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label=''
     )
     
     isElectric = forms.BooleanField(
         required=False,
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        label=''
     )
     
     numberDoors = forms.ChoiceField(
@@ -53,7 +62,8 @@ class CarSortAndFilter(forms.Form):
             ("3", "3 doors"),
             ("5", "5 doors")
         ],
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label=''
     )
 
     newOrUsed = forms.ChoiceField(
@@ -62,7 +72,8 @@ class CarSortAndFilter(forms.Form):
             ("true", "New Cars"),
             ("false", "Used cars")
         ],
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label=''
     )
 
     
@@ -76,16 +87,18 @@ class CarSortAndFilter(forms.Form):
             ("grey", "grey"),
             ("green", "green")
         ],
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label=''
     )
   
     priceMax = forms.DecimalField(
         widget=forms.TextInput(attrs={'placeholder': 'Price Max'}),
-        required=False
+        required=False,
+        label=''
     )
 
     priceMin = forms.DecimalField(
         widget=forms.TextInput(attrs={'placeholder': 'Price Max'}),
         required=False,
-
+        label=''
     )
