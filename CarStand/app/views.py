@@ -1,6 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from app.forms import SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar
+from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile
 from django.db.models import Q
@@ -54,39 +54,64 @@ def index(request):
     return render(request, 'index.html', context)
 
 def cars(request):
-    #creategroups()
-    carsList=Car.objects.all()
-    form = CarSortAndFilter(request.POST)
+    carsList = Car.objects.all()
+    form = CarSortAndFilter(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
         if form.cleaned_data['name']:
-            carsList = carsList.filter(model__name__icontains=form.cleaned_data['name'])
+            search_terms = form.cleaned_data['name'].split()
+            name_query = Q()
+            match_found = False
+            
+            for i in range(len(search_terms), 0, -1):
+                possible_brand = " ".join(search_terms[:i])
+                remaining_terms = search_terms[i:]
+
+                brand_query = Q(model__brand__name__icontains=possible_brand)
+                model_query = Q()
+
+                for term in remaining_terms:
+                    model_query &= Q(model__name__icontains=term)
+
+                if remaining_terms:
+                    name_query = brand_query & model_query
+                else:
+                    name_query = brand_query | Q(model__name__icontains=possible_brand)
+                
+                if carsList.filter(name_query).exists():
+                    match_found = True
+                    carsList = carsList.filter(name_query)
+                    break
+
+            if not match_found:
+                generic_query = Q()
+                for term in search_terms:
+                    generic_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
+                carsList = carsList.filter(generic_query)
         
         if form.cleaned_data['isElectric']:
             carsList = carsList.filter(electric=True)
-        if form.cleaned_data.get('priceMin'):
+        if form.cleaned_data.get('priceMin') is not None:
             carsList = carsList.filter(price__gte=form.cleaned_data['priceMin'])
-        if form.cleaned_data.get('priceMax'):
+        if form.cleaned_data.get('priceMax') is not None:
             carsList = carsList.filter(price__lte=form.cleaned_data['priceMax'])
-        if form.cleaned_data['numberDoors']!="All":
+        if form.cleaned_data['numberDoors'] != "All":
             carsList = carsList.filter(doors=int(form.cleaned_data['numberDoors']))
-        if form.cleaned_data['newOrUsed']!="All":
-            carsList = carsList.filter(new=form.cleaned_data['newOrUsed']=="true")
-
-        if form.cleaned_data['color']!="None":
+        if form.cleaned_data['newOrUsed'] != "All":
+            carsList = carsList.filter(new=form.cleaned_data['newOrUsed'] == "true")
+        if form.cleaned_data['color'] != "None":
             carsList = carsList.filter(color__icontains=form.cleaned_data['color'])
 
         sort_option = form.cleaned_data['sort']
         if sort_option == "1":
-            carsList = carsList.order_by('model__name')
+            carsList = carsList.order_by('model__brand__name')
         elif sort_option == "2":
             carsList = carsList.order_by('price')
         elif sort_option == "3":
             carsList = carsList.order_by('year')
-    context = {"cars":carsList,"form":form}
+
+    context = {"cars": carsList, "form": form}
     return render(request, 'cars.html', context)
-
-
 
 
 def car_detail(request, car_id):
@@ -94,23 +119,16 @@ def car_detail(request, car_id):
     isSelected = False
     isBuyed = None
     
-    
     if "favoriteCarList" not in request.session:
         request.session["favoriteCarList"] = []
-
     
     isFavorite = car_id in request.session["favoriteCarList"]
-
     
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
         isSelected = car.interestedCustomers.filter(id=profile.id).exists()
         if car.purchaser is not None:
             isBuyed = car.purchaser.id == profile.id
-        if car.purchaser is not None:
-            isBuyed = car.purchaser.id == profile.id
-
-
     
     if request.POST:
         favoriteCarList = request.session["favoriteCarList"]
@@ -122,7 +140,6 @@ def car_detail(request, car_id):
         request.session["favoriteCarList"] = favoriteCarList
         isFavorite = car_id in request.session["favoriteCarList"]
 
-    
     context = {
         "car": car,
         "isSelected": isSelected,
@@ -183,7 +200,59 @@ def negate(request, car_id,profile_id):
 
 def motorbikes(request):
     motosList=Moto.objects.all()
-    context = {"motos":motosList}
+    form = MotoSortAndFilter(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        if form.cleaned_data['name']:
+            search_terms = form.cleaned_data['name'].split()
+            name_query = Q()
+            match_found = False
+            
+            for i in range(len(search_terms), 0, -1):
+                possible_brand = " ".join(search_terms[:i])
+                remaining_terms = search_terms[i:]
+
+                brand_query = Q(model__brand__name__icontains=possible_brand)
+                model_query = Q()
+
+                for term in remaining_terms:
+                    model_query &= Q(model__name__icontains=term)
+
+                if remaining_terms:
+                    name_query = brand_query & model_query
+                else:
+                    name_query = brand_query | Q(model__name__icontains=possible_brand)
+                
+                if motosList.filter(name_query).exists():
+                    match_found = True
+                    motosList = motosList.filter(name_query)
+                    break
+
+            if not match_found:
+                generic_query = Q()
+                for term in search_terms:
+                    generic_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
+                motosList = motosList.filter(generic_query)
+        
+
+        if form.cleaned_data.get('priceMin') is not None:
+            motosList = motosList.filter(price__gte=form.cleaned_data['priceMin'])
+        if form.cleaned_data.get('priceMax') is not None:
+            motosList = motosList.filter(price__lte=form.cleaned_data['priceMax'])
+        if form.cleaned_data['newOrUsed'] != "All":
+            motosList = motosList.filter(new=form.cleaned_data['newOrUsed'] == "true")
+        if form.cleaned_data['color'] != "None":
+            motosList = motosList.filter(color__icontains=form.cleaned_data['color'])
+
+        sort_option = form.cleaned_data['sort']
+        if sort_option == "1":
+            motosList = motosList.order_by('model__brand__name')
+        elif sort_option == "2":
+            motosList = motosList.order_by('price')
+        elif sort_option == "3":
+            motosList = motosList.order_by('year')
+
+    context = {"motos": motosList, "form": form}
     return render(request, 'motorbikes.html', context)
 
 # def brands(request):

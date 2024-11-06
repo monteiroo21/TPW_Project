@@ -1,85 +1,140 @@
-{% extends "index.html" %}
+{% extends "index.html" %} {% block content %} {% load static %}
+<div class="flex flex-col items-center mx-16">
+  <form action="." method="post" class="space-y-6">
+    {% csrf_token %}
 
-{% block content %}
-{% load static %}
-<div class="flex flex-col items-center mx-20">
-    <div class="flex justify-center gap-4 w-full mb-6 py-4">
-        <div class="relative w-80">
-            <input type="text" placeholder="Search cars..."
-                class="w-full pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800">
-            <img src="{% static 'imgs/search.svg' %}" alt="Search Icon"
-                class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500">
+    <!-- Nome do Carro -->
+    <div class="flex items-center space-x-4">
+      <div class="flex-1">
+        <label for="id_name" class="block text-white font-semibold mb-2"
+          >Name</label
+        >
+        {{ form.name }}
+      </div>
+
+      <!-- Tipo de Ordenação -->
+      <div class="flex-1">
+        <label for="id_sort" class="block text-white font-semibold mb-2"
+          >Sort by</label
+        >
+        {{ form.sort }}
+      </div>
+    </div>
+
+
+
+    <!-- Número de Portas, Novo ou Usado, Cor - Linha única -->
+    <div class="flex items-center space-x-4">
+      <div class="flex-1">
+        <label for="id_numberDoors" class="block text-white font-semibold mb-2"
+          >Number of Doors</label
+        >
+        {{ form.numberDoors }}
+      </div>
+
+      <div class="flex-1">
+        <label for="id_newOrUsed" class="block text-white font-semibold mb-2"
+          >Condition</label
+        >
+        {{ form.newOrUsed }}
+      </div>
+
+      <div class="flex-1">
+        <label for="id_color" class="block text-white font-semibold mb-2"
+          >Color</label
+        >
+        {{ form.color }}
+      </div>
+    </div>
+
+
+    <!-- Preço Máximo e Mínimo + Is Electric na mesma linha -->
+    <div class="flex items-center space-x-5">
+        <!-- Max Price -->
+        <div class="flex-1">
+            <label for="id_priceMax" class="block text-white font-semibold mb-2">Max Price</label>
+            {{ form.priceMax }}
         </div>
 
-        <div class="relative">
-            <button onclick="toggleDropdown()" id="dropdownButton"
-                class="flex items-center bg-white text-sky-800 text-base border-2 border-sky-800 font-bold pl-10 pr-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none relative">
-                <img src="{% static 'imgs/sort.png' %}" alt="Sort Icon"
-                    class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500">
-                Sort
-            </button>
-            <div id="dropdownMenu"
-                class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
-                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="closeDropdown()">Filter by
-                    Price</a>
-                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="closeDropdown()">Filter by
-                    Brand</a>
-                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" onclick="closeDropdown()">Filter by
-                    Year</a>
+        <!-- Min Price -->
+        <div class="flex-1" >
+            <label for="id_priceMin" class="block text-white font-semibold mb-2">Min Price</label>
+            {{ form.priceMin }}
+        </div>
+
+        <!-- Is Electric -->
+        <div class="flex-1 flex flex-col items-center">
+            <label for="id_isElectric" class="block text-white font-semibold mb-2">Electric</label>
+            <div class="flex justify-center">
+                {{ form.isElectric }}
             </div>
         </div>
     </div>
-    
-    <form action="." method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Search">
-      </form>
 
-    <div class="flex gap-8 w-full py-6 px-2 mt-1 justify-center flex-wrap">
-        {% for car in cars %}
-        <div
-            class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
-            <img src="{{ car.image.url }}" alt="{{ car.model }}" class="w-full h-52 object-contain">
-
-            <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
-                <h2 class="text-lg font-bold">{{ car.model.brand.name }} {{ car.model.name }}</h2>
-                <p class="text-sm text-gray-600">Price: {{ car.price }}€</p>
-                <a href="{% url 'car_detail' car.id %}">
-                    <button
-                        class="mt-6 bg-sky-800 text-white text-base font-bold px-3 py-1 rounded-lg hover:bg-sky-950 focus:outline-none mb-2">
-                        View Details
-                    </button>
-                </a>
-            </div>
-        </div>
-        {% endfor %}
+    <!-- Botão de Enviar -->
+    <div class="text-center">
+      <button
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-6 border border-blue-500 rounded-lg"
+      >
+        Search
+      </button>
     </div>
+  </form>
+
+  <div class="flex gap-8 w-full py-6 px-2 mt-1 justify-center flex-wrap">
+    {% for car in cars %}
+    <div
+      class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8"
+    >
+      <img
+        src="{{ car.image.url }}"
+        alt="{{ car.model }}"
+        class="w-full h-52 object-contain"
+      />
+
+      <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
+        <h2 class="text-lg font-bold">
+          {{ car.model.brand.name }} {{ car.model.name }}
+        </h2>
+        <p class="text-sm text-gray-600">Price: {{ car.price }}€</p>
+        <a href="{% url 'car_detail' car.id %}">
+          <button
+            class="mt-6 bg-sky-800 text-white text-base font-bold px-3 py-1 rounded-lg hover:bg-sky-950 focus:outline-none mb-2"
+          >
+            View Details
+          </button>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
-{% endblock %}
-
-{% block extra_content %}
-<link href="{% static 'content/style.css' %}" rel="stylesheet">
-<link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
-<link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
+{% endblock %} {% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet" />
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet" />
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet" />
 
 <script>
-    function toggleDropdown() {
-        var dropdownMenu = document.getElementById("dropdownMenu");
-        dropdownMenu.classList.toggle("hidden");
-    }
+  function toggleDropdown() {
+    var dropdownMenu = document.getElementById("dropdownMenu");
+    dropdownMenu.classList.toggle("hidden");
+  }
 
-    function closeDropdown() {
-        var dropdownMenu = document.getElementById("dropdownMenu");
-        dropdownMenu.classList.add("hidden");
-    }
+  function closeDropdown() {
+    var dropdownMenu = document.getElementById("dropdownMenu");
+    dropdownMenu.classList.add("hidden");
+  }
 
-    window.addEventListener("click", function (event) {
-        var dropdownMenu = document.getElementById("dropdownMenu");
-        var dropdownButton = document.getElementById("dropdownButton");
-        if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
-            dropdownMenu.classList.add("hidden");
-        }
-    });
+  window.addEventListener("click", function (event) {
+    var dropdownMenu = document.getElementById("dropdownMenu");
+    var dropdownButton = document.getElementById("dropdownButton");
+    if (
+      !dropdownButton.contains(event.target) &&
+      !dropdownMenu.contains(event.target)
+    ) {
+      dropdownMenu.classList.add("hidden");
+    }
+  });
 </script>
 {% endblock %}
