@@ -56,8 +56,37 @@ def index(request):
 def cars(request):
     #creategroups()
     carsList=Car.objects.all()
-    context = {"cars":carsList}
+    form = CarSortAndFilter(request.POST)
+
+    if request.method == 'POST' and form.is_valid():
+        if form.cleaned_data['name']:
+            carsList = carsList.filter(model__name__icontains=form.cleaned_data['name'])
+        
+        if form.cleaned_data['isElectric']:
+            carsList = carsList.filter(electric=True)
+        if form.cleaned_data.get('priceMin'):
+            carsList = carsList.filter(price__gte=form.cleaned_data['priceMin'])
+        if form.cleaned_data.get('priceMax'):
+            carsList = carsList.filter(price__lte=form.cleaned_data['priceMax'])
+        if form.cleaned_data['numberDoors']!="All":
+            carsList = carsList.filter(doors=int(form.cleaned_data['numberDoors']))
+        if form.cleaned_data['newOrUsed']!="All":
+            carsList = carsList.filter(new=form.cleaned_data['newOrUsed']=="true")
+
+        if form.cleaned_data['color']!="None":
+            carsList = carsList.filter(color__icontains=form.cleaned_data['color'])
+
+        sort_option = form.cleaned_data['sort']
+        if sort_option == "1":
+            carsList = carsList.order_by('model__name')
+        elif sort_option == "2":
+            carsList = carsList.order_by('price')
+        elif sort_option == "3":
+            carsList = carsList.order_by('year')
+    context = {"cars":carsList,"form":form}
     return render(request, 'cars.html', context)
+
+
 
 
 def car_detail(request, car_id):
