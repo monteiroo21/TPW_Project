@@ -1,6 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from app.forms import SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter
+from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile
 from django.db.models import Q
@@ -266,7 +266,59 @@ def negate(request, car_id,profile_id):
 
 def motorbikes(request):
     motosList=Moto.objects.all()
-    context = {"motos":motosList}
+    form = MotoSortAndFilter(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        if form.cleaned_data['name']:
+            search_terms = form.cleaned_data['name'].split()
+            name_query = Q()
+            match_found = False
+            
+            for i in range(len(search_terms), 0, -1):
+                possible_brand = " ".join(search_terms[:i])
+                remaining_terms = search_terms[i:]
+
+                brand_query = Q(model__brand__name__icontains=possible_brand)
+                model_query = Q()
+
+                for term in remaining_terms:
+                    model_query &= Q(model__name__icontains=term)
+
+                if remaining_terms:
+                    name_query = brand_query & model_query
+                else:
+                    name_query = brand_query | Q(model__name__icontains=possible_brand)
+                
+                if motosList.filter(name_query).exists():
+                    match_found = True
+                    motosList = motosList.filter(name_query)
+                    break
+
+            if not match_found:
+                generic_query = Q()
+                for term in search_terms:
+                    generic_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
+                motosList = motosList.filter(generic_query)
+        
+
+        if form.cleaned_data.get('priceMin') is not None:
+            motosList = motosList.filter(price__gte=form.cleaned_data['priceMin'])
+        if form.cleaned_data.get('priceMax') is not None:
+            motosList = motosList.filter(price__lte=form.cleaned_data['priceMax'])
+        if form.cleaned_data['newOrUsed'] != "All":
+            motosList = motosList.filter(new=form.cleaned_data['newOrUsed'] == "true")
+        if form.cleaned_data['color'] != "None":
+            motosList = motosList.filter(color__icontains=form.cleaned_data['color'])
+
+        sort_option = form.cleaned_data['sort']
+        if sort_option == "1":
+            motosList = motosList.order_by('model__brand__name')
+        elif sort_option == "2":
+            motosList = motosList.order_by('price')
+        elif sort_option == "3":
+            motosList = motosList.order_by('year')
+
+    context = {"motos": motosList, "form": form}
     return render(request, 'motorbikes.html', context)
 
 # def brands(request):
