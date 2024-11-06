@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from app.models import Car, CarModel
 
 
 class SignUpForm(UserCreationForm):
@@ -91,3 +92,12 @@ class CarSortAndFilter(forms.Form):
         required=False,
 
     )
+class CreateCar(forms.Form):
+    model = forms.ModelChoiceField(queryset=CarModel.objects.filter(id__in=[car.model.id for car in Car.objects.all()]).distinct())
+    year = forms.IntegerField(min_value=1990, max_value=2024)
+    kilometers = forms.FloatField(required=False, min_value=0.0)
+    price = forms.DecimalField(max_digits=10, decimal_places=2)
+    image=forms.ImageField()
+    color = forms.CharField(max_length=20) 
+    doors = forms.IntegerField()
+    electric = forms.BooleanField(required=False)

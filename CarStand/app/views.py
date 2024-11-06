@@ -1,6 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from app.forms import SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter
+from app.forms import SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile
 from django.db.models import Q
@@ -242,4 +242,38 @@ def get_5cars(request):
     context = {'cars': cars}
     return render(request, 'index.html', context)
 
-    
+def createCar(request):
+    if request.method == 'POST':
+        form = CreateCar(request.POST, request.FILES)  # Certifique-se de incluir request.FILES
+        if form.is_valid():
+            # Dados do formulário processados
+            model = form.cleaned_data['model']
+            year = form.cleaned_data['year']
+            kilometers =0 if not 'kilometers' in   form.cleaned_data else form.cleaned_data['kilometers']
+            price = form.cleaned_data['price']
+            image = form.cleaned_data['image']
+            color = form.cleaned_data['color']
+            doors = form.cleaned_data['doors']
+            electric = form.cleaned_data['electric']
+            print(image)
+            # Criação do novo carro
+            new_car = Car(
+                model=model,
+                year=year,
+                kilometers=kilometers,
+                price=price,
+                image=image,
+                color=color,
+                doors=doors,
+                electric=electric
+            )
+            new_car.save()
+            print("Create CAR")
+            # Redireciona após salvar
+            return redirect("cars")
+        print(form.errors)  # Exibe os erros para depuração
+    else:
+        form = CreateCar()
+
+    context = {"form": form}
+    return render(request, 'createCar.html', context)

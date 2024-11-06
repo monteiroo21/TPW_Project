@@ -73,7 +73,9 @@ class Car(models.Model):
     new = models.BooleanField(default=True)
     kilometers = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    image=models.ImageField(upload_to='./static/imgs/cars',default="./static/imgs/motos/aprilia_rs660.png")
+    
+    image=models.ImageField(default="./static/imgs/motos/aprilia_rs660.png", blank=True)
+
     interestedCustomers=models.ManyToManyField(Profile, blank=True,default=None,related_name='interested_in_cars')
     purchaser=models.ForeignKey(Profile, null=True,default=None, blank=True, related_name='purchased_cars', on_delete=models.DO_NOTHING)
     color = models.CharField(max_length=20, default="Black") 
