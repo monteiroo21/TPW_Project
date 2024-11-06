@@ -41,6 +41,8 @@
 
         <!-- Purchase/Select Button -->
         {% if isBuyed %}
+        <div class="text-brown font-semibold text-lg">This car has been purchased by you.</div>
+        {% elif isBuyed == False %}
         <div class="text-brown font-semibold text-lg">This car has been purchased.</div>
         {% elif not isSelected %}
         <form action="{% url 'selectCar' car.id %}" method="post">
@@ -51,7 +53,16 @@
             </button>
         </form>
         {% else %}
-        <div class="text-blue-500 text-xl font-bold">Selected</div>
+        
+        <div class="text-blue-500 text-xl font-bold">Selected
+            <form action="{% url 'selectCar' car.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md">
+                    Deselect Car
+                </button>
+        </div>
+        
         {% endif %}
 
         <!-- Favorite Button -->

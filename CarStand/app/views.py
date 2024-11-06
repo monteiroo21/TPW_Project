@@ -105,7 +105,8 @@ def car_detail(request, car_id):
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
         isSelected = car.interestedCustomers.filter(id=profile.id).exists()
-        isBuyed = car.purchaser is not None and car.purchaser.id == profile.id
+        if car.purchaser is not None:
+            isBuyed = car.purchaser.id == profile.id
 
 
     
@@ -139,9 +140,11 @@ def selectCar(request, car_id):
         return redirect("login")
     car = get_object_or_404(Car, id=car_id) 
     profile = get_object_or_404(Profile, user=request.user) 
-    print(profile)
-    car.interestedCustomers.add(profile)
-    print(car)
+    if car.interestedCustomers.filter(id=profile.id).exists():
+        car.interestedCustomers.remove(profile)
+    else:
+        car.interestedCustomers.add(profile)
+
     return redirect('car_detail', car_id=car.id)  
 
 def managerConfirm(request):
