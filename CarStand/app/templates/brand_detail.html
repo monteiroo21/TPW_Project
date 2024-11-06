@@ -14,15 +14,16 @@
         <div class="flex flex-col items-start text-white lg:w-2/3 space-y-4">
             <h1 class="text-5xl font-extrabold ml-10 mb-4">{{ brand.name }}</h1>
             <p class="text-lg"><strong>Country:</strong> {{ brand.country }}</p>
-            <p class="text-lg"><strong>Email:</strong><a href="mailto:{{ brand.email }}"
-                    class="underline hover:text-gray-300"> {{ brand.email }}</a></p>
+            <p class="text-lg"><strong>Email: </strong><a href="mailto:{{ brand.email }}"
+                    class="underline hover:text-gray-300">{{ brand.email }}</a></p>
             <p class="text-lg"><strong>Phone:</strong> {{ brand.cellPhone }}</p>
             <p class="text-lg">
-                <strong>Website:</strong>
+                <strong>Website: </strong>
                 <a href="{{ brand.website }}" target="_blank" class="underline hover:text-gray-300">
                     Visit {{ brand.name }}'s website
                 </a>
             </p>
+            <p class="text-lg"><strong>Group: </strong><a href="{% url 'group_detail' brand.group.id %}" class="underline hover:text-gray-300">{{ brand.group }}</a></p>
         </div>
 
         <div

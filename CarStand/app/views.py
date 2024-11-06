@@ -1,6 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from app.forms import SignUpForm, LoginForm, GroupSearchForm,CarSortAndFilter
+from app.forms import SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile
 from django.db.models import Q
@@ -84,7 +84,37 @@ def cars(request):
         elif sort_option == "3":
             carsList = carsList.order_by('year')
     context = {"cars":carsList,"form":form}
+    form = CarSortAndFilter(request.POST)
+
+    if request.method == 'POST' and form.is_valid():
+        if form.cleaned_data['name']:
+            carsList = carsList.filter(model__name__icontains=form.cleaned_data['name'])
+        
+        if form.cleaned_data['isElectric']:
+            carsList = carsList.filter(electric=True)
+        if form.cleaned_data.get('priceMin'):
+            carsList = carsList.filter(price__gte=form.cleaned_data['priceMin'])
+        if form.cleaned_data.get('priceMax'):
+            carsList = carsList.filter(price__lte=form.cleaned_data['priceMax'])
+        if form.cleaned_data['numberDoors']!="All":
+            carsList = carsList.filter(doors=int(form.cleaned_data['numberDoors']))
+        if form.cleaned_data['newOrUsed']!="All":
+            carsList = carsList.filter(new=form.cleaned_data['newOrUsed']=="true")
+
+        if form.cleaned_data['color']!="None":
+            carsList = carsList.filter(color__icontains=form.cleaned_data['color'])
+
+        sort_option = form.cleaned_data['sort']
+        if sort_option == "1":
+            carsList = carsList.order_by('model__name')
+        elif sort_option == "2":
+            carsList = carsList.order_by('price')
+        elif sort_option == "3":
+            carsList = carsList.order_by('year')
+    context = {"cars":carsList,"form":form}
     return render(request, 'cars.html', context)
+
+
 
 
 
@@ -187,14 +217,16 @@ def motorbikes(request):
 #     return render(request, 'brands.html', context)
 
 def brands(request):
-    groups = Group.objects.filter(name__iendswith='group').prefetch_related('brands')
+    form = BrandSearchForm(request.GET)
+    brands = Brand.objects.filter()
 
-    independent_brands = Brand.objects.filter(
-        Q(group__isnull=True) | ~Q(group__name__iendswith='group')
-    )
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        if query:
+            brands = brands.filter(name__icontains=query)
+
     context = {
-        'groups': groups,
-        'independent_brands': independent_brands,
+        'brands': brands,
     }
     return render(request, 'brands.html', context)
 
