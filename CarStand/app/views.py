@@ -361,5 +361,16 @@ def createCar(request):
 
 
 def loadFavourites(request):
-    context = {}
+    if not request.user.is_authenticated:
+        return redirect("login")
+    if not "favoriteCarList" in request.session:
+        request.session["favoriteCarList"] = []
+    if not "favoriteMotoList" in request.session:
+        request.session["favoriteMotoList"] = []
+
+    context = {
+        "favoriteCars": Car.objects.filter(id__in=request.session["favoriteCarList"]),
+        "favoriteMotos": Moto.objects.filter(id__in=request.session["favoriteMotoList"])
+    }
+
     return render(request, 'favourites.html', context)
