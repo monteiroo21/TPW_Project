@@ -1,0 +1,76 @@
+{% extends "index.html" %}
+
+{% block content %}
+{% load static %}
+<h1 class="text-3xl font-bold text-center text-white">Purchased Vehicles</h1>
+
+<div class="flex gap-8 w-full py-6 px-2 mt-1 justify-center flex-wrap">
+
+    <!-- Carros Comprados -->
+    {% if cars %}
+    <div class="w-full">
+        <h2 class="text-2xl font-bold text-center text-white mt-4 mb-2">Cars Purchased</h2>
+        <div class="flex flex-wrap justify-center gap-8">
+            {% for car in cars %}
+            <div
+                class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
+                <img src="{{ car.image.url }}" alt="{{ car.model }}" class="w-full h-52 object-contain" />
+
+                <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
+                    <h2 class="text-lg font-bold">
+                        {{ car.model.brand.name }} {{ car.model.name }}
+                    </h2>
+                    <p class="text-sm text-gray-600">Price: {{ car.price }}€</p>
+                    <a href="{% url 'car_detail' car.id %}">
+                        <button
+                            class="mt-6 bg-sky-800 text-white text-base font-bold px-3 py-1 rounded-lg hover:bg-sky-950 focus:outline-none mb-2">
+                            View Details
+                        </button>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <p class="text-center text-gray-500 w-full">No cars purchased yet.</p>
+    {% endif %}
+
+    <!-- Motos Compradas -->
+    {% if motos %}
+    <div class="w-full mt-8">
+        <h2 class="text-2xl font-bold text-center text-white mt-4 mb-2">Motorbikes Purchased</h2>
+        <div class="flex flex-wrap justify-center gap-8">
+            {% for moto in motos %}
+            <div
+                class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
+                <img src="{{ moto.image.url }}" alt="{{ moto.model }}" class="w-full h-52 object-contain" />
+
+                <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
+                    <h2 class="text-lg font-bold">
+                        {{ moto.model.brand.name }} {{ moto.model.name }}
+                    </h2>
+                    <p class="text-sm text-gray-600">Price: {{ moto.price }}€</p>
+                    <a href="{% url 'motorbike_detail' moto.id %}">
+                        <button
+                            class="mt-6 bg-sky-800 text-white text-base font-bold px-3 py-1 rounded-lg hover:bg-sky-950 focus:outline-none mb-2">
+                            View Details
+                        </button>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    <p class="text-center text-gray-500 w-full">No motorbikes purchased yet.</p>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet" />
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet" />
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet" />
+{% endblock %}
