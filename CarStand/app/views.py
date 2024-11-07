@@ -152,7 +152,7 @@ def car_detail(request, car_id):
             request.session["favoriteCarList"] = []
         isFavorite = car_id in request.session["favoriteCarList"]
     if request.POST:
-        favoriteCarList = request.session["favoriteCarList"]    # Get the list of favorite cars
+        favoriteCarList = request.session["favoriteCarList"]
         if isFavorite:
             favoriteCarList.remove(car_id)
         else:
@@ -325,9 +325,8 @@ def group_detail(request, group_id):
 
 def createCar(request):
     if request.method == 'POST':
-        form = CreateCar(request.POST, request.FILES)  # Certifique-se de incluir request.FILES
+        form = CreateCar(request.POST, request.FILES)
         if form.is_valid():
-            # Dados do formulário processados
             model = form.cleaned_data['model']
             year = form.cleaned_data['year']
             kilometers =0 if not 'kilometers' in   form.cleaned_data else form.cleaned_data['kilometers']
@@ -336,8 +335,6 @@ def createCar(request):
             color = form.cleaned_data['color']
             doors = form.cleaned_data['doors']
             electric = form.cleaned_data['electric']
-            print(image)
-            # Criação do novo carro
             new_car = Car(
                 model=model,
                 year=year,
@@ -350,9 +347,8 @@ def createCar(request):
             )
             new_car.save()
             print("Create CAR")
-            # Redireciona após salvar
             return redirect("cars")
-        print(form.errors)  # Exibe os erros para depuração
+        print(form.errors) 
     else:
         form = CreateCar()
 
