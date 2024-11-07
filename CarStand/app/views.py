@@ -1,6 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar
+from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar,CreateCarModel
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile,Favorite
 from django.db.models import Q
@@ -325,23 +325,21 @@ def group_detail(request, group_id):
 
 def createCar(request):
     if request.method == 'POST':
-        form = CreateCar(request.POST, request.FILES)  # Certifique-se de incluir request.FILES
+        form = CreateCar(request.POST, request.FILES)  
         if form.is_valid():
-            # Dados do formulário processados
             model = form.cleaned_data['model']
             year = form.cleaned_data['year']
-            kilometers =0 if not 'kilometers' in   form.cleaned_data else form.cleaned_data['kilometers']
+            kilometers = 0 if form.cleaned_data['kilometers'] is None else form.cleaned_data['kilometers']
             price = form.cleaned_data['price']
             image = form.cleaned_data['image']
             color = form.cleaned_data['color']
             doors = form.cleaned_data['doors']
             electric = form.cleaned_data['electric']
-            print(image)
-            # Criação do novo carro
             new_car = Car(
                 model=model,
                 year=year,
                 kilometers=kilometers,
+                new=kilometers==0,
                 price=price,
                 image=image,
                 color=color,
@@ -350,15 +348,37 @@ def createCar(request):
             )
             new_car.save()
             print("Create CAR")
-            # Redireciona após salvar
             return redirect("cars")
-        print(form.errors)  # Exibe os erros para depuração
+        print(form.errors) 
     else:
         form = CreateCar()
 
     context = {"form": form}
     return render(request, 'createCar.html', context)
 
+def create_car_model(request,type):
+    if request.method == 'POST':
+        formModel = CreateCarModel(request.POST)
+        if formModel.is_valid():
+            brand=formModel.cleaned_data["brand"]
+            name=formModel.cleaned_data["name"]
+            base_price=formModel.cleaned_data["base_price"]
+            specifications=formModel.cleaned_data["specifications"]
+            releaseYear=formModel.cleaned_data["releaseYear"]
+            CarModel.objects.create(
+                brand=brand,
+                name=name,
+                base_price=base_price,
+                specifications=specifications,
+                releaseYear=releaseYear
+            ).save()
+            if type:
+                return redirect('createCar')
+            else:
+                return redirect('createCar')
+    else:
+        formModel = CreateCarModel()
+    return render(request, 'createCarModel.html', {'formModel': formModel,"type":type})
 
 def loadFavourites(request):
     context = {}

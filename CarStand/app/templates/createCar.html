@@ -2,11 +2,85 @@
 
 {% block content %}
 {% load static %}
-<form action="." method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+<div class="flex flex-col items-center mx-16">
+    <form action="." method="POST" enctype="multipart/form-data" class="space-y-6 w-full max-w-4xl">
+        {% csrf_token %}
+
+        <!-- Linha 1: Modelo e Botão "Create New Car Model" -->
+        <div class="flex items-end space-x-4">
+            <!-- Modelo do Carro -->
+            <div class="flex-1">
+                <label for="id_model" class="block text-white font-semibold mb-2">Model</label>
+                {{ form.model }}
+            </div>
+
+            <!-- Botão "Create New Car Model" -->
+            <a href="{% url 'create_car_model' 1 %}">
+                <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
+                    Create New Car Model
+                </button>
+            </a>
+        </div>
+
+        <!-- Linha 2: Ano, Quilometragem, Preço -->
+        <div class="flex space-x-4">
+            <!-- Ano do Carro -->
+            <div class="flex-1">
+                <label for="id_year" class="block text-white font-semibold mb-2">Year</label>
+                {{ form.year }}
+            </div>
+
+            <!-- Quilometragem -->
+            <div class="flex-1">
+                <label for="id_kilometers" class="block text-white font-semibold mb-2">Kilometers</label>
+                {{ form.kilometers }}
+            </div>
+
+            <!-- Preço -->
+            <div class="flex-1">
+                <label for="id_price" class="block text-white font-semibold mb-2">Price</label>
+                {{ form.price }}
+            </div>
+        </div>
+
+        <!-- Linha 3: Imagem, Cor, Número de Portas, Elétrico -->
+        <div class="flex space-x-4">
+            <!-- Imagem do Carro -->
+            <div class="flex-1">
+                <label for="id_image" class="block text-white font-semibold mb-2">Image</label>
+                {{ form.image }}
+            </div>
+
+            <!-- Cor do Carro -->
+            <div class="flex-1">
+                <label for="id_color" class="block text-white font-semibold mb-2">Color</label>
+                {{ form.color }}
+            </div>
+
+            <!-- Número de Portas -->
+            <div class="flex-1">
+                <label for="id_doors" class="block text-white font-semibold mb-2">Doors</label>
+                {{ form.doors }}
+            </div>
+
+            <!-- Elétrico? -->
+            <div class="flex-1">
+                <label for="id_electric" class="block text-white font-semibold mb-2">Electric</label>
+                {{ form.electric }}
+            </div>
+        </div>
+
+        <!-- Botão de Enviar -->
+        <div class="text-center">
+            <button
+                type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-6 border border-blue-500 rounded-lg"
+            >
+                Submit
+            </button>
+        </div>
+    </form>
+</div>
 {% endblock %}
 
 {% block extra_content %}
