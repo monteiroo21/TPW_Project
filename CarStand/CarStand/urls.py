@@ -42,6 +42,7 @@ urlpatterns = [
     path('groups/<int:group_id>/', views.group_detail, name='group_detail'),
     path('motorbike/<int:moto_id>/', views.motorbike_detail, name='motorbike_detail'),
     path('createCar/', views.createCar, name='createCar'),
+    path('favourites/', views.loadFavourites, name='favourites'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
