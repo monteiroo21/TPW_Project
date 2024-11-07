@@ -2,7 +2,7 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar
 from django.contrib.auth import login, authenticate, logout
-from .models import Group, Brand, Profile
+from .models import Group, Brand, Profile,Favorite
 from django.db.models import Q
 from app.loadBackup import *
 # Create your views here.
@@ -44,6 +44,23 @@ def log_in(request):
     return render(request, 'login.html', {'form': form})
 
 def logout_view(request):
+    profile = get_object_or_404(Profile, user=request.user)
+    if not Favorite.objects.filter(profile=profile).exists():
+        Favorite(profile=profile).save()
+    favorite=Favorite.objects.get(profile=profile)
+    favorite.favoritesCar.clear()
+    favorite.favoritesMoto.clear()
+
+    if "favoriteCarList" in request.session:
+        for car_id in request.session["favoriteCarList"]:
+            car = get_object_or_404(Car, id=car_id)
+            favorite.favoritesCar.add(car)
+    if "favoriteMotoList" in request.session:
+        for moto_id in request.session["favoriteMotoList"]:
+            moto = get_object_or_404(Moto, id=moto_id)
+            favorite.favoritesMoto.add(moto)
+
+    favorite.save()
     logout(request)
     return redirect('index') 
 
@@ -119,18 +136,20 @@ def car_detail(request, car_id):
     car = get_object_or_404(Car, id=car_id)
     isSelected = False
     isBuyed = None
+    isFavorite = False
+
     
-    if "favoriteCarList" not in request.session:
-        request.session["favoriteCarList"] = []
-    
-    isFavorite = car_id in request.session["favoriteCarList"]
     
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user)
         isSelected = car.interestedCustomers.filter(id=profile.id).exists()
         if car.purchaser is not None:
             isBuyed = car.purchaser.id == profile.id
-    
+        if Favorite.objects.filter(profile=profile).exists() and not "favoriteCarList" in request.session:
+            request.session["favoriteCarList"] = [car.id for car in Favorite.objects.get(profile=profile).favoritesCar.all()]
+        elif not "favoriteCarList" in request.session:
+            request.session["favoriteCarList"] = []
+        isFavorite = car_id in request.session["favoriteCarList"]
     if request.POST:
         favoriteCarList = request.session["favoriteCarList"]
         if isFavorite:

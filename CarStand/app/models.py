@@ -96,3 +96,9 @@ class Moto(models.Model):
     purchaser=models.ForeignKey(Profile, null=True, default=None, blank=True, related_name='purchased_motos', on_delete=models.DO_NOTHING)
     color = models.CharField(max_length=20, default="Black") 
 
+class Favorite(models.Model):
+    profile= models.OneToOneField(Profile,on_delete=models.CASCADE)
+    favoritesCar = models.ManyToManyField(Car)
+    favoritesMoto = models.ManyToManyField(Moto)
+    def __str__(self):
+        return "Favorite for "+self.profile.user.username
