@@ -152,7 +152,7 @@ def car_detail(request, car_id):
             request.session["favoriteCarList"] = []
         isFavorite = car_id in request.session["favoriteCarList"]
     if request.POST:
-        favoriteCarList = request.session["favoriteCarList"]    # Get the list of favorite cars
+        favoriteCarList = request.session["favoriteCarList"]
         if isFavorite:
             favoriteCarList.remove(car_id)
         else:
@@ -325,7 +325,7 @@ def group_detail(request, group_id):
 
 def createCar(request):
     if request.method == 'POST':
-        form = CreateCar(request.POST, request.FILES)  
+        form = CreateCar(request.POST, request.FILES)
         if form.is_valid():
             model = form.cleaned_data['model']
             year = form.cleaned_data['year']
@@ -381,5 +381,29 @@ def create_car_model(request,type):
     return render(request, 'createCarModel.html', {'formModel': formModel,"type":type})
 
 def loadFavourites(request):
-    context = {}
+    if not request.user.is_authenticated:
+        return redirect("login")
+    if not "favoriteCarList" in request.session:
+        request.session["favoriteCarList"] = []
+    if not "favoriteMotoList" in request.session:
+        request.session["favoriteMotoList"] = []
+
+    context = {
+        "favoriteCars": Car.objects.filter(id__in=request.session["favoriteCarList"]),
+        "favoriteMotos": Moto.objects.filter(id__in=request.session["favoriteMotoList"])
+    }
+
     return render(request, 'favourites.html', context)
+
+
+def vehiclesPurchased(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    profile = get_object_or_404(Profile, user=request.user)
+    cars = Car.objects.filter(purchaser=profile)
+    motos = Moto.objects.filter(purchaser=profile)
+    context = {
+        "cars": cars,
+        "motos": motos
+    }
+    return render(request, 'vehicles_purchased.html', context)

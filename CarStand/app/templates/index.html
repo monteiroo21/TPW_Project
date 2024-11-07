@@ -73,13 +73,13 @@
                             <img src="{% static 'imgs/user.png' %}" alt="User Avatar">
                         </button>
 
-                        <!-- Dropdown menu -->
                         <div id="dropdown-menu"
                             class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50"
                             style="z-index: 1000;">
                             <a href="{% url 'favourites' %}"
                                 class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Favourites</a>
-                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Carros Comprados</a>
+                            <a href="{% url 'vehiclespurchased' %}"
+                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Carros Comprados</a>
                             <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Editar Perfil</a>
                             <a href="{% url 'logout' %}"
                                 class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
@@ -99,7 +99,7 @@
         </div>
     </nav>
 
-    <main role="main" class="flex-grow pt-10"> <!-- added padding to main content to offset fixed navbar -->
+    <main role="main" class="flex-grow pt-10">
         <div class="px-4">
             {% block content %}
             {% endblock %}
@@ -110,11 +110,9 @@
                 <!-- Carousel Items Container -->
                 <div class="carousel-inner relative overflow-hidden h-[40rem]"> <!-- Adjust height here -->
                     {% for car in cars %}
-                    <!-- Each Slide -->
                     <div class="carousel-item {% if forloop.first %}block{% else %}hidden{% endif %} w-full h-full">
                         <a href="{% url 'car_detail' car.id %}">
                             <div class="bg-white rounded-lg shadow-lg p-4 h-full flex justify-center items-center">
-                                <!-- Car Image -->
                                 {% if car.image %}
                                 <img src="{{ car.image.url }}" alt="{{ car.name }}"
                                     class="w-full h-[32rem] object-cover rounded-lg mb-4">
@@ -123,7 +121,6 @@
                                     class="w-full h-full object-cover rounded-lg mb-4">
                                 {% endif %}
 
-                                <!-- Car Name -->
                                 <div
                                     class="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white px-6 py-3 rounded-lg">
                                     <h3 class="text-center text-2xl font-semibold">{{ car.name }}</h3>
@@ -134,7 +131,6 @@
                     {% endfor %}
                 </div>
 
-                <!-- Carousel Navigation Buttons -->
                 <button id="prev"
                     class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-3 py-2 rounded-full hover:bg-gray-800 ml-4">
                     &lt;
