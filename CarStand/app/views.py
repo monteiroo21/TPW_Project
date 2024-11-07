@@ -137,10 +137,12 @@ def car_detail(request, car_id):
     isSelected = False
     isBuyed = None
     isFavorite = False
-
+    isFavorite = False
+    authenticated =False
     
     
     if request.user.is_authenticated:
+        authenticated=True
         profile = get_object_or_404(Profile, user=request.user)
         isSelected = car.interestedCustomers.filter(id=profile.id).exists()
         if car.purchaser is not None:
@@ -165,8 +167,8 @@ def car_detail(request, car_id):
         "isSelected": isSelected,
         "isBuyed": isBuyed,
         "isFavorite": isFavorite,
+        "authenticated":authenticated
     }
-    print(request.session["favoriteCarList"] )
     return render(request, "car_detail.html", context)
 
 
