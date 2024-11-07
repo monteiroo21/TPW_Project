@@ -67,10 +67,27 @@
 
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     {% if user.is_authenticated %}
-                    <a href="{% url 'logout' %}">
-                        <img class="h-11 w-11 p-0.5 border-4 border-white rounded-full filter invert brightness-0"
-                            src="{% static 'imgs/user.png' %}" alt="User Avatar">
-                    </a>
+                    <div class="relative">
+                        <button id="avatar-button"
+                            class="h-11 w-11 p-0.5 border-4 border-white rounded-full filter invert brightness-0">
+                            <img src="{% static 'imgs/user.png' %}" alt="User Avatar">
+                        </button>
+
+                        <!-- Dropdown menu -->
+                        <div id="dropdown-menu"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50"
+                            style="z-index: 1000;">
+                            <a href="{% url 'favourites' %}"
+                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Favourites</a>
+                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Carros Comprados</a>
+                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Editar Perfil</a>
+                            <a href="{% url 'logout' %}"
+                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
+                        </div>
+
+                    </div>
+
+
                     {% else %}
                     <a href="{% url 'login' %}"
                         class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">
@@ -89,39 +106,44 @@
 
             <!-- Content exclusive to the homepage (index.html) -->
             {% block extra_content %}
-                <div class="carousel relative w-full max-w-6xl mx-auto mt-8 h-[40rem] shadow-2xl shadow-zinc-950">
-                    <!-- Carousel Items Container -->
-                    <div class="carousel-inner relative overflow-hidden h-[40rem]"> <!-- Adjust height here -->
-                        {% for car in cars %}
-                            <!-- Each Slide -->
-                            <div class="carousel-item {% if forloop.first %}block{% else %}hidden{% endif %} w-full h-full">
-                                <a href="{% url 'car_detail' car.id %}">
-                                    <div class="bg-white rounded-lg shadow-lg p-4 h-full flex justify-center items-center">
-                                        <!-- Car Image -->
-                                        {% if car.image %}
-                                            <img src="{{ car.image.url }}" alt="{{ car.name }}" class="w-full h-[32rem] object-cover rounded-lg mb-4">
-                                        {% else %}
-                                            <img src="{% static 'path/to/placeholder.jpg' %}" alt="Placeholder" class="w-full h-full object-cover rounded-lg mb-4">
-                                        {% endif %}
-                    
-                                        <!-- Car Name -->
-                                        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white px-6 py-3 rounded-lg">
-                                            <h3 class="text-center text-2xl font-semibold">{{ car.name }}</h3>
-                                        </div>
-                                    </div>
-                                </a>
+            <div class="carousel relative w-full max-w-6xl mx-auto mt-8 h-[40rem] shadow-2xl shadow-zinc-950">
+                <!-- Carousel Items Container -->
+                <div class="carousel-inner relative overflow-hidden h-[40rem]"> <!-- Adjust height here -->
+                    {% for car in cars %}
+                    <!-- Each Slide -->
+                    <div class="carousel-item {% if forloop.first %}block{% else %}hidden{% endif %} w-full h-full">
+                        <a href="{% url 'car_detail' car.id %}">
+                            <div class="bg-white rounded-lg shadow-lg p-4 h-full flex justify-center items-center">
+                                <!-- Car Image -->
+                                {% if car.image %}
+                                <img src="{{ car.image.url }}" alt="{{ car.name }}"
+                                    class="w-full h-[32rem] object-cover rounded-lg mb-4">
+                                {% else %}
+                                <img src="{% static 'path/to/placeholder.jpg' %}" alt="Placeholder"
+                                    class="w-full h-full object-cover rounded-lg mb-4">
+                                {% endif %}
+
+                                <!-- Car Name -->
+                                <div
+                                    class="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white px-6 py-3 rounded-lg">
+                                    <h3 class="text-center text-2xl font-semibold">{{ car.name }}</h3>
+                                </div>
                             </div>
-                        {% endfor %}
+                        </a>
                     </div>
-                
-                    <!-- Carousel Navigation Buttons -->
-                    <button id="prev" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-3 py-2 rounded-full hover:bg-gray-800 ml-4">
-                        &lt;
-                    </button>
-                    <button id="next" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-3 py-2 rounded-full hover:bg-gray-800 mr-4">
-                        &gt;
-                    </button>
+                    {% endfor %}
                 </div>
+
+                <!-- Carousel Navigation Buttons -->
+                <button id="prev"
+                    class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-3 py-2 rounded-full hover:bg-gray-800 ml-4">
+                    &lt;
+                </button>
+                <button id="next"
+                    class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-3 py-2 rounded-full hover:bg-gray-800 mr-4">
+                    &gt;
+                </button>
+            </div>
             {% endblock %}
         </div>
     </main>
@@ -149,7 +171,7 @@
             lastScrollY = window.scrollY;
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const items = document.querySelectorAll('.carousel-item');
             let currentIndex = 0;
 
@@ -172,6 +194,23 @@
 
             updateCarousel(); // Initialize carousel display
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const avatarButton = document.getElementById('avatar-button');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+
+            avatarButton.addEventListener('click', () => {
+                dropdownMenu.classList.toggle('hidden'); // Usando Tailwind para controlar a visibilidade
+            });
+
+            // Fecha o dropdown se clicar fora dele
+            document.addEventListener('click', function (event) {
+                if (!avatarButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
+        });
+
     </script>
 </body>
 

@@ -140,7 +140,6 @@ def car_detail(request, car_id):
     isFavorite = False
     authenticated =False
     
-    
     if request.user.is_authenticated:
         authenticated=True
         profile = get_object_or_404(Profile, user=request.user)
@@ -153,7 +152,7 @@ def car_detail(request, car_id):
             request.session["favoriteCarList"] = []
         isFavorite = car_id in request.session["favoriteCarList"]
     if request.POST:
-        favoriteCarList = request.session["favoriteCarList"]
+        favoriteCarList = request.session["favoriteCarList"]    # Get the list of favorite cars
         if isFavorite:
             favoriteCarList.remove(car_id)
         else:
@@ -277,10 +276,6 @@ def motorbikes(request):
     context = {"motos": motosList, "form": form}
     return render(request, 'motorbikes.html', context)
 
-# def brands(request):
-#     groups = Group.objects.prefetch_related('brands')
-#     context = {'groups': groups}
-#     return render(request, 'brands.html', context)
 
 def brands(request):
     form = BrandSearchForm(request.GET)
@@ -363,3 +358,8 @@ def createCar(request):
 
     context = {"form": form}
     return render(request, 'createCar.html', context)
+
+
+def loadFavourites(request):
+    context = {}
+    return render(request, 'favourites.html', context)
