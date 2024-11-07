@@ -44,6 +44,7 @@ urlpatterns = [
     path('createCar/', views.createCar, name='createCar'),
     path('favourites/', views.loadFavourites, name='favourites'),
     path('vehiclespurchased/', views.vehiclesPurchased, name='vehiclespurchased'),
+    path('create-car-model/<int:type>', views.create_car_model, name='create_car_model'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

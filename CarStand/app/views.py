@@ -1,6 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar
+from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar,CreateCarModel
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile,Favorite
 from django.db.models import Q
@@ -329,7 +329,7 @@ def createCar(request):
         if form.is_valid():
             model = form.cleaned_data['model']
             year = form.cleaned_data['year']
-            kilometers =0 if not 'kilometers' in   form.cleaned_data else form.cleaned_data['kilometers']
+            kilometers = 0 if form.cleaned_data['kilometers'] is None else form.cleaned_data['kilometers']
             price = form.cleaned_data['price']
             image = form.cleaned_data['image']
             color = form.cleaned_data['color']
@@ -339,6 +339,7 @@ def createCar(request):
                 model=model,
                 year=year,
                 kilometers=kilometers,
+                new=kilometers==0,
                 price=price,
                 image=image,
                 color=color,
@@ -355,6 +356,29 @@ def createCar(request):
     context = {"form": form}
     return render(request, 'createCar.html', context)
 
+def create_car_model(request,type):
+    if request.method == 'POST':
+        formModel = CreateCarModel(request.POST)
+        if formModel.is_valid():
+            brand=formModel.cleaned_data["brand"]
+            name=formModel.cleaned_data["name"]
+            base_price=formModel.cleaned_data["base_price"]
+            specifications=formModel.cleaned_data["specifications"]
+            releaseYear=formModel.cleaned_data["releaseYear"]
+            CarModel.objects.create(
+                brand=brand,
+                name=name,
+                base_price=base_price,
+                specifications=specifications,
+                releaseYear=releaseYear
+            ).save()
+            if type:
+                return redirect('createCar')
+            else:
+                return redirect('createCar')
+    else:
+        formModel = CreateCarModel()
+    return render(request, 'createCarModel.html', {'formModel': formModel,"type":type})
 
 def loadFavourites(request):
     if not request.user.is_authenticated:
