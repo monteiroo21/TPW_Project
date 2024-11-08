@@ -7,7 +7,6 @@
     <title>TPWStand</title>
 
     {% load static %}
-    <link rel="icon" href="{% static 'imgs/logo-removebg-preview.png' %}">
     <link href="{% static 'content/style.css' %}" rel="stylesheet">
     <link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
     <link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
@@ -82,14 +81,13 @@
                             <a href="{% url 'desiredvehicles' %}"
                                 class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Desired Vehicles</a>
                             <a href="{% url 'vehiclespurchased' %}"
-                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Carros Comprados</a>
-                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Editar Perfil</a>
+                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Purchased Vehicles</a>
+                            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Edit Profile</a>
                             <a href="{% url 'logout' %}"
                                 class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Logout</a>
                         </div>
 
                     </div>
-
 
                     {% else %}
                     <a href="{% url 'login' %}"
@@ -111,7 +109,7 @@
             {% block extra_content %}
             <div class="carousel relative w-full max-w-6xl mx-auto mt-8 h-[40rem] shadow-2xl shadow-zinc-950">
                 <!-- Carousel Items Container -->
-                <div class="carousel-inner relative overflow-hidden h-[40rem]"> <!-- Adjust height here -->
+                <div class="carousel-inner relative overflow-hidden h-[40rem]">
                     {% for car in cars %}
                     <div class="carousel-item {% if forloop.first %}block{% else %}hidden{% endif %} w-full h-full">
                         <a href="{% url 'car_detail' car.id %}">
@@ -143,6 +141,19 @@
                     &gt;
                 </button>
             </div>
+
+            <section class="mt-16 text-center text-gray-300 mb-2">
+                <h2 class="text-4xl font-bold mb-4">About TPWStand</h2>
+                <p class="max-w-2xl mx-auto mb-6 text-lg">
+                    Welcome to TPWStand, your premier destination for top-quality cars and motorbikes. We pride
+                    ourselves
+                    on offering a wide selection of vehicles to suit every style and budget. Our commitment to customer
+                    satisfaction is at the heart of everything we do. Explore our collection of <a
+                        href="{% url 'cars' %}" class="text-blue-400 hover:underline">Cars</a> and <a
+                        href="{% url 'motorbikes' %}" class="text-blue-400 hover:underline">Motorbikes</a>, and discover
+                    your next vehicle with TPWStand.
+                </p>
+            </section>
             {% endblock %}
         </div>
     </main>
@@ -154,22 +165,22 @@
     </footer>
 
     <script>
+        // Navbar Hide on Scroll
         let lastScrollY = window.scrollY;
         const navbar = document.getElementById('navbar');
 
         window.addEventListener('scroll', () => {
             if (window.scrollY > lastScrollY) {
-                // Rolagem para baixo - esconde a navbar
                 navbar.classList.remove('visible-nav');
                 navbar.classList.add('hidden-nav');
             } else {
-                // Rolagem para cima - mostra a navbar e fixa no topo
                 navbar.classList.remove('hidden-nav');
                 navbar.classList.add('visible-nav');
             }
             lastScrollY = window.scrollY;
         });
 
+        // Carousel Functionality
         document.addEventListener('DOMContentLoaded', function () {
             const items = document.querySelectorAll('.carousel-item');
             let currentIndex = 0;
@@ -191,25 +202,24 @@
                 updateCarousel();
             });
 
-            updateCarousel(); // Initialize carousel display
+            updateCarousel();
         });
 
+        // Dropdown Menu Functionality
         document.addEventListener('DOMContentLoaded', function () {
             const avatarButton = document.getElementById('avatar-button');
             const dropdownMenu = document.getElementById('dropdown-menu');
 
             avatarButton.addEventListener('click', () => {
-                dropdownMenu.classList.toggle('hidden'); // Usando Tailwind para controlar a visibilidade
+                dropdownMenu.classList.toggle('hidden');
             });
 
-            // Fecha o dropdown se clicar fora dele
             document.addEventListener('click', function (event) {
                 if (!avatarButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
                     dropdownMenu.classList.add('hidden');
                 }
             });
         });
-
     </script>
 </body>
 
