@@ -422,7 +422,8 @@ def create_car_model(request,type):
                 name=name,
                 base_price=base_price,
                 specifications=specifications,
-                releaseYear=releaseYear
+                releaseYear=releaseYear,
+                vehicle_type="Car" if type else "Motorbike"
             ).save()
             if type:
                 return redirect('createCar')
