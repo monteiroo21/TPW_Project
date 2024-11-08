@@ -76,7 +76,7 @@ class CarSortAndFilter(forms.Form):
             ("5", "5 doors")
         ],
         widget=forms.Select(attrs={
-            'class': 'form-control block appearance-none w-28 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'
+            'class': 'form-control block appearance-none w-32 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'
             }),
         label=''
     )
@@ -88,7 +88,7 @@ class CarSortAndFilter(forms.Form):
             ("false", "Used cars")
         ],
         widget=forms.Select(attrs={
-            'class': 'form-control block appearance-none w-40 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'
+            'class': 'form-control block appearance-none w-44 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'
             }),
         label=''
     )
@@ -105,14 +105,14 @@ class CarSortAndFilter(forms.Form):
             ("green", "Green")
         ],
         widget=forms.Select(attrs={
-            'class': 'form-control block appearance-none w-28 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'
+            'class': 'form-control block appearance-none w-32 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'
             }),
         label=''
     )
   
     priceMax = forms.DecimalField(
         widget=forms.TextInput(attrs={
-            'class':'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Max'
+            'class':'w-80 pl-6 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Max'
             }),
         required=False,
         label=''
@@ -120,7 +120,7 @@ class CarSortAndFilter(forms.Form):
 
     priceMin = forms.DecimalField(
         widget=forms.TextInput(attrs={
-            'class':'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Min'
+            'class':'w-80 pl-6 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Min'
             }),
         required=False,
         label=''
@@ -161,7 +161,7 @@ class MotoSortAndFilter(forms.Form):
             ("true", "New motos"),
             ("false", "Used motos")
         ],
-        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-40 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'}),
+        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-44 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'}),
         label=''
     )
 
@@ -176,18 +176,18 @@ class MotoSortAndFilter(forms.Form):
             ("grey", "Grey"),
             ("green", "Green")
         ],
-        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-28 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'}),
+        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-32 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'}),
         label=''
     )
   
     priceMax = forms.DecimalField(
-        widget=forms.TextInput(attrs={'class':'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Max'}),
+        widget=forms.TextInput(attrs={'class':'w-44 pl-6 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Max'}),
         required=False,
         label=''
     )
 
     priceMin = forms.DecimalField(
-        widget=forms.TextInput(attrs={'class':'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Min'}),
+        widget=forms.TextInput(attrs={'class':'w-44 pl-6 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Min'}),
         required=False,
         label=''
     )
