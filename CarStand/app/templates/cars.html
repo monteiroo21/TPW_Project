@@ -62,6 +62,11 @@
         class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-6 border border-blue-500 rounded-lg">
         Search
       </button>
+      {% if errors is not None %}
+        <div id="error-message" class="text-red-500 font-bold text-2xl">
+          <h1>{{ errors }}</h1>
+        </div>
+      {% endif %}
     </div>
   </form>
 
@@ -95,25 +100,12 @@
 <link href="{% static 'content/stylespages.css' %}" rel="stylesheet" />
 
 <script>
-  function toggleDropdown() {
-    var dropdownMenu = document.getElementById("dropdownMenu");
-    dropdownMenu.classList.toggle("hidden");
-  }
+      setTimeout(function() {
+        var errorMessage = document.getElementById('error-message');
+        if (errorMessage) {
+            errorMessage.style.display = 'none'; 
+        }
+    }, 5000);
 
-  function closeDropdown() {
-    var dropdownMenu = document.getElementById("dropdownMenu");
-    dropdownMenu.classList.add("hidden");
-  }
-
-  window.addEventListener("click", function (event) {
-    var dropdownMenu = document.getElementById("dropdownMenu");
-    var dropdownButton = document.getElementById("dropdownButton");
-    if (
-      !dropdownButton.contains(event.target) &&
-      !dropdownMenu.contains(event.target)
-    ) {
-      dropdownMenu.classList.add("hidden");
-    }
-  });
 </script>
 {% endblock %}
