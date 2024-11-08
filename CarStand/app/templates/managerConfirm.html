@@ -1,31 +1,46 @@
 {% extends "index.html" %}
 
 {% block content %}
+{% load static %}
 <div>Manager Page</div>
 
 {% for elem in listForAccept %}
 
-<p>
-    <div style="color: rgb(0, 149, 255); font-size: 20px;">User: {{ elem.profile }}</div>
-    <div style="color: rgb(0, 255, 51); font-size: 20px;">Car: {{ elem.car }}</div>
-    <form action="{% url 'approve' elem.car.id elem.profile.id  %}" method="post">
-        {% csrf_token %}
-        <input 
-            type="submit" 
-            value="Accept" 
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" />
-    </form>
-    <form action="{% url 'negate' elem.car.id elem.profile.id  %}" method="post">
-        {% csrf_token %}
-        <input 
-            type="submit" 
-            value="Negate" 
-            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded" />
-    </form>
-</p>
+<div class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
+    <img src="{{ elem.vehicle.image.url }}" alt="{{ elem.vehicle.model }}" class="w-full h-52 object-contain" />
+
+    <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
+        <div class="text-lg font-semibold">User: {{ elem.profile }}</div>
+        <h2 class="text-lg font-bold">
+            {{ elem.vehicle.model.brand.name }} {{ elem.vehicle.model.name }}
+        </h2>
+        <p class="text-sm text-gray-600">Price: {{ elem.vehicle.price }}€</p>
+        
+        <div class="mt-6 space-y-2"> <!-- Espaçamento entre os botões -->
+            <a href="{% url 'approve' elem.vehicle.id elem.profile.id elem.type  %}">
+                <button class="bg-cyan-500 hover:bg-cyan-700 text-white text-base font-bold px-3 py-2 rounded-lg  focus:outline-none">
+                    Accept
+                </button>
+            </a>
+            <a href="{% url 'negate' elem.vehicle.id elem.profile.id elem.type  %}">
+                <button class="bg-red-500 hover:bg-red-700 text-white text-base font-bold px-3 py-2 rounded-lg focus:outline-none">
+                    Negate
+                </button>
+            </a>
+            <a href="{% url 'car_detail' elem.vehicle.id %}">
+                <button class="bg-sky-800 text-white text-base font-bold px-3 py-2 rounded-lg hover:bg-sky-950 focus:outline-none">
+                    View Details
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
 
 {% endfor %}
 {% endblock %}
 
 {% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet" />
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet" />
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet" />
 {% endblock %}
