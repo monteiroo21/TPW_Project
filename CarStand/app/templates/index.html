@@ -77,8 +77,9 @@
                             class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50"
                             style="z-index: 1000;">
                             <a href="{% url 'edit_profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:rounded-md">Profile</a>
-                            <a href="{% url 'logout' %}"
-                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:rounded-md">Logout</a>
+                            <button id="logoutBtn" class="w-full text-left block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:rounded-md">
+                                Logout
+                            </button>
                         </div>
 
                     </div>
@@ -93,6 +94,27 @@
             </div>
         </div>
     </nav>
+
+    <div id="logoutModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl px-6 py-4 space-y-6 max-w-md w-full relative">
+            <!-- Close Modal Button -->
+            <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-5xl font-bold mr-2">
+                &times;
+            </button>
+            <h2 class="text-xl font-semibold text-gray-800">Are you sure you want to log out?</h2>
+            <div class="flex justify-end gap-4">
+                <button id="cancelLogoutBtn" class="text-gray-800 hover:text-white bg-gray-200 hover:bg-gray-400 py-2 px-4 rounded-md">
+                    Cancel
+                </button>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="text-white bg-red-500 hover:bg-red-700 py-2 px-4 rounded-md">
+                        Log out
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <main role="main" class="flex-grow pt-10">
         <div class="px-4">
@@ -214,6 +236,28 @@
                 }
             });
         });
+
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            document.getElementById('logoutModal').classList.remove('hidden');
+        });
+
+        // Close modal on cancel button click
+        document.getElementById('cancelLogoutBtn').addEventListener('click', function () {
+            document.getElementById('logoutModal').classList.add('hidden');
+        });
+
+        // Close modal on clicking the close button
+        document.getElementById('closeModalBtn').addEventListener('click', function () {
+            document.getElementById('logoutModal').classList.add('hidden');
+        });
+
+        // Close modal when clicking outside the modal
+        document.getElementById('logoutModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+
     </script>
 </body>
 

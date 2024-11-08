@@ -239,7 +239,7 @@ class CreateCarModel(forms.Form):
 
 class CreateCar(forms.Form):
     model = forms.ModelChoiceField(
-        queryset=CarModel.objects.all(),
+        queryset=CarModel.objects.filter(vehicle_type="Car"),
         widget=forms.Select(attrs={
             'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
         })
@@ -292,7 +292,7 @@ class CreateCar(forms.Form):
 
 class UpdateCar(forms.Form):
     model = forms.ModelChoiceField(
-        queryset=CarModel.objects.all(),
+        queryset=CarModel.objects.filter(vehicle_type="Car"),
         widget=forms.Select(attrs={
             'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
         })
@@ -345,7 +345,7 @@ class UpdateCar(forms.Form):
 
 class CreateMoto(forms.Form):
     model = forms.ModelChoiceField(
-        queryset=CarModel.objects.all(),
+        queryset=CarModel.objects.filter(vehicle_type="Motorbike"),
         widget=forms.Select(attrs={
             'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
         })
@@ -387,7 +387,7 @@ class CreateMoto(forms.Form):
 
 class UpdateMoto(forms.Form):
     model = forms.ModelChoiceField(
-        queryset=CarModel.objects.all(),
+        queryset=CarModel.objects.filter(vehicle_type="Motorbike"),
         widget=forms.Select(attrs={
             'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
         })

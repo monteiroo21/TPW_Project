@@ -76,6 +76,17 @@
             {{ field }}
           </div>
           {% endfor %}
+
+          {% if messages %}
+          <div class="mb-4">
+              {% for message in messages %}
+              <div class="text-red-600 bg-red-100 p-3 rounded-md w-3/4">
+                  {{ message }}
+              </div>
+              {% endfor %}
+          </div>
+          {% endif %}
+
           <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
             <button type="submit"
               class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">Log
