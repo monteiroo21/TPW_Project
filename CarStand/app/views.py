@@ -407,3 +407,16 @@ def vehiclesPurchased(request):
         "motos": motos
     }
     return render(request, 'vehicles_purchased.html', context)
+
+
+def desiredVehicles(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    profile = get_object_or_404(Profile, user=request.user)
+    cars = Car.objects.filter(interestedCustomers=profile)
+    motos = Moto.objects.filter(interestedCustomers=profile)
+    context = {
+        "cars": cars,
+        "motos": motos
+    }
+    return render(request, 'desired_vehicles.html', context)

@@ -46,6 +46,7 @@ urlpatterns = [
     path('vehiclespurchased/', views.vehiclesPurchased, name='vehiclespurchased'),
     path('create-car-model/<int:type>', views.create_car_model, name='create_car_model'),
     path('vehiclespurchased/', views.vehiclesPurchased, name='vehiclespurchased'),
+    path('desiredvehicles/', views.desiredVehicles, name='desiredvehicles'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

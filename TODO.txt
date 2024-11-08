@@ -2,7 +2,7 @@
 2. Favoritos e compras nas motas
 3. Botões de comprar
 4. Design dos botões dos details dos veículos
-5. Página dos veículos interessados
+5. Página dos veículos interessados (Done)
 6. Adicionar carros e motas
 7. Adicionar modelos de veículos
 8. Editar carros e motas
