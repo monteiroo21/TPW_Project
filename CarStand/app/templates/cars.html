@@ -19,40 +19,47 @@
     </div>
 
 
-    <div class="flex items-center space-x-4">
-      <div class="flex-1">
-        <label for="id_numberDoors" class="block text-white font-semibold mb-2">Number of Doors</label>
-        {{ form.numberDoors }}
+    <!-- Botão de Toggle para Filtros Avançados -->
+    <button type="button" onclick="toggleFilters()"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">
+      Advanced Filters
+    </button>
+
+    <!-- Campos de Filtros Avançados -->
+    <div id="advancedFilters" class="hidden">
+      <div class="flex items-center space-x-4">
+        <div class="flex-1">
+          <label for="id_numberDoors" class="block text-white font-semibold mb-2">Number of Doors</label>
+          {{ form.numberDoors }}
+        </div>
+
+        <div class="flex-1">
+          <label for="id_newOrUsed" class="block text-white font-semibold mb-2">Condition</label>
+          {{ form.newOrUsed }}
+        </div>
+
+        <div class="flex-1">
+          <label for="id_color" class="block text-white font-semibold mb-2">Color</label>
+          {{ form.color }}
+        </div>
       </div>
 
-      <div class="flex-1">
-        <label for="id_newOrUsed" class="block text-white font-semibold mb-2">Condition</label>
-        {{ form.newOrUsed }}
-      </div>
+      <div class="flex items-center space-x-5">
+        <div class="flex-1">
+          <label for="id_priceMax" class="block text-white font-semibold mb-2">Max Price</label>
+          {{ form.priceMax }}
+        </div>
 
-      <div class="flex-1">
-        <label for="id_color" class="block text-white font-semibold mb-2">Color</label>
-        {{ form.color }}
-      </div>
-    </div>
+        <div class="flex-1">
+          <label for="id_priceMin" class="block text-white font-semibold mb-2">Min Price</label>
+          {{ form.priceMin }}
+        </div>
 
-
-    <div class="flex items-center space-x-5">
-      <!-- Max Price -->
-      <div class="flex-1">
-        <label for="id_priceMax" class="block text-white font-semibold mb-2">Max Price</label>
-        {{ form.priceMax }}
-      </div>
-
-      <div class="flex-1">
-        <label for="id_priceMin" class="block text-white font-semibold mb-2">Min Price</label>
-        {{ form.priceMin }}
-      </div>
-
-      <div class="flex-1 flex flex-col items-center">
-        <label for="id_isElectric" class="block text-white font-semibold mb-2">Electric</label>
-        <div class="flex justify-center">
-          {{ form.isElectric }}
+        <div class="flex-1 flex flex-col items-center">
+          <label for="id_isElectric" class="block text-white font-semibold mb-2">Electric</label>
+          <div class="flex justify-center">
+            {{ form.isElectric }}
+          </div>
         </div>
       </div>
     </div>
@@ -115,5 +122,10 @@
       dropdownMenu.classList.add("hidden");
     }
   });
+
+  function toggleFilters() {
+    var filters = document.getElementById("advancedFilters");
+    filters.classList.toggle("hidden");
+  }
 </script>
 {% endblock %}
