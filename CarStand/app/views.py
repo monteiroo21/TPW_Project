@@ -277,25 +277,35 @@ def managerConfirm(request):
     cars=Car.objects.all()
     for car in cars:
         for profile in car.interestedCustomers.all():
-            listForAccept.append({"car":car,"profile":profile})
+            listForAccept.append({"vehicle":car,"profile":profile,"type":1})
+    motos=Moto.objects.all()
+    for moto in motos:
+        for profile in moto.interestedCustomers.all():
+            listForAccept.append({"vehicle":moto,"profile":profile,"type":0})
     context = {"listForAccept":listForAccept}
     return render(request, 'managerConfirm.html', context)
 
-def approve(request, car_id,profile_id):
-    car = get_object_or_404(Car, id=car_id) 
+def approve(request, vehicle_id,profile_id,type):
+    if type:
+        vehicle = get_object_or_404(Car, id=vehicle_id) 
+    else:
+        vehicle = get_object_or_404(Moto, id=vehicle_id) 
     profile = get_object_or_404(Profile, id=profile_id) 
 
-    car.interestedCustomers.clear()  
-    car.purchaser=profile
-    car.save()
+    vehicle.interestedCustomers.clear()  
+    vehicle.purchaser=profile
+    vehicle.save()
     
     return redirect('managerConfirm')  
 
-def negate(request, car_id,profile_id):
-    car = get_object_or_404(Car, id=car_id) 
+def negate(request, vehicle_id,profile_id,type):
+    if type:
+        vehicle = get_object_or_404(Car, id=vehicle_id) 
+    else:
+        vehicle = get_object_or_404(Moto, id=vehicle_id) 
     profile = get_object_or_404(Profile, id=profile_id) 
 
-    car.interestedCustomers.remove(profile)
+    vehicle.interestedCustomers.remove(profile)
     
     return redirect('managerConfirm')  
 
