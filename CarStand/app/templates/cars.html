@@ -1,121 +1,82 @@
-{% extends "index.html" %} {% block content %} {% load static %}
+{% extends "index.html" %}
+{% block content %}
+{% load static %}
 <div class="flex flex-col items-center mx-16">
   <form action="." method="post" class="space-y-6">
     {% csrf_token %}
 
     <div class="flex items-center space-x-4">
       <div class="flex-1">
-        <label for="id_name" class="block text-white font-semibold mb-2"
-          >Name</label
-        >
+        <label for="id_name" class="block text-white font-semibold mb-2">Name</label>
         {{ form.name }}
       </div>
 
       <div class="flex-1">
-        <label for="id_sort" class="block text-white font-semibold mb-2"
-          >Sort by</label
-        >
+        <label for="id_sort" class="block text-white font-semibold mb-2">Sort by</label>
         {{ form.sort }}
       </div>
     </div>
 
     <div class="flex items-center space-x-4 justify-center">
-      <button
-        type="button"
-        onclick="toggleModal(true)"
-        class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md"
-      >
+      <button type="button" onclick="toggleModal(true)"
+        class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md">
         Advanced Filters
       </button>
 
-      <button
-        type="submit"
-        class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md"
-      >
+      <button type="submit"
+        class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md">
         Search
       </button>
+
+      <!-- Adicionar botão para adicionar um carro -->
+      <a href="#">
+        <button
+          class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md flex items-center">
+          <img src="{% static 'imgs/plus.png' %}" alt="Add Car Icon" class="mr-2 filter"
+            style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
+          Add Car
+        </button>
+      </a>
     </div>
 
-    <div
-      id="advancedFiltersModal"
-      class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center"
-    >
-      <div
-        class="relative p-5 border w-11/12 md:w-1/2 lg:w-1/3 shadow-lg rounded-md bg-white"
-      >
+    <div id="advancedFiltersModal"
+      class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+      <div class="relative p-5 border w-11/12 md:w-1/2 lg:w-1/3 shadow-lg rounded-md bg-white">
         <div class="text-center">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Advanced Filters
           </h3>
-          <button
-            type="button"
-            onclick="toggleModal(false)"
-            class="absolute top-0 right-0 p-2 text-black"
-          >
-            <svg
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+          <button type="button" onclick="toggleModal(false)" class="absolute top-0 right-0 p-2 text-black">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
           <div class="mt-2 px-7 py-3">
             <div class="flex items-center space-x-4">
               <div class="flex-1">
-                <label
-                  for="id_numberDoors"
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  >Number of Doors</label
-                >
+                <label for="id_numberDoors" class="block text-gray-700 text-sm font-bold mb-2">Number of Doors</label>
                 {{ form.numberDoors }}
               </div>
               <div class="flex-1">
-                <label
-                  for="id_newOrUsed"
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  >Condition</label
-                >
+                <label for="id_newOrUsed" class="block text-gray-700 text-sm font-bold mb-2">Condition</label>
                 {{ form.newOrUsed }}
               </div>
               <div class="flex-1">
-                <label
-                  for="id_color"
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  >Color</label
-                >
+                <label for="id_color" class="block text-gray-700 text-sm font-bold mb-2">Color</label>
                 {{ form.color }}
               </div>
             </div>
             <div class="flex items-center space-x-5">
               <div class="flex-1">
-                <label
-                  for="id_priceMax"
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  >Max Price</label
-                >
+                <label for="id_priceMax" class="block text-gray-700 text-sm font-bold mb-2">Max Price</label>
                 {{ form.priceMax }}
               </div>
               <div class="flex-1">
-                <label
-                  for="id_priceMin"
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  >Min Price</label
-                >
+                <label for="id_priceMin" class="block text-gray-700 text-sm font-bold mb-2">Min Price</label>
                 {{ form.priceMin }}
               </div>
               <div class="flex-1 flex flex-col items-center">
-                <label
-                  for="id_isElectric"
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  >Electric</label
-                >
+                <label for="id_isElectric" class="block text-gray-700 text-sm font-bold mb-2">Electric</label>
                 {{ form.isElectric }}
               </div>
             </div>
@@ -135,14 +96,8 @@
 
   <div class="flex gap-8 w-full py-6 px-2 mt-1 justify-center flex-wrap">
     {% for car in cars %}
-    <div
-      class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8"
-    >
-      <img
-        src="{{ car.image.url }}"
-        alt="{{ car.model }}"
-        class="w-full h-52 object-contain"
-      />
+    <div class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
+      <img src="{{ car.image.url }}" alt="{{ car.model }}" class="w-full h-52 object-contain" />
       <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
         <h2 class="text-lg font-bold">
           {{ car.model.brand.name }} {{ car.model.name }}
@@ -150,8 +105,7 @@
         <p class="text-sm text-gray-600">Price: {{ car.price }}€</p>
         <a href="{% url 'car_detail' car.id %}">
           <button
-            class="mt-6 bg-sky-800 text-white text-base font-bold px-3 py-1 rounded-lg hover:bg-sky-950 focus:outline-none mb-2"
-          >
+            class="mt-6 bg-sky-800 text-white text-base font-bold px-3 py-1 rounded-lg hover:bg-sky-950 focus:outline-none mb-2">
             View Details
           </button>
         </a>
