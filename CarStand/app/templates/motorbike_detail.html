@@ -33,6 +33,66 @@
             <img src="{{ moto.image.url }}" alt="{{ moto.model.name }}" class="w-full h-full object-contain rounded-lg">
         </div>
     </div>
+    
+    {% if authenticated %}
+    <div class="flex flex-col items-center space-y-4 mt-8">
+        {% if not manager %}
+        {% if isBuyed %}
+        <div class="text-brown font-semibold text-lg">This moto has been purchased by you.</div>
+        {% elif isBuyed == False %}
+        <div class="text-brown font-semibold text-lg">This moto has been purchased.</div>
+        {% elif not isSelected %}
+        <form action="{% url 'selectMoto' moto.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md">
+                Show Interest
+            </button>
+        </form>
+        {% else %}
+
+        <div class="text-blue-500 text-xl font-bold">
+            <form action="{% url 'selectMoto' moto.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md">
+                    Interested
+                </button>
+        </form>
+
+        </div>
+
+        {% endif %}
+
+        <form action="." method="post" class="flex flex-col items-center">
+            {% csrf_token %}
+            <button type="submit" class="focus:outline-none">
+                {% if isFavorite %}
+                <img src="{% static 'imgs/favorite_active.png' %}" alt="Remove from Favorites" class="w-10 h-10 mb-1">
+                <span class="text-white text-lg">Remove from Favorites</span>
+                {% else %}
+                <img src="{% static 'imgs/favorite_inactive.png' %}" alt="Add to Favorites" class="w-10 h-10 mb-1">
+                <span class="text-white text-lg">Add to Favorites</span>
+                {% endif %}
+            </button>
+        </form>
+    </div>
+    {% else %}
+
+    <div class="flex justify-center mt-6 space-x-4">
+        <a href="{% url 'updateMoto' moto.id %}">
+            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none shadow-lg">
+                Update Motorcycle
+            </button>
+        </a> 
+        <a href="{% url 'deleteMoto' moto.id %}">
+            <button type="button" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none shadow-lg">
+                Delete Motorcycle
+            </button>
+        </a>
+    </div>
+    {% endif %}
+    {% endif %}
 </div>
 {% endblock %}
 

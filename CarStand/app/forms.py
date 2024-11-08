@@ -170,6 +170,44 @@ class MotoSortAndFilter(forms.Form):
         label=''
     )
 
+class CreateCarModel(forms.Form):
+    brand = forms.ModelChoiceField(
+        queryset=Brand.objects.all(),
+        widget=forms.Select(attrs={
+            'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
+        })
+    )
+    name = forms.CharField(
+        max_length=70,
+        widget=forms.TextInput(attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Model Name'
+        })
+    )
+    base_price = forms.FloatField(
+        min_value=0.0,
+        widget=forms.NumberInput(attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Base Price'
+        })
+    )
+    specifications = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'w-full h-32 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Specifications'
+        })
+    )
+    releaseYear = forms.IntegerField(
+        min_value=1990, max_value=2024,
+        widget=forms.NumberInput(attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Release Year'
+        })
+    )
+
+
+
+
 class CreateCar(forms.Form):
     model = forms.ModelChoiceField(
         queryset=CarModel.objects.all(),
@@ -221,45 +259,7 @@ class CreateCar(forms.Form):
         widget=forms.CheckboxInput(attrs={
             'class': 'form-checkbox h-5 w-5 text-blue-600 focus:ring-0'
         })
-    )
-
-
-class CreateCarModel(forms.Form):
-    brand = forms.ModelChoiceField(
-        queryset=Brand.objects.all(),
-        widget=forms.Select(attrs={
-            'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
-        })
-    )
-    name = forms.CharField(
-        max_length=70,
-        widget=forms.TextInput(attrs={
-            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
-            'placeholder': 'Model Name'
-        })
-    )
-    base_price = forms.FloatField(
-        min_value=0.0,
-        widget=forms.NumberInput(attrs={
-            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
-            'placeholder': 'Base Price'
-        })
-    )
-    specifications = forms.CharField(
-        widget=forms.Textarea(attrs={
-            'class': 'w-full h-32 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
-            'placeholder': 'Specifications'
-        })
-    )
-    releaseYear = forms.IntegerField(
-        min_value=1990, max_value=2024,
-        widget=forms.NumberInput(attrs={
-            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
-            'placeholder': 'Release Year'
-        })
-    )
-
-    
+    ) 
 
 class UpdateCar(forms.Form):
     model = forms.ModelChoiceField(
@@ -311,5 +311,88 @@ class UpdateCar(forms.Form):
         required=False,
         widget=forms.CheckboxInput(attrs={
             'class': 'form-checkbox h-5 w-5 text-blue-600 focus:ring-0'
+        })
+    )
+
+class CreateMoto(forms.Form):
+    model = forms.ModelChoiceField(
+        queryset=CarModel.objects.all(),
+        widget=forms.Select(attrs={
+            'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
+        })
+    )
+    year = forms.IntegerField(
+        min_value=1990, max_value=2024,
+        widget=forms.NumberInput(attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Year'
+        })
+    )
+    kilometers = forms.FloatField(
+        required=False, min_value=0.0,
+        widget=forms.NumberInput(attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Kilometers'
+        })
+    )
+    price = forms.DecimalField(
+        max_digits=10, decimal_places=2,
+        widget=forms.TextInput(attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Price'
+        })
+    )
+    image = forms.ImageField(
+        widget=forms.FileInput(attrs={
+            'class': 'w-full py-2 px-3 border-2 border-gray-400 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800'
+        })
+    )
+    color = forms.CharField(
+        max_length=20,
+        widget=forms.TextInput(attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Color'
+        })
+    )
+
+
+class UpdateMoto(forms.Form):
+    model = forms.ModelChoiceField(
+        queryset=CarModel.objects.all(),
+        widget=forms.Select(attrs={
+            'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
+        })
+    )
+    year = forms.IntegerField(
+        min_value=1990, max_value=2024,
+        widget=forms.NumberInput(attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Year'
+        })
+    )
+    kilometers = forms.FloatField(
+        required=False, min_value=0.0,
+        widget=forms.NumberInput(attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Kilometers'
+        })
+    )
+    price = forms.DecimalField(
+        max_digits=10, decimal_places=2,
+        widget=forms.TextInput(attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Price'
+        })
+    )
+    image = forms.ImageField(
+        widget=forms.FileInput(attrs={
+            'class': 'w-full py-2 px-3 border-2 border-gray-400 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800'
+        }),required=False
+    )
+    color = forms.CharField(
+        max_length=20,
+        widget=forms.TextInput(attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+            'placeholder': 'Color'
         })
     )
