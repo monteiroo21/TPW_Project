@@ -29,52 +29,50 @@
         </div>
 
         <div class="flex flex-col items-center w-96 lg:w-2/5 rounded-2xl shadow-lg bg-gray-800 p-6">
-            <img src="{{ car.image.url }}" alt="{{ car.model.name }}" class="w-full h-full object-contain rounded-lg">
-        </div>
-    </div>
-    {% if authenticated %}
-    <div class="flex flex-col items-center space-y-4 mt-8">
-        {% if not manager %}
-        {% if isBuyed %}
-        <div class="text-brown font-semibold text-lg">This car has been purchased by you.</div>
-        {% elif isBuyed == False %}
-        <div class="text-brown font-semibold text-lg">This car has been purchased.</div>
-        {% elif not isSelected %}
-        <form action="{% url 'selectCar' car.id %}" method="post">
-            {% csrf_token %}
-            <button type="submit"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md">
-                Show Interest
-            </button>
-        </form>
-        {% else %}
-
-        <div class="text-blue-500 text-xl font-bold">
-            <form action="{% url 'selectCar' car.id %}" method="post">
-                {% csrf_token %}
-                <button type="submit"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md">
-                    Interested
-                </button>
-        </form>
-        </div>
-
-        {% endif %}
-
-        <form action="." method="post" class="flex flex-col items-center">
-            {% csrf_token %}
-            <button type="submit" class="focus:outline-none">
-                {% if isFavorite %}
-                <img src="{% static 'imgs/favorite_active.png' %}" alt="Remove from Favorites" class="w-10 h-10 mb-1">
-                <span class="text-white text-lg">Remove from Favorites</span>
+            <img src="{{ car.image.url }}" alt="{{ car.model.name }}" class="w-full h-full object-contain rounded-lg mb-8">
+            {% if authenticated %}
+            <div class="flex space-x-4 items-center mt-4">
+                {% if not manager %}
+                {% if isBuyed %}
+                <div class="text-brown font-semibold text-lg">This car has been purchased by you.</div>
+                {% elif isBuyed == False %}
+                <div class="text-brown font-semibold text-lg">This car has been purchased.</div>
+                {% elif not isSelected %}
+                <form action="{% url 'selectCar' car.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md">
+                        Show Interest
+                    </button>
+                </form>
                 {% else %}
-                <img src="{% static 'imgs/favorite_inactive.png' %}" alt="Add to Favorites" class="w-10 h-10 mb-1">
-                <span class="text-white text-lg">Add to Favorites</span>
+        
+                <div class="text-blue-500 text-xl font-bold">
+                    <form action="{% url 'selectCar' car.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md">
+                            Interested
+                        </button>
+                </form>
+                </div>
+        
                 {% endif %}
-            </button>
-        </form>
+        
+                <form action="." method="post" class="flex flex-col items-center">
+                    {% csrf_token %}
+                    <button type="submit" class="focus:outline-none">
+                        {% if isFavorite %}
+                        <img src="{% static 'imgs/favorite_active.png' %}" alt="Remove from Favorites" class="w-10 h-10 mb-1">
+                        {% else %}
+                        <img src="{% static 'imgs/favorite_inactive.png' %}" alt="Add to Favorites" class="w-10 h-10 mb-1">
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+            {% else %}
+        </div>
     </div>
-    {% else %}
 
     <div class="flex justify-center mt-6 space-x-4">
         <a href="{% url 'updateCar' car.id %}">
