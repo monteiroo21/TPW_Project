@@ -112,7 +112,7 @@ class CarSortAndFilter(forms.Form):
   
     priceMax = forms.DecimalField(
         widget=forms.TextInput(attrs={
-            'class':'w-80 pl-6 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Max'
+            'class':'w-44 px-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Max'
             }),
         required=False,
         label=''
@@ -120,7 +120,7 @@ class CarSortAndFilter(forms.Form):
 
     priceMin = forms.DecimalField(
         widget=forms.TextInput(attrs={
-            'class':'w-80 pl-6 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Min'
+            'class':'w-44 px-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Min'
             }),
         required=False,
         label=''
@@ -181,13 +181,13 @@ class MotoSortAndFilter(forms.Form):
     )
   
     priceMax = forms.DecimalField(
-        widget=forms.TextInput(attrs={'class':'w-44 pl-6 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Max'}),
+        widget=forms.TextInput(attrs={'class':'w-44 px-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Max'}),
         required=False,
         label=''
     )
 
     priceMin = forms.DecimalField(
-        widget=forms.TextInput(attrs={'class':'w-44 pl-6 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Min'}),
+        widget=forms.TextInput(attrs={'class':'w-44 px-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Min'}),
         required=False,
         label=''
     )
