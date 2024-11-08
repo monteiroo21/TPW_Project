@@ -63,6 +63,7 @@ class CarModel(models.Model):
     base_price = models.FloatField()
     specifications = models.TextField()
     releaseYear = models.PositiveIntegerField(validators=[MinValueValidator(1990), MaxValueValidator(2024)])
+    vehicle_type = models.CharField(max_length=20, default="Car", blank=True)
 
     def __str__(self):
         return self.name + ", " + self.brand.name
