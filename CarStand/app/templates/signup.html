@@ -75,15 +75,12 @@
             <p class="text-black">{{ field.label_tag }}</p>
             {{ field }}
             {% if field.errors %}
-            <div style="color: red;">
+            <div class="text-red-600 bg-red-100 p-3 rounded-md w-3/4 mt-4">
               {% for error in field.errors %}
               <p>{{ error }}</p>
               {% endfor %}
             </div>
             {% endif %}
-            {% for error in field.errors %}
-            <p class="text-red-500">{{ error }}</p>
-            {% endfor %}
           </div>
           {% endfor %}
           <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
