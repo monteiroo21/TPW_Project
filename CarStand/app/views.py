@@ -131,16 +131,27 @@ def cars(request):
             carsList = carsList.filter(doors=int(form.cleaned_data['numberDoors']))
         if form.cleaned_data['newOrUsed'] != "All":
             carsList = carsList.filter(new=form.cleaned_data['newOrUsed'] == "true")
+
         if form.cleaned_data['color'] != "None":
             carsList = carsList.filter(color__icontains=form.cleaned_data['color'])
 
         sort_option = form.cleaned_data['sort']
-        if sort_option == "1":
+        if sort_option == "brand_asc":
             carsList = carsList.order_by('model__brand__name')
-        elif sort_option == "2":
+        elif sort_option == "brand_desc":
+            carsList = carsList.order_by('-model__brand__name')
+        elif sort_option == "price_asc":
             carsList = carsList.order_by('price')
-        elif sort_option == "3":
+        elif sort_option == "price_desc":
+            carsList = carsList.order_by('-price')
+        elif sort_option == "year_asc":
             carsList = carsList.order_by('year')
+        elif sort_option == "year_desc":
+            carsList = carsList.order_by('-year')
+        elif sort_option == "kilometers_asc":
+            carsList = carsList.order_by('kilometers')
+        elif sort_option == "kilometers_desc":
+            carsList = carsList.order_by('-kilometers')
 
     context = {"cars": carsList, "form": form}
     return render(request, 'cars.html', context)
