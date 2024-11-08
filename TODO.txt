@@ -7,6 +7,7 @@
 7. Adicionar modelos de carros (done) e motas (done)
 8. Editar carros (done) e motas
 9. Editar utilizadores
+11. Colocar os botões de adicionar carro e mata nas páginas quando é a sessão do manager
 (opicional)
 10. Criar carros só com modelos de carros / adicionar o um typeModelo ao CarModel
-11. Colocar os botões de adicionar carro e mata nas páginas quando é a sessão do manager
+12. Adicionar e editar marcas
