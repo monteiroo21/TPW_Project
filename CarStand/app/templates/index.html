@@ -76,8 +76,10 @@
                         <div id="dropdown-menu"
                             class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50"
                             style="z-index: 1000;">
-                            <a href="{% url 'edit_profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:rounded-md">Profile</a>
-                            <button id="logoutBtn" class="w-full text-left block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:rounded-md">
+                            <a href="{% url 'edit_profile' %}"
+                                class="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:rounded-md">Profile</a>
+                            <button id="logoutBtn"
+                                class="w-full text-left block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:rounded-md">
                                 Logout
                             </button>
                         </div>
@@ -98,12 +100,14 @@
     <div id="logoutModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-xl px-6 py-4 space-y-6 max-w-md w-full relative">
             <!-- Close Modal Button -->
-            <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-5xl font-bold mr-2">
+            <button id="closeModalBtn"
+                class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-5xl font-bold mr-2">
                 &times;
             </button>
             <h2 class="text-xl font-semibold text-gray-800">Are you sure you want to log out?</h2>
             <div class="flex justify-end gap-4">
-                <button id="cancelLogoutBtn" class="text-gray-800 hover:text-white bg-gray-200 hover:bg-gray-400 py-2 px-4 rounded-md">
+                <button id="cancelLogoutBtn"
+                    class="text-gray-800 hover:text-white bg-gray-200 hover:bg-gray-400 py-2 px-4 rounded-md">
                     Cancel
                 </button>
                 <form method="post" action="{% url 'logout' %}">
@@ -123,7 +127,7 @@
 
             <!-- Content exclusive to the homepage (index.html) -->
             {% block extra_content %}
-            {% if manager is  None %}
+            {% if manager is None %}
             <div class="carousel relative w-full max-w-6xl mx-auto mt-8 h-[40rem] shadow-2xl shadow-zinc-950">
                 <!-- Carousel Items Container -->
                 <div class="carousel-inner relative overflow-hidden h-[40rem]">
@@ -172,75 +176,78 @@
                 </p>
             </section>
             {% else %}
-            
-            <div class="flex flex-col gap-8 w-full py-6 px-2 mt-1 justify-center">
-  
-                <!-- Form Section -->
+
+            <div class="flex flex-col gap-8 w-full py-6 px-2 mt-1 justify-center items-center">
+                <h1 class="text-white font-extrabold text-4xl">Confirm Purchase</h1>
                 <div class="flex justify-center">
-                  <form action="." method="post" class="space-y-6 w-full max-w-2xl">
-                    {% csrf_token %}
-                    
-                    <div class="flex items-center space-x-4">
-                      <div class="flex-1">
-                        <label for="id_name" class="block text-white font-semibold mb-2">Name</label>
-                        {{ form.name }}
-                      </div>
-                    
-                      <div class="flex-1">
-                        <label for="id_sort" class="block text-white font-semibold mb-2">Sort by</label>
-                        {{ form.typeV }}
-                      </div>
-                    </div>
-                    
-                    <div class="flex items-center space-x-4 justify-center">
-                      <button type="submit"
-                        class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md">
-                        Search
-                      </button>
-                    </div>
-                  </form>
+                    <form action="." method="post" class="space-y-6 w-full max-w-2xl">
+                        {% csrf_token %}
+
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-1">
+                                <label for="id_name" class="block text-white font-semibold mb-2">Name</label>
+                                {{ form.name }}
+                            </div>
+
+                            <div class="flex-1">
+                                <label for="id_sort" class="block text-white font-semibold mb-2">Sort by</label>
+                                {{ form.typeV }}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4 justify-center">
+                            <button type="submit"
+                                class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md">
+                                Search
+                            </button>
+                        </div>
+                    </form>
                 </div>
-              
-                <!-- List Section -->
+
                 <div class="flex flex-wrap justify-center gap-8">
-                  {% for elem in listForAccept %}
-                  <div class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
-                    <img src="{{ elem.vehicle.image.url }}" alt="{{ elem.vehicle.model }}" class="w-full h-52 object-contain" />
-                    
-                    <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
-                      <div class="text-lg font-semibold">User: {{ elem.profile }}</div>
-                      <h2 class="text-lg font-bold">
-                        {{ elem.vehicle.model.brand.name }} {{ elem.vehicle.model.name }}
-                      </h2>
-                      
-                      <div class="mt-6 space-y-2"> <!-- Espaçamento entre os botões -->
-                        <a href="{% url 'approve' elem.vehicle.id elem.profile.id elem.type  %}">
-                          <button class="bg-cyan-500 hover:bg-cyan-700 text-white text-base font-bold px-3 py-2 rounded-lg focus:outline-none">
-                            Accept
-                          </button>
-                        </a>
-                        <a href="{% url 'negate' elem.vehicle.id elem.profile.id elem.type  %}">
-                          <button class="bg-red-500 hover:bg-red-700 text-white text-base font-bold px-3 py-2 rounded-lg focus:outline-none">
-                            Negate
-                          </button>
-                        </a>
-                        {% if elem.type %}
-                        <a href="{% url 'car_detail' elem.vehicle.id %}">
-                        {% else %}
-                        <a href="{% url 'motorbike_detail' elem.vehicle.id %}">
-                        {% endif %}
-                          <button class="bg-sky-800 text-white text-base font-bold px-3 py-2 rounded-lg hover:bg-sky-950 focus:outline-none">
-                            View Details
-                          </button>
-                        </a>
-                      </div>
+                    {% for elem in listForAccept %}
+                    <div
+                        class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
+                        <img src="{{ elem.vehicle.image.url }}" alt="{{ elem.vehicle.model }}"
+                            class="w-full h-52 object-contain" />
+
+                        <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
+                            <div class="text-lg font-semibold">User: {{ elem.profile }}</div>
+                            <h2 class="text-lg font-bold">
+                                {{ elem.vehicle.model.brand.name }} {{ elem.vehicle.model.name }}
+                            </h2>
+
+                            <div class="mt-5 space-y-2 mb-1">
+                                <a href="{% url 'approve' elem.vehicle.id elem.profile.id elem.type  %}">
+                                    <button
+                                        class="bg-cyan-500 hover:bg-cyan-700 text-white text-base font-bold px-2 py-1 rounded-lg focus:outline-none">
+                                        Accept
+                                    </button>
+                                </a>
+                                <a href="{% url 'negate' elem.vehicle.id elem.profile.id elem.type  %}">
+                                    <button
+                                        class="bg-red-500 hover:bg-red-700 text-white text-base font-bold px-2 py-1 rounded-lg focus:outline-none">
+                                        Negate
+                                    </button>
+                                </a>
+                                {% if elem.type %}
+                                <a href="{% url 'car_detail' elem.vehicle.id %}">
+                                    {% else %}
+                                    <a href="{% url 'motorbike_detail' elem.vehicle.id %}">
+                                        {% endif %}
+                                        <button
+                                            class="bg-sky-800 text-white text-base font-bold px-2 py-1 rounded-lg hover:bg-sky-950 focus:outline-none">
+                                            View Details
+                                        </button>
+                                    </a>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  {% endfor %}
+                    {% endfor %}
                 </div>
-              
-              </div>
-              
+
+            </div>
+
             {% endif %}
 
             {% endblock %}
