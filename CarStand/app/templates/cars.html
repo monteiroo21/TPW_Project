@@ -63,7 +63,7 @@
         Search
       </button>
       {% if errors is not None %}
-        <div id="error-message" class="text-red-500 font-bold text-lg">
+        <div id="error-message" class="text-red-500 font-bold text-2xl">
           <h1>{{ errors }}</h1>
         </div>
       {% endif %}
@@ -106,5 +106,6 @@
             errorMessage.style.display = 'none'; 
         }
     }, 5000);
+
 </script>
 {% endblock %}
