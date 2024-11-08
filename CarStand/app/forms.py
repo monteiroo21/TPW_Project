@@ -141,11 +141,16 @@ class MotoSortAndFilter(forms.Form):
     
     sort = forms.ChoiceField(
         choices=[
-            ("1", "Sort by Brand"),
-            ("2", "Sort by Price"),
-            ("3", "Sort by Year")
+            ("brand_asc", "Sort by Brand ↑"),
+            ("brand_desc", "Sort by Brand ↓"),
+            ("price_asc", "Sort by Price ↑"),
+            ("price_desc", "Sort by Price ↓"),
+            ("year_asc", "Sort by Year ↑"),
+            ("year_desc", "Sort by Year ↓"),
+            ("kilometers_asc", "Sort by Kilometers ↑"),
+            ("kilometers_desc", "Sort by Kilometers ↓"),
         ],
-        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-44 bg-white border-2 border-sky-800 rounded-lg shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800 py-2 px-4'}),
+        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-52 bg-white border-2 border-sky-800 rounded-lg shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800 py-2 px-4'}),
         label=''
     )
 
