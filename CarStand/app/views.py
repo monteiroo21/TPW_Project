@@ -341,12 +341,22 @@ def motorbikes(request):
             motosList = motosList.filter(color__icontains=form.cleaned_data['color'])
 
         sort_option = form.cleaned_data['sort']
-        if sort_option == "1":
+        if sort_option == "brand_asc":
             motosList = motosList.order_by('model__brand__name')
-        elif sort_option == "2":
+        elif sort_option == "brand_desc":
+            motosList = motosList.order_by('-model__brand__name')
+        elif sort_option == "price_asc":
             motosList = motosList.order_by('price')
-        elif sort_option == "3":
+        elif sort_option == "price_desc":
+            motosList = motosList.order_by('-price')
+        elif sort_option == "year_asc":
             motosList = motosList.order_by('year')
+        elif sort_option == "year_desc":
+            motosList = motosList.order_by('-year')
+        elif sort_option == "kilometers_asc":
+            motosList = motosList.order_by('kilometers')
+        elif sort_option == "kilometers_desc":
+            motosList = motosList.order_by('-kilometers')
 
     context = {"motos": motosList, "form": form}
     return render(request, 'motorbikes.html', context)
