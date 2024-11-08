@@ -6,6 +6,7 @@ from .models import Group, Brand, Profile,Favorite
 from django.db.models import Q
 from app.loadBackup import *
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 # Create your views here.
 
 def sign_up(request):
@@ -14,7 +15,7 @@ def sign_up(request):
         if form.is_valid():
             user = form.save()
             user.refresh_from_db()
-            Profile.objects.create(
+            Profile.objects.get_or_create(
                 user=user,
                 first_name=form.cleaned_data.get('first_name'),
                 last_name=form.cleaned_data.get('last_name'),
@@ -37,9 +38,11 @@ def log_in(request):
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
         user = authenticate(request, username=username, password=password)
-        if user!=None:
+        if user is not None:
             login(request, user)
             return redirect('index')
+        else: 
+            messages.error(request, "Invalid username or password.")
     
     form = LoginForm()
     return render(request, 'login.html', {'form': form})
