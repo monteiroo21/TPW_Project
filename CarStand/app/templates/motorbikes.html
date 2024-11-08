@@ -68,6 +68,11 @@
           >
             Search
           </button>
+          {% if errors is not None %}
+          <div id="error-message" class="text-red-500 font-bold text-2xl">
+            <h1>{{ errors }}</h1>
+          </div>
+        {% endif %}
         </div>
       </form>
   <div class="flex gap-8 w-full py-6 px-2 mt-1 justify-center flex-wrap">
@@ -110,5 +115,6 @@
         errorMessage.style.display = 'none'; 
     }
 }, 5000);
+
 </script>
 {% endblock %}
