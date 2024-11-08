@@ -59,13 +59,15 @@ class CarSortAndFilter(forms.Form):
             ("2", "Sort by Price"),
             ("3", "Sort by Year")
         ],
-        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-40 bg-white border-2 border-sky-800 rounded-lg shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800 pl-4 py-2'}),
+        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-44 bg-white border-2 border-sky-800 rounded-lg shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800 py-2 px-4'}),
         label=''
     )
     
     isElectric = forms.BooleanField(
         required=False,
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        widget=forms.CheckboxInput(attrs={
+            'class': 'form-check-input appearance-none h-5 w-5 border border-sky-800 rounded-md bg-white checked:bg-sky-800 checked:border-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-800 cursor-pointer'
+            }),
         label=''
     )
     
@@ -75,7 +77,9 @@ class CarSortAndFilter(forms.Form):
             ("3", "3 doors"),
             ("5", "5 doors")
         ],
-        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'}),
+        widget=forms.Select(attrs={
+            'class': 'form-control block appearance-none w-28 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'
+            }),
         label=''
     )
 
@@ -85,7 +89,9 @@ class CarSortAndFilter(forms.Form):
             ("true", "New Cars"),
             ("false", "Used cars")
         ],
-        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'}),
+        widget=forms.Select(attrs={
+            'class': 'form-control block appearance-none w-40 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'
+            }),
         label=''
     )
 
@@ -100,18 +106,24 @@ class CarSortAndFilter(forms.Form):
             ("grey", "Grey"),
             ("green", "Green")
         ],
-        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'}),
+        widget=forms.Select(attrs={
+            'class': 'form-control block appearance-none w-28 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'
+            }),
         label=''
     )
   
     priceMax = forms.DecimalField(
-        widget=forms.TextInput(attrs={'class':'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Max'}),
+        widget=forms.TextInput(attrs={
+            'class':'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Max'
+            }),
         required=False,
         label=''
     )
 
     priceMin = forms.DecimalField(
-        widget=forms.TextInput(attrs={'class':'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Min'}),
+        widget=forms.TextInput(attrs={
+            'class':'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800','placeholder': 'Price Min'
+            }),
         required=False,
         label=''
     )
