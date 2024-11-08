@@ -1,6 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar,CreateCarModel, UpdateCar, ProfileForm
+from app.forms import CreateMoto, MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar,CreateCarModel, UpdateCar, ProfileForm, UpdateMoto
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile,Favorite
 from django.db.models import Q
@@ -66,8 +66,9 @@ def logout_view(request):
 
     if "favoriteCarList" in request.session:
         for car_id in request.session["favoriteCarList"]:
-            car = get_object_or_404(Car, id=car_id)
-            favorite.favoritesCar.add(car)
+            if Car.objects.filter(id=car_id).exists():
+                car = Car.objects.get(id=car_id)
+                favorite.favoritesCar.add(car)
     if "favoriteMotoList" in request.session:
         for moto_id in request.session["favoriteMotoList"]:
             moto = get_object_or_404(Moto, id=moto_id)
@@ -189,7 +190,44 @@ def car_detail(request, car_id):
 
 def motorbike_detail(request, moto_id):
     moto = get_object_or_404(Moto, id=moto_id) 
-    return render(request, 'motorbike_detail.html', {'moto': moto})
+    isSelected = False
+    isBuyed = None
+    isFavorite = False
+    isFavorite = False
+    authenticated =False
+    manager =False
+    
+    if request.user.is_authenticated:
+        authenticated=True
+        manager = request.user.username=='admin'
+        profile = get_object_or_404(Profile, user=request.user)
+        isSelected = moto.interestedCustomers.filter(id=profile.id).exists()
+        if moto.purchaser is not None:
+            isBuyed = moto.purchaser.id == profile.id
+        if Favorite.objects.filter(profile=profile).exists() and not "favoriteMotoList" in request.session:
+            request.session["favoriteMotoList"] = [moto.id for moto in Favorite.objects.get(profile=profile).favoritesMoto.all()]
+        elif not "favoriteMotoList" in request.session:
+            request.session["favoriteMotoList"] = []
+        isFavorite = moto_id in request.session["favoriteMotoList"]
+    if request.POST:
+        favoriteMotoList = request.session["favoriteMotoList"]
+        if isFavorite:
+            favoriteMotoList.remove(moto_id)
+        else:
+            favoriteMotoList.append(moto_id)
+        
+        request.session["favoriteMotoList"] = favoriteMotoList
+        isFavorite = moto_id in request.session["favoriteMotoList"]
+
+    context = {
+        "moto": moto,
+        "isSelected": isSelected,
+        "isBuyed": isBuyed,
+        "isFavorite": isFavorite,
+        "authenticated":authenticated,
+        "manager":manager
+    }
+    return render(request, 'motorbike_detail.html',context)
 
 def selectCar(request, car_id):
     if not request.user.is_authenticated:
@@ -200,8 +238,18 @@ def selectCar(request, car_id):
         car.interestedCustomers.remove(profile)
     else:
         car.interestedCustomers.add(profile)
-
     return redirect('car_detail', car_id=car.id)  
+
+def selectMoto(request, moto_id):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    moto = get_object_or_404(Moto, id=moto_id) 
+    profile = get_object_or_404(Profile, user=request.user) 
+    if moto.interestedCustomers.filter(id=profile.id).exists():
+        moto.interestedCustomers.remove(profile)
+    else:
+        moto.interestedCustomers.add(profile)
+    return redirect('motorbike_detail', moto_id=moto.id) 
 
 def managerConfirm(request):
     if not request.user.is_authenticated:
@@ -339,6 +387,30 @@ def group_detail(request, group_id):
     context = {'group': group, 'brands': brands}
     return render(request, 'group_detail.html', context)
 
+def create_car_model(request,type):
+    if request.method == 'POST':
+        formModel = CreateCarModel(request.POST)
+        if formModel.is_valid():
+            brand=formModel.cleaned_data["brand"]
+            name=formModel.cleaned_data["name"]
+            base_price=formModel.cleaned_data["base_price"]
+            specifications=formModel.cleaned_data["specifications"]
+            releaseYear=formModel.cleaned_data["releaseYear"]
+            CarModel.objects.create(
+                brand=brand,
+                name=name,
+                base_price=base_price,
+                specifications=specifications,
+                releaseYear=releaseYear
+            ).save()
+            if type:
+                return redirect('createCar')
+            else:
+                return redirect('createMoto')
+    else:
+        formModel = CreateCarModel()
+    return render(request, 'createCarModel.html', {'formModel': formModel,"type":type})
+
 def createCar(request):
     if request.method == 'POST':
         form = CreateCar(request.POST, request.FILES)
@@ -372,29 +444,6 @@ def createCar(request):
     context = {"form": form}
     return render(request, 'createCar.html', context)
 
-def create_car_model(request,type):
-    if request.method == 'POST':
-        formModel = CreateCarModel(request.POST)
-        if formModel.is_valid():
-            brand=formModel.cleaned_data["brand"]
-            name=formModel.cleaned_data["name"]
-            base_price=formModel.cleaned_data["base_price"]
-            specifications=formModel.cleaned_data["specifications"]
-            releaseYear=formModel.cleaned_data["releaseYear"]
-            CarModel.objects.create(
-                brand=brand,
-                name=name,
-                base_price=base_price,
-                specifications=specifications,
-                releaseYear=releaseYear
-            ).save()
-            if type:
-                return redirect('createCar')
-            else:
-                return redirect('createCar')
-    else:
-        formModel = CreateCarModel()
-    return render(request, 'createCarModel.html', {'formModel': formModel,"type":type})
 def updateCar(request, car_id):
     car = get_object_or_404(Car, id=car_id)
 
@@ -429,15 +478,83 @@ def updateCar(request, car_id):
     context = {'form': form, 'car': car}
     return render(request, 'updateCar.html', context)
 
+def createMoto(request):
+    if request.method == 'POST':
+        form = CreateMoto(request.POST, request.FILES)
+        if form.is_valid():
+            model = form.cleaned_data['model']
+            year = form.cleaned_data['year']
+            kilometers = 0 if form.cleaned_data['kilometers'] is None else form.cleaned_data['kilometers']
+            price = form.cleaned_data['price']
+            image = form.cleaned_data['image']
+            color = form.cleaned_data['color']
+            new_moto = Moto(
+                model=model,
+                year=year,
+                kilometers=kilometers,
+                new=kilometers==0,
+                price=price,
+                image=image,
+                color=color,
+            )
+            new_moto.save()
+            return redirect("motorbikes")
+        print(form.errors) 
+    else:
+        form = CreateMoto()
+
+    context = {"form": form}
+    return render(request, 'createMoto.html', context)
+
+def updateMoto(request, moto_id):
+    moto = get_object_or_404(Moto, id=moto_id)
+
+    if request.method == 'POST':
+        form = UpdateMoto(request.POST, request.FILES)
+        if form.is_valid():
+            print(12345678)
+            moto.model = form.cleaned_data['model']
+            moto.year = form.cleaned_data['year']
+            moto.kilometers = form.cleaned_data['kilometers'] if form.cleaned_data['kilometers'] is not None else 0
+            moto.price = form.cleaned_data['price']
+            moto.color = form.cleaned_data['color']
+            if form.cleaned_data['image']:
+                moto.image = form.cleaned_data['image'] 
+            moto.save()
+            return redirect('motorbike_detail', moto_id=moto.id) 
+
+    else:
+        form = UpdateMoto(initial={
+            'model': moto.model,
+            'year': moto.year,
+            'kilometers': moto.kilometers,
+            'price': moto.price,
+            'image': moto.image,
+            'color': moto.color,
+        })
+
+    context = {'form': form, 'moto': moto}
+    return render(request, 'updateMoto.html', context)
+
+
 def deleteCar(request, car_id):
     car = get_object_or_404(Car, id=car_id) 
     car.delete()
-    
     return redirect('cars')
+
+def deleteMoto(request, moto_id):
+    moto = get_object_or_404(Moto, id=moto_id) 
+    moto.delete()
+    return redirect('motorbikes')
 
 def loadFavourites(request):
     if not request.user.is_authenticated:
         return redirect("login")
+    profile = get_object_or_404(Profile, user=request.user)
+    if Favorite.objects.filter(profile=profile).exists() and not "favoriteCarList" in request.session:
+        request.session["favoriteCarList"] = [car.id for car in Favorite.objects.get(profile=profile).favoritesCar.all()]
+    if Favorite.objects.filter(profile=profile).exists() and not "favoriteMotoList" in request.session:
+        request.session["favoriteMotoList"] = [moto.id for moto in Favorite.objects.get(profile=profile).favoritesMoto.all()]
     if not "favoriteCarList" in request.session:
         request.session["favoriteCarList"] = []
     if not "favoriteMotoList" in request.session:
