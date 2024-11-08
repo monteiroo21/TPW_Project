@@ -25,6 +25,13 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         fields = ['first_name', 'last_name', 'email']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({
+                'class': 'bg-gray-100 text-black outline-black focus:ring focus:outline-black'
+            })
+
 
 class GroupSearchForm(forms.Form):
     query = forms.CharField(label="Search", max_length=100, required=False, widget=forms.TextInput(
