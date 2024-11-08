@@ -140,7 +140,7 @@ class MotoSortAndFilter(forms.Form):
             ("2", "Sort by Price"),
             ("3", "Sort by Year")
         ],
-        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'}),
+        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-44 bg-white border-2 border-sky-800 rounded-lg shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800 py-2 px-4'}),
         label=''
     )
 
@@ -151,7 +151,7 @@ class MotoSortAndFilter(forms.Form):
             ("true", "New motos"),
             ("false", "Used motos")
         ],
-        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'}),
+        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-40 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'}),
         label=''
     )
 
@@ -166,7 +166,7 @@ class MotoSortAndFilter(forms.Form):
             ("grey", "Grey"),
             ("green", "Green")
         ],
-        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'}),
+        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-28 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'}),
         label=''
     )
   
