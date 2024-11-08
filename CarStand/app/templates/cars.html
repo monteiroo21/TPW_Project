@@ -1,16 +1,17 @@
-{% extends "index.html" %} {% block content %} {% load static %}
+{% extends "index.html" %}
+
+{% block content %}
+{% load static %}
 <div class="flex flex-col items-center mx-16">
   <form action="." method="post" class="space-y-6">
     {% csrf_token %}
 
-    <!-- Nome do Carro -->
     <div class="flex items-center space-x-4">
       <div class="flex-1">
         <label for="id_name" class="block text-white font-semibold mb-2">Name</label>
         {{ form.name }}
       </div>
 
-      <!-- Tipo de Ordenação -->
       <div class="flex-1">
         <label for="id_sort" class="block text-white font-semibold mb-2">Sort by</label>
         {{ form.sort }}
@@ -18,8 +19,6 @@
     </div>
 
 
-
-    <!-- Número de Portas, Novo ou Usado, Cor - Linha única -->
     <div class="flex items-center space-x-4">
       <div class="flex-1">
         <label for="id_numberDoors" class="block text-white font-semibold mb-2">Number of Doors</label>
@@ -38,7 +37,6 @@
     </div>
 
 
-    <!-- Preço Máximo e Mínimo + Is Electric na mesma linha -->
     <div class="flex items-center space-x-5">
       <!-- Max Price -->
       <div class="flex-1">
@@ -46,13 +44,11 @@
         {{ form.priceMax }}
       </div>
 
-      <!-- Min Price -->
       <div class="flex-1">
         <label for="id_priceMin" class="block text-white font-semibold mb-2">Min Price</label>
         {{ form.priceMin }}
       </div>
 
-      <!-- Is Electric -->
       <div class="flex-1 flex flex-col items-center">
         <label for="id_isElectric" class="block text-white font-semibold mb-2">Electric</label>
         <div class="flex justify-center">
@@ -61,7 +57,6 @@
       </div>
     </div>
 
-    <!-- Botão de Enviar -->
     <div class="text-center">
       <button type="submit"
         class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-6 border border-blue-500 rounded-lg">
@@ -91,7 +86,10 @@
     {% endfor %}
   </div>
 </div>
-{% endblock %} {% block extra_content %}
+
+{% endblock %}
+
+{% block extra_content %}
 <link href="{% static 'content/style.css' %}" rel="stylesheet" />
 <link href="{% static 'content/tailwind.css' %}" rel="stylesheet" />
 <link href="{% static 'content/stylespages.css' %}" rel="stylesheet" />
