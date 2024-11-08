@@ -46,14 +46,14 @@ def log_in(request):
 
 @login_required
 def edit_profile(request):
-    profile = request.user.profile  # Assuming a one-to-one relationship
+    user = request.user
     if request.method == "POST":
-        form = ProfileForm(request.POST, instance=profile)
+        form = ProfileForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('index')  # Redirect to the profile view after saving
+            return redirect('edit_profile')  # Redirect to the profile view after saving
     else:
-        form = ProfileForm(instance=profile)
+        form = ProfileForm(instance=user)
     return render(request, 'edit_profile.html', {'form': form})
 
 def logout_view(request):

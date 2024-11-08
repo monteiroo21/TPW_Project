@@ -26,6 +26,14 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
+@receiver(post_save, sender=User)
+def update_profile(sender, instance, **kwargs):
+    profile, created = Profile.objects.get_or_create(user=instance)
+    profile.first_name = instance.first_name
+    profile.last_name = instance.last_name
+    profile.email = instance.email
+    profile.save()
+    
 
 class Group(models.Model):
     name = models.CharField(max_length=70)

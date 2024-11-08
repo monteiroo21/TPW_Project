@@ -1,26 +1,110 @@
 {% extends "index.html" %}
 {% block content %}
 {% load static %}
-<h2>Edit Profile</h2>
-<form method="post" action="{% url 'edit_profile' %}" class="bg-white rounded-xl px-6 py-8 space-y-6 max-w-md md:ml-auto w-full">
-    {% csrf_token %}
-    <h3 class="text-3xl font-extrabold mb-12">
-        Login
-    </h3>
-    {% for field in form %}
-    <div class="mb-4">
-        <p class="text-black">{{ field.label_tag }}</p>
-        {{ field }}
+<div class="flex flex-col items-center justify-center space-y-4 mt-16">
+    <!-- Profile Icon -->
+    <div class="w-24 h-24 rounded-full flex items-center justify-center">
+        <img src="{% static 'imgs/user.png' %}" alt="User Avatar">
     </div>
-    {% endfor %}
-    <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
-        <button type="submit"
-            class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">Edit Profile</button>
+
+    <!-- User Name -->
+    <h2 class="text-2xl font-extrabold text-white">{{ user.first_name }} {{ user.last_name }}</h2>
+
+    <!-- Edit Profile Button -->
+    <button id="editProfileBtn" class="text-white bg-sky-800 hover:bg-sky-950 py-2 px-6 rounded-md font-semibold">
+        Edit Profile
+    </button>
+</div>
+
+
+<div class="flex gap-8 w-full py-6 px-2 mt-10 justify-center flex-wrap">
+        <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+            <a href="{% url 'favourites' %}">
+                <div class="flex items-center justify-center">
+                    <img src="{% static 'imgs/favorite_inactive.png' %}" alt="favourites" class="w-full h-40 object-contain p-4 bg-white" />
+                </div>
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl text-gray-800 font-bold mb-4">See Favourites</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+            <a href="{% url 'desiredvehicles' %}">
+                <div class="flex items-center justify-center">
+                    <img src="{% static 'imgs/star.png' %}" alt="wishlist" class="w-full h-40 object-contain p-4 bg-white" />
+                </div>
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl text-gray-800 font-bold mb-4">See Wishlist</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+            <a href="{% url 'vehiclespurchased' %}">
+                <div class="flex items-center justify-center">
+                    <img src="{% static 'imgs/dollar-symbol.png' %}" alt="purchased" class="w-full h-40 object-contain p-4 bg-white" />
+                </div>
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl text-gray-800 font-bold mb-4">See Purchased Vehicles</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+</div>
+
+<!-- Modal -->
+<div id="editProfileModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl px-6 py-4 space-y-6 max-w-md w-full relative">
+        <!-- Close Modal Button -->
+        <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-5xl font-bold mr-2">
+            &times;
+        </button>
+
+        <!-- Profile Edit Form -->
+        <form method="post" action="{% url 'edit_profile' %}" class="bg-white rounded-xl px-6 py-8 space-y-6 max-w-md md:ml-auto w-full">
+            {% csrf_token %}
+            <h3 class="text-3xl font-extrabold">
+                Edit Profile
+            </h3>
+            {% for field in form %}
+            <div class="mb-4">
+                <p class="text-black">{{ field.label_tag }}</p>
+                {{ field }}
+            </div>
+            {% endfor %}
+            <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
+                <button type="submit"
+                    class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">Edit Profile</button>
+            </div>
+        </form>
     </div>
-</form>
+</div>
 {% endblock %}
+
+<!-- Extra Content -->
 {% block extra_content %}
 <link href="{% static 'content/style.css' %}" rel="stylesheet">
 <link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
 <link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
+<script>
+    // Show modal
+    document.getElementById('editProfileBtn').addEventListener('click', function () {
+        document.getElementById('editProfileModal').classList.remove('hidden');
+    });
+
+    // Close modal
+    document.getElementById('closeModalBtn').addEventListener('click', function () {
+        document.getElementById('editProfileModal').classList.add('hidden');
+    });
+
+    document.getElementById('editProfileModal').addEventListener('click', function (e) {
+        if (e.target === this) {
+            this.classList.add('hidden');
+        }
+    });
+</script>
 {% endblock %}
