@@ -18,11 +18,19 @@
       </div>
     </div>
 
-    <!-- Botão de Toggle para Filtros Avançados -->
-    <button type="button" onclick="toggleModal(true)"
-      class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">
-      Advanced Filters
-    </button>
+    <div class="flex items-center space-x-4 justify-center">
+      <!-- Botão de Toggle para Filtros Avançados -->
+      <button type="button" onclick="toggleModal(true)"
+        class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md">
+        Advanced Filters
+      </button>
+
+      <!-- Botão de Pesquisa -->
+      <button type="submit"
+        class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md">
+        Search
+      </button>
+    </div>
 
     <!-- Modal Container -->
     <div id="advancedFiltersModal"
@@ -69,13 +77,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="text-center">
-      <button type="submit"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-6 border border-blue-500 rounded-lg">
-        Search
-      </button>
     </div>
   </form>
 
