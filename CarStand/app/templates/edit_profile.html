@@ -2,10 +2,21 @@
 {% block content %}
 {% load static %}
 <h2>Edit Profile</h2>
-<form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Save Changes</button>
+<form method="post" action="{% url 'edit_profile' %}" class="bg-white rounded-xl px-6 py-8 space-y-6 max-w-md md:ml-auto w-full">
+    {% csrf_token %}
+    <h3 class="text-3xl font-extrabold mb-12">
+        Login
+    </h3>
+    {% for field in form %}
+    <div class="mb-4">
+        <p class="text-black">{{ field.label_tag }}</p>
+        {{ field }}
+    </div>
+    {% endfor %}
+    <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
+        <button type="submit"
+            class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">Edit Profile</button>
+    </div>
 </form>
 {% endblock %}
 {% block extra_content %}

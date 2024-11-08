@@ -44,17 +44,17 @@
             {% csrf_token %}
             <button type="submit"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md">
-                Select Car
+                Show Interest
             </button>
         </form>
         {% else %}
 
-        <div class="text-blue-500 text-xl font-bold">Selected
+        <div class="text-blue-500 text-xl font-bold">
             <form action="{% url 'selectCar' car.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-md">
-                    Deselect Car
+                    Interested
                 </button>
         </div>
 
