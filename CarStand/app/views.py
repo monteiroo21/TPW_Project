@@ -83,15 +83,29 @@ def logout_view(request):
 
 def index(request):
     cars = Car.objects.order_by('year')[:4]
-    for k,v in request.session.items():
-        print(k,v)
-    context = {'cars': cars}
+    context = {'cars': cars,"manager":None}
+    if request.user.is_authenticated:
+        manager = request.user.username=='admin'
+        if manager:
+            listForAccept=[]
+            cars=Car.objects.all()
+            for car in cars:
+                for profile in car.interestedCustomers.all():
+                    listForAccept.append({"vehicle":car,"profile":profile,"type":1})
+            motos=Moto.objects.all()
+            for moto in motos:
+                for profile in moto.interestedCustomers.all():
+                    listForAccept.append({"vehicle":moto,"profile":profile,"type":0})
+            context = {"listForAccept":listForAccept,"manager":manager}
     return render(request, 'index.html', context)
 
 def cars(request):
     carsList = Car.objects.all()
     form = CarSortAndFilter(request.POST or None)
     errors=None
+    manager=None
+    if request.user.is_authenticated:
+        manager = request.user.username=='admin'
     if request.method == 'POST': 
         if form.is_valid():
             if form.cleaned_data['name']:
@@ -158,7 +172,7 @@ def cars(request):
                 carsList = carsList.order_by('-kilometers')
         else:
             errors=form.errors.as_text()
-    context = {"cars": carsList, "form": form,"errors":errors}
+    context = {"cars": carsList, "form": form,"manager":manager,"manager":manager,"errors":errors}
     return render(request, 'cars.html', context)
 
 
@@ -313,6 +327,9 @@ def motorbikes(request):
     motosList=Moto.objects.all()
     form = MotoSortAndFilter(request.POST or None)
     errors=None
+    manager=None
+    if request.user.is_authenticated:
+        manager = request.user.username=='admin'
     if request.method == 'POST': 
         if form.is_valid():
             if form.cleaned_data['name']:
@@ -375,7 +392,7 @@ def motorbikes(request):
                 motosList = motosList.order_by('-kilometers')
         else:
             errors=form.errors.as_text()
-    context = {"motos": motosList, "form": form,"errors":errors}
+    context = {"motos": motosList, "form": form,"manager":manager,"errors":errors}
     return render(request, 'motorbikes.html', context)
 
 

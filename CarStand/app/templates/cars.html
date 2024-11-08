@@ -28,15 +28,16 @@
         Search
       </button>
 
-      <!-- Adicionar botão para adicionar um carro -->
-      <a href="#">
-        <button
+       {% if manager is not None %}
+      <a href="{% url 'createCar' %}">
+        <button type="button"
           class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md flex items-center">
           <img src="{% static 'imgs/plus.png' %}" alt="Add Car Icon" class="mr-2 filter"
             style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
           Add Car
         </button>
       </a>
+      {% endif %} 
     </div>
 
     <div id="advancedFiltersModal"
