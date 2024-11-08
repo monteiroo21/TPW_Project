@@ -1,10 +1,11 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar,CreateCarModel, UpdateCar
+from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar,CreateCarModel, UpdateCar, ProfileForm
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile,Favorite
 from django.db.models import Q
 from app.loadBackup import *
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def sign_up(request):
@@ -42,6 +43,18 @@ def log_in(request):
     
     form = LoginForm()
     return render(request, 'login.html', {'form': form})
+
+@login_required
+def edit_profile(request):
+    profile = request.user.profile  # Assuming a one-to-one relationship
+    if request.method == "POST":
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('index')  # Redirect to the profile view after saving
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'edit_profile.html', {'form': form})
 
 def logout_view(request):
     profile = get_object_or_404(Profile, user=request.user)

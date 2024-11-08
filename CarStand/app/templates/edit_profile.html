@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+{% block content %}
+{% load static %}
+<h2>Edit Profile</h2>
+<form method="post">
+{% csrf_token %}
+{{ form.as_p }}
+<button type="submit">Save Changes</button>
+</form>
+{% endblock %}
+{% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet">
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
+{% endblock %}
