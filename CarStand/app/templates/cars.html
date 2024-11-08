@@ -18,47 +18,54 @@
       </div>
     </div>
 
-
     <!-- Botão de Toggle para Filtros Avançados -->
-    <button type="button" onclick="toggleFilters()"
+    <button type="button" onclick="toggleModal(true)"
       class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg">
       Advanced Filters
     </button>
 
-    <!-- Campos de Filtros Avançados -->
-    <div id="advancedFilters" class="hidden">
-      <div class="flex items-center space-x-4">
-        <div class="flex-1">
-          <label for="id_numberDoors" class="block text-white font-semibold mb-2">Number of Doors</label>
-          {{ form.numberDoors }}
-        </div>
-
-        <div class="flex-1">
-          <label for="id_newOrUsed" class="block text-white font-semibold mb-2">Condition</label>
-          {{ form.newOrUsed }}
-        </div>
-
-        <div class="flex-1">
-          <label for="id_color" class="block text-white font-semibold mb-2">Color</label>
-          {{ form.color }}
-        </div>
-      </div>
-
-      <div class="flex items-center space-x-5">
-        <div class="flex-1">
-          <label for="id_priceMax" class="block text-white font-semibold mb-2">Max Price</label>
-          {{ form.priceMax }}
-        </div>
-
-        <div class="flex-1">
-          <label for="id_priceMin" class="block text-white font-semibold mb-2">Min Price</label>
-          {{ form.priceMin }}
-        </div>
-
-        <div class="flex-1 flex flex-col items-center">
-          <label for="id_isElectric" class="block text-white font-semibold mb-2">Electric</label>
-          <div class="flex justify-center">
-            {{ form.isElectric }}
+    <!-- Modal Container -->
+    <div id="advancedFiltersModal"
+      class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+      <!-- Modal -->
+      <div class="relative p-5 border w-11/12 md:w-1/2 lg:w-1/3 shadow-lg rounded-md bg-white">
+        <div class="text-center">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Advanced Filters</h3>
+          <button type="button" onclick="toggleModal(false)" class="absolute top-0 right-0 p-2 text-black">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <!-- Filtros Avançados -->
+          <div class="mt-2 px-7 py-3">
+            <div class="flex items-center space-x-4">
+              <div class="flex-1">
+                <label for="id_numberDoors" class="block text-gray-700 text-sm font-bold mb-2">Number of Doors</label>
+                {{ form.numberDoors }}
+              </div>
+              <div class="flex-1">
+                <label for="id_newOrUsed" class="block text-gray-700 text-sm font-bold mb-2">Condition</label>
+                {{ form.newOrUsed }}
+              </div>
+              <div class="flex-1">
+                <label for="id_color" class="block text-gray-700 text-sm font-bold mb-2">Color</label>
+                {{ form.color }}
+              </div>
+            </div>
+            <div class="flex items-center space-x-5">
+              <div class="flex-1">
+                <label for="id_priceMax" class="block text-gray-700 text-sm font-bold mb-2">Max Price</label>
+                {{ form.priceMax }}
+              </div>
+              <div class="flex-1">
+                <label for="id_priceMin" class="block text-gray-700 text-sm font-bold mb-2">Min Price</label>
+                {{ form.priceMin }}
+              </div>
+              <div class="flex-1 flex flex-col items-center">
+                <label for="id_isElectric" class="block text-gray-700 text-sm font-bold mb-2">Electric</label>
+                {{ form.isElectric }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -72,11 +79,11 @@
     </div>
   </form>
 
+  <!-- Display de Carros -->
   <div class="flex gap-8 w-full py-6 px-2 mt-1 justify-center flex-wrap">
     {% for car in cars %}
     <div class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
       <img src="{{ car.image.url }}" alt="{{ car.model }}" class="w-full h-52 object-contain" />
-
       <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
         <h2 class="text-lg font-bold">
           {{ car.model.brand.name }} {{ car.model.name }}
@@ -100,32 +107,21 @@
 <link href="{% static 'content/style.css' %}" rel="stylesheet" />
 <link href="{% static 'content/tailwind.css' %}" rel="stylesheet" />
 <link href="{% static 'content/stylespages.css' %}" rel="stylesheet" />
-
 <script>
-  function toggleDropdown() {
-    var dropdownMenu = document.getElementById("dropdownMenu");
-    dropdownMenu.classList.toggle("hidden");
-  }
-
-  function closeDropdown() {
-    var dropdownMenu = document.getElementById("dropdownMenu");
-    dropdownMenu.classList.add("hidden");
-  }
-
   window.addEventListener("click", function (event) {
-    var dropdownMenu = document.getElementById("dropdownMenu");
-    var dropdownButton = document.getElementById("dropdownButton");
-    if (
-      !dropdownButton.contains(event.target) &&
-      !dropdownMenu.contains(event.target)
-    ) {
-      dropdownMenu.classList.add("hidden");
+    var modal = document.getElementById('advancedFiltersModal');
+    if (event.target === modal) {
+      toggleModal(false);
     }
   });
 
-  function toggleFilters() {
-    var filters = document.getElementById("advancedFilters");
-    filters.classList.toggle("hidden");
+  function toggleModal(show) {
+    const modal = document.getElementById('advancedFiltersModal');
+    if (show) {
+      modal.classList.remove('hidden');
+    } else {
+      modal.classList.add('hidden');
+    }
   }
 </script>
 {% endblock %}
