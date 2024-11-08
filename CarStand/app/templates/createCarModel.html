@@ -1,14 +1,40 @@
 {% extends "index.html" %}
 
 {% block content %}
-<div class="flex flex-col items-center">
-    <h1 class="text-2xl font-semibold mb-6">Create a New Car Model</h1>
-    <form action="./{{ type }}" method="POST" class="w-full max-w-lg space-y-4">
-        {% csrf_token %}
-        {{ formModel }}
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Create Model
-        </button>
-    </form>
+{% load static %}
+{% if type %}
+<a href="{% url 'createCar' %}" class="absolute top-4 left-4 flex items-center space-x-2 group"
+    style="margin-top: 80px; margin-left: 10px;">
+    <img src="{% static 'imgs/left.png' %}" alt="back"
+        class="w-10 h-10 filter invert brightness-0 hover:brightness-0 group-hover:filter-none group-hover:bg-white rounded-full">
+    <span class="text-white text-lg group-hover:border-b-2 group-hover:border-white">Go Back</span>
+</a>
+{% else %}
+<a href="{% url 'createMoto' %}" class="absolute top-4 left-4 flex items-center space-x-2 group"
+    style="margin-top: 80px; margin-left: 10px;">
+    <img src="{% static 'imgs/left.png' %}" alt="back"
+        class="w-10 h-10 filter invert brightness-0 hover:brightness-0 group-hover:filter-none group-hover:bg-white rounded-full">
+    <span class="text-white text-lg group-hover:border-b-2 group-hover:border-white">Go Back</span>
+</a>
+{% endif %}
+
+<div class="flex justify-center items-center min-h-screen">
+    <div class="bg-white shadow-xl rounded-2xl py-10 px-16">
+        <h1 class="text-3xl font-bold text-center mb-6">Create a New Vehicle Model</h1>
+        <form action="./{{ type }}" method="POST" class="space-y-4">
+            {% csrf_token %}
+            {{ formModel }}
+            <button type="submit"
+                class="w-full bg-sky-800 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline">
+                Create Model
+            </button>
+        </form>
+    </div>
 </div>
+{% endblock %}
+
+{% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet" />
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet" />
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet" />
 {% endblock %}
