@@ -28,7 +28,7 @@
         Search
       </button>
 
-       {% if manager is not None %}
+      {% if manager is not None %}
       <a href="{% url 'createCar' %}">
         <button type="button"
           class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md flex items-center">
@@ -37,12 +37,12 @@
           Add Car
         </button>
       </a>
-      {% endif %} 
+      {% endif %}
     </div>
 
     <div id="advancedFiltersModal"
       class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-      <div class="relative p-5 border w-11/12 md:w-1/2 lg:w-1/3 shadow-lg rounded-md bg-white">
+      <div class="relative p-5 border w-11/12 md:w-1/2 shadow-lg rounded-md bg-white">
         <div class="text-center">
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Advanced Filters
