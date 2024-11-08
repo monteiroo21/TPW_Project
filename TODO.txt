@@ -3,7 +3,9 @@
 3. Botões de comprar
 4. Design dos botões dos details dos veículos
 5. Página dos veículos interessados (Done)
-6. Adicionar carros e motas
-7. Adicionar modelos de veículos
-8. Editar carros e motas
+6. Adicionar carros (done) e motas
+7. Adicionar modelos de carros (done) e motas (done)
+8. Editar carros (done) e motas
 9. Editar utilizadores
+(opicional)
+10. Criar carros só com modelos de carros / adicionar o um typeModelo ao CarModel

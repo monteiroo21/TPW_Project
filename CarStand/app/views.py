@@ -413,6 +413,12 @@ def updateCar(request, car_id):
     context = {'form': form, 'car': car}
     return render(request, 'updateCar.html', context)
 
+def deleteCar(request, car_id):
+    car = get_object_or_404(Car, id=car_id) 
+    car.delete()
+    
+    return redirect('cars')
+
 def loadFavourites(request):
     if not request.user.is_authenticated:
         return redirect("login")

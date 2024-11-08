@@ -32,6 +32,7 @@ urlpatterns = [
     path('cars/', views.cars, name='cars'),
     path('car/<int:car_id>/', views.car_detail, name='car_detail'),
     path('updateCar/<int:car_id>/', views.updateCar, name='updateCar'),
+    path('deleteCar/<int:car_id>/', views.deleteCar, name='deleteCar'),
     path('selectCar/<int:car_id>/', views.selectCar, name='selectCar'),
     path('approve/<int:car_id>/<int:profile_id>/', views.approve, name='approve'),
     path('negate/<int:car_id>/<int:profile_id>/', views.negate, name='negate'),
