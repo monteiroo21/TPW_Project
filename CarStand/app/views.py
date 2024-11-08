@@ -1,6 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
-from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar,CreateCarModel
+from app.forms import MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar,CreateCarModel, UpdateCar
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile,Favorite
 from django.db.models import Q
@@ -379,6 +379,39 @@ def create_car_model(request,type):
     else:
         formModel = CreateCarModel()
     return render(request, 'createCarModel.html', {'formModel': formModel,"type":type})
+def updateCar(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+
+    if request.method == 'POST':
+        form = UpdateCar(request.POST, request.FILES)
+        if form.is_valid():
+            print(12345678)
+            car.model = form.cleaned_data['model']
+            car.year = form.cleaned_data['year']
+            car.kilometers = form.cleaned_data['kilometers'] if form.cleaned_data['kilometers'] is not None else 0
+            car.price = form.cleaned_data['price']
+            car.color = form.cleaned_data['color']
+            car.doors = form.cleaned_data['doors']
+            car.electric = form.cleaned_data['electric']
+            if form.cleaned_data['image']:
+                car.image = form.cleaned_data['image'] 
+            car.save()
+            return redirect('car_detail', car_id=car.id) 
+
+    else:
+        form = UpdateCar(initial={
+            'model': car.model,
+            'year': car.year,
+            'kilometers': car.kilometers,
+            'price': car.price,
+            'image': car.image,
+            'color': car.color,
+            'doors': car.doors,
+            'electric': car.electric,
+        })
+
+    context = {'form': form, 'car': car}
+    return render(request, 'updateCar.html', context)
 
 def loadFavourites(request):
     if not request.user.is_authenticated:
