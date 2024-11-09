@@ -50,6 +50,7 @@ def log_in(request):
 @login_required
 def edit_profile(request):
     user = request.user
+    manager = user.username=='admin'
     if request.method == "POST":
         form = ProfileForm(request.POST, instance=user)
         if form.is_valid():
@@ -57,7 +58,7 @@ def edit_profile(request):
             return redirect('edit_profile')  # Redirect to the profile view after saving
     else:
         form = ProfileForm(instance=user)
-    return render(request, 'edit_profile.html', {'form': form})
+    return render(request, 'edit_profile.html', {'form': form,'manager':manager})
 
 def logout_view(request):
     profile = get_object_or_404(Profile, user=request.user)
@@ -160,6 +161,11 @@ def index(request):
                             motos = motos.filter(id=-1)
                         else:
                             cars = cars.filter(id=-1)
+                    if form.cleaned_data['profile'] is not None:
+                        profile=form.cleaned_data['profile']
+                        motos = motos.filter(interestedCustomers=profile)
+                        cars = cars.filter(interestedCustomers=profile)
+
                 else:   
                     form = ConfirmFilter() 
             for car in cars:
@@ -382,7 +388,7 @@ def approve(request, vehicle_id,profile_id,type):
     vehicle.purchaser=profile
     vehicle.save()
     
-    return redirect('managerConfirm')  
+    return redirect('index')  
 
 def negate(request, vehicle_id,profile_id,type):
     if type:
@@ -393,7 +399,7 @@ def negate(request, vehicle_id,profile_id,type):
 
     vehicle.interestedCustomers.remove(profile)
     
-    return redirect('managerConfirm')  
+    return redirect('index')  
 
 def motorbikes(request):
     motosList=Moto.objects.all()

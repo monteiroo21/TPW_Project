@@ -42,7 +42,6 @@ urlpatterns = [
     path('selectMoto/<int:moto_id>/', views.selectMoto, name='selectMoto'),
     path('approve/<int:vehicle_id>/<int:profile_id>/<int:type>/', views.approve, name='approve'),
     path('negate/<int:vehicle_id>/<int:profile_id>/<int:type>/', views.negate, name='negate'),
-    path('managerConfirm/', views.managerConfirm, name='managerConfirm'),
     path('motorbikes/', views.motorbikes, name='motorbikes'),
     path('brands/', views.brands, name='brands'),
     path('brands/<int:brand_id>/', views.brand_detail, name='brand_detail'),

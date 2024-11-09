@@ -219,6 +219,12 @@ class ConfirmFilter(forms.Form):
         widget=forms.Select(attrs={'class': 'form-control block appearance-none w-32 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'}),
         label=''
     )
+    profile = forms.ModelChoiceField(
+        queryset=Profile.objects.exclude(user__username="admin"),
+        widget=forms.Select(attrs={
+            'class': 'form-control block appearance-none w-full px-4 py-2 pr-8 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800'
+        }),required=False
+    )
     
 class CreateCarModel(forms.Form):
     brand = forms.ModelChoiceField(
