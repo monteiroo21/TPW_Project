@@ -214,17 +214,21 @@ class ConfirmFilter(forms.Form):
         choices=[
             ("None", "All"),
             ("Car", "Car"),
-            ("Moto", "Moto"),
+            ("Moto", "Motorbike"),
         ],
-        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-32 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'}),
+        widget=forms.Select(attrs={'class': 'form-control block appearance-none w-36 bg-white border-2 border-sky-800 rounded-lg hover:border-gray-500 px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:ring-2 focus:ring-sky-800'}),
         label=''
     )
-    profile = forms.ModelChoiceField(
-        queryset=Profile.objects.exclude(user__username="admin"),
-        widget=forms.Select(attrs={
-            'class': 'form-control block appearance-none w-full px-4 py-2 pr-8 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800'
-        }),required=False
-    )
+    profile = forms.CharField(
+        max_length=100, required=False, widget=forms.TextInput(
+        attrs={
+            'class': 'w-80 pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800',
+                'placeholder': 'Search for a username',
+                'style': 'background-image: url(/static/imgs/search.svg); background-repeat: no-repeat; background-position: 10px center; background-size: 18px;'
+            }
+            ),
+            label=''
+        )
     
 class CreateCarModel(forms.Form):
     brand = forms.ModelChoiceField(

@@ -7,7 +7,38 @@ from django.db.models import Q
 from app.loadBackup import *
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-# Create your views here.
+
+def filterByBrandAndName(name,listVehicle):
+    search_terms = name.split()
+    name_query = Q()
+    match_found = False
+    
+    for i in range(len(search_terms), 0, -1):
+        possible_brand = " ".join(search_terms[:i])
+        remaining_terms = search_terms[i:]
+
+        brand_query = Q(model__brand__name__icontains=possible_brand)
+        model_query = Q()
+
+        for term in remaining_terms:
+            model_query &= Q(model__name__icontains=term)
+
+        if remaining_terms:
+            name_query = brand_query & model_query
+        else:
+            name_query = brand_query | Q(model__name__icontains=possible_brand)
+        
+        if listVehicle.filter(name_query).exists():
+            match_found = True
+            listVehicle = listVehicle.filter(name_query)
+            break
+
+    if not match_found:
+        generic_query = Q()
+        for term in search_terms:
+            generic_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
+        listVehicle = listVehicle.filter(generic_query)
+    return listVehicle
 
 def sign_up(request):
     if request.method == "POST":
@@ -93,67 +124,13 @@ def index(request):
             print(request.POST)
             cars=Car.objects.all()
             motos=Moto.objects.all()
+            filterProfile=False
+
             if request.method == 'POST': 
                 if form.is_valid():
                     if 'name' in form.cleaned_data:
-                        search_terms = form.cleaned_data['name'].split()
-                        name_query = Q()
-                        match_found = False
-                        
-                        for i in range(len(search_terms), 0, -1):
-                            possible_brand = " ".join(search_terms[:i])
-                            remaining_terms = search_terms[i:]
-
-                            brand_query = Q(model__brand__name__icontains=possible_brand)
-                            model_query = Q()
-
-                            for term in remaining_terms:
-                                model_query &= Q(model__name__icontains=term)
-
-                            if remaining_terms:
-                                name_query = brand_query & model_query
-                            else:
-                                name_query = brand_query | Q(model__name__icontains=possible_brand)
-                            
-                            if cars.filter(name_query).exists():
-                                match_found = True
-                                cars = cars.filter(name_query)
-                                break
-
-                        if not match_found:
-                            generic_query = Q()
-                            for term in search_terms:
-                                generic_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
-                            cars = cars.filter(generic_query)
-                        search_terms = form.cleaned_data['name'].split()
-                        name_query = Q()
-                        match_found = False
-                        
-                        for i in range(len(search_terms), 0, -1):
-                            possible_brand = " ".join(search_terms[:i])
-                            remaining_terms = search_terms[i:]
-
-                            brand_query = Q(model__brand__name__icontains=possible_brand)
-                            model_query = Q()
-
-                            for term in remaining_terms:
-                                model_query &= Q(model__name__icontains=term)
-
-                            if remaining_terms:
-                                name_query = brand_query & model_query
-                            else:
-                                name_query = brand_query | Q(model__name__icontains=possible_brand)
-                            
-                            if motos.filter(name_query).exists():
-                                match_found = True
-                                motos = motos.filter(name_query)
-                                break
-
-                        if not match_found:
-                            generic_query = Q()
-                            for term in search_terms:
-                                generic_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
-                            motos = motos.filter(generic_query)
+                        cars = filterByBrandAndName(form.cleaned_data['name'],cars)
+                        motos = filterByBrandAndName(form.cleaned_data['name'],motos)
 
                 
                     if form.cleaned_data['typeV'] != "None":
@@ -162,17 +139,22 @@ def index(request):
                         else:
                             cars = cars.filter(id=-1)
                     if form.cleaned_data['profile'] is not None:
-                        profile=form.cleaned_data['profile']
-                        motos = motos.filter(interestedCustomers=profile)
-                        cars = cars.filter(interestedCustomers=profile)
+                        filterProfile=True
+                        profileName=form.cleaned_data['profile']
+                        profiles = Profile.objects.exclude(user__username="admin").filter(user__username__icontains=profileName)
+                        
 
                 else:   
                     form = ConfirmFilter() 
             for car in cars:
                 for profile in car.interestedCustomers.all():
+                    if filterProfile and profile not in profiles:
+                        continue
                     listForAccept.append({"vehicle":car,"profile":profile,"type":1})
             for moto in motos:
                 for profile in moto.interestedCustomers.all():
+                    if filterProfile and profile not in profiles:
+                        continue
                     listForAccept.append({"vehicle":moto,"profile":profile,"type":0})
             context = {"listForAccept":listForAccept,"form":form,"manager":manager}
     return render(request, 'index.html', context)
@@ -187,36 +169,8 @@ def cars(request):
     if request.method == 'POST': 
         if form.is_valid():
             if form.cleaned_data['name']:
-                search_terms = form.cleaned_data['name'].split()
-                name_query = Q()
-                match_found = False
+                carsList = filterByBrandAndName(form.cleaned_data['name'],carsList)
                 
-                for i in range(len(search_terms), 0, -1):
-                    possible_brand = " ".join(search_terms[:i])
-                    remaining_terms = search_terms[i:]
-
-                    brand_query = Q(model__brand__name__icontains=possible_brand)
-                    model_query = Q()
-
-                    for term in remaining_terms:
-                        model_query &= Q(model__name__icontains=term)
-
-                    if remaining_terms:
-                        name_query = brand_query & model_query
-                    else:
-                        name_query = brand_query | Q(model__name__icontains=possible_brand)
-                    
-                    if carsList.filter(name_query).exists():
-                        match_found = True
-                        carsList = carsList.filter(name_query)
-                        break
-
-                if not match_found:
-                    generic_query = Q()
-                    for term in search_terms:
-                        generic_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
-                    carsList = carsList.filter(generic_query)
-            
             if form.cleaned_data['isElectric']:
                 carsList = carsList.filter(electric=True)
             if form.cleaned_data.get('priceMin') is not None:
@@ -359,24 +313,6 @@ def selectMoto(request, moto_id):
         moto.interestedCustomers.add(profile)
     return redirect('motorbike_detail', moto_id=moto.id) 
 
-def managerConfirm(request):
-    if not request.user.is_authenticated:
-        return redirect("login")
-    print(request.user.username)
-    if request.user.username!='admin':
-        return redirect("index")
-    listForAccept=[]
-    cars=Car.objects.all()
-    for car in cars:
-        for profile in car.interestedCustomers.all():
-            listForAccept.append({"vehicle":car,"profile":profile,"type":1})
-    motos=Moto.objects.all()
-    for moto in motos:
-        for profile in moto.interestedCustomers.all():
-            listForAccept.append({"vehicle":moto,"profile":profile,"type":0})
-    context = {"listForAccept":listForAccept}
-    return render(request, 'managerConfirm.html', context)
-
 def approve(request, vehicle_id,profile_id,type):
     if type:
         vehicle = get_object_or_404(Car, id=vehicle_id) 
@@ -411,37 +347,8 @@ def motorbikes(request):
     if request.method == 'POST': 
         if form.is_valid():
             if form.cleaned_data['name']:
-                search_terms = form.cleaned_data['name'].split()
-                name_query = Q()
-                match_found = False
+                motosList = filterByBrandAndName(form.cleaned_data['name'],motosList)
                 
-                for i in range(len(search_terms), 0, -1):
-                    possible_brand = " ".join(search_terms[:i])
-                    remaining_terms = search_terms[i:]
-
-                    brand_query = Q(model__brand__name__icontains=possible_brand)
-                    model_query = Q()
-
-                    for term in remaining_terms:
-                        model_query &= Q(model__name__icontains=term)
-
-                    if remaining_terms:
-                        name_query = brand_query & model_query
-                    else:
-                        name_query = brand_query | Q(model__name__icontains=possible_brand)
-                    
-                    if motosList.filter(name_query).exists():
-                        match_found = True
-                        motosList = motosList.filter(name_query)
-                        break
-
-                if not match_found:
-                    generic_query = Q()
-                    for term in search_terms:
-                        generic_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
-                    motosList = motosList.filter(generic_query)
-            
-
             if form.cleaned_data.get('priceMin') is not None:
                 motosList = motosList.filter(price__gte=form.cleaned_data['priceMin'])
             if form.cleaned_data.get('priceMax') is not None:
@@ -584,7 +491,6 @@ def updateCar(request, car_id):
     if request.method == 'POST':
         form = UpdateCar(request.POST, request.FILES)
         if form.is_valid():
-            print(12345678)
             car.model = form.cleaned_data['model']
             car.year = form.cleaned_data['year']
             car.kilometers = form.cleaned_data['kilometers'] if form.cleaned_data['kilometers'] is not None else 0
@@ -646,7 +552,6 @@ def updateMoto(request, moto_id):
     if request.method == 'POST':
         form = UpdateMoto(request.POST, request.FILES)
         if form.is_valid():
-            print(12345678)
             moto.model = form.cleaned_data['model']
             moto.year = form.cleaned_data['year']
             moto.kilometers = form.cleaned_data['kilometers'] if form.cleaned_data['kilometers'] is not None else 0
@@ -701,7 +606,6 @@ def loadFavourites(request):
 
     return render(request, 'favourites.html', context)
 
-
 def vehiclesPurchased(request):
     if not request.user.is_authenticated:
         return redirect("login")
@@ -713,7 +617,6 @@ def vehiclesPurchased(request):
         "motos": motos
     }
     return render(request, 'vehicles_purchased.html', context)
-
 
 def desiredVehicles(request):
     if not request.user.is_authenticated:
