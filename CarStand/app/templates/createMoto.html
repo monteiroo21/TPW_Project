@@ -65,6 +65,14 @@
                     Submit
                 </button>
             </div>
+
+            <div class="text-center">
+                {% if errors is not None %}
+                <div id="error-message" class="text-red-500 font-bold text-2xl">
+                    <h1>{{ errors }}</h1>
+                </div>
+                {% endif %}
+                </div>
         </form>
     </div>
 </div>
@@ -74,4 +82,12 @@
 <link href="{% static 'content/style.css' %}" rel="stylesheet">
 <link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
 <link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
+<script>
+    setTimeout(function () {
+  var errorMessage = document.getElementById("error-message");
+  if (errorMessage) {
+    errorMessage.style.display = "none";
+  }
+}, 5000);
+</script>
 {% endblock %}
