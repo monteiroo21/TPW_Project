@@ -496,6 +496,7 @@ def updateCar(request, car_id):
             car.model = form.cleaned_data['model']
             car.year = form.cleaned_data['year']
             car.kilometers = form.cleaned_data['kilometers'] if form.cleaned_data['kilometers'] is not None else 0
+            car.new=car.kilometers==0
             car.price = form.cleaned_data['price']
             car.color = form.cleaned_data['color']
             car.doors = form.cleaned_data['doors']
@@ -559,6 +560,7 @@ def updateMoto(request, moto_id):
             moto.model = form.cleaned_data['model']
             moto.year = form.cleaned_data['year']
             moto.kilometers = form.cleaned_data['kilometers'] if form.cleaned_data['kilometers'] is not None else 0
+            moto.new=moto.kilometers==0
             moto.price = form.cleaned_data['price']
             moto.color = form.cleaned_data['color']
             if form.cleaned_data['image']:

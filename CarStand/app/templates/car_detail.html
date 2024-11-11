@@ -21,6 +21,8 @@
                 <p class="text-lg"><strong>Base Price:</strong> €{{ car.model.base_price }}</p>
                 <p class="text-lg"><strong>Price:</strong> €{{ car.price }}</p>
                 <p class="text-lg"><strong>Kilometers:</strong> {{ car.kilometers }} km</p>
+                <p class="text-lg"><strong>Year:</strong> {{ car.year }}</p>
+                <p class="text-lg"><strong>Condition:</strong> {{ car.new|yesno:"New,Used" }}</p>
                 <p class="text-lg"><strong>Color:</strong> {{ car.color }}</p>
                 <p class="text-lg"><strong>Doors:</strong> {{ car.doors }}</p>
                 <p class="text-lg"><strong>Electric:</strong> {{ car.electric|yesno:"Yes,No" }}</p>
