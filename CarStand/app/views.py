@@ -453,6 +453,7 @@ def create_car_model(request,type):
     return render(request, 'createCarModel.html', {'formModel': formModel,"type":type})
 
 def createCar(request):
+    errors=None
     if request.method == 'POST':
         form = CreateCar(request.POST, request.FILES)
         if form.is_valid():
@@ -478,11 +479,12 @@ def createCar(request):
             new_car.save()
             print("Create CAR")
             return redirect("cars")
-        print(form.errors) 
+        else:
+            errors=form.errors.as_text()
     else:
         form = CreateCar()
 
-    context = {"form": form}
+    context = {"form": form,"errors":errors}
     return render(request, 'createCar.html', context)
 
 def updateCar(request, car_id):
@@ -519,6 +521,7 @@ def updateCar(request, car_id):
     return render(request, 'updateCar.html', context)
 
 def createMoto(request):
+    errors=None
     if request.method == 'POST':
         form = CreateMoto(request.POST, request.FILES)
         if form.is_valid():
@@ -539,11 +542,12 @@ def createMoto(request):
             )
             new_moto.save()
             return redirect("motorbikes")
-        print(form.errors) 
+        else:
+            errors=form.errors.as_text()
     else:
         form = CreateMoto()
 
-    context = {"form": form}
+    context = {"form": form,"errors": errors}
     return render(request, 'createMoto.html', context)
 
 def updateMoto(request, moto_id):

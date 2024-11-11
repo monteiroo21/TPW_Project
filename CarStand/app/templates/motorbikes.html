@@ -29,7 +29,7 @@
         Search
       </button>
 
-      {% if manager is not None %}
+      {% if manager is not None and manager  %}
       <a href="{% url 'createMoto' %}">
         <button type="button"
           class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md flex items-center">

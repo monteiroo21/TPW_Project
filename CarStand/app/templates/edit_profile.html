@@ -91,6 +91,7 @@
 <link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
 <link href="{% static 'content/stylespages.css' %}" rel="stylesheet">
 <script>
+    console.log(document.getElementById('closeModalBtn'));
     // Show modal
     document.getElementById('editProfileBtn').addEventListener('click', function () {
         document.getElementById('editProfileModal').classList.remove('hidden');
