@@ -2,15 +2,12 @@
 {% block content %}
 {% load static %}
 <div class="flex flex-col items-center justify-center space-y-4 mt-16">
-    <!-- Profile Icon -->
     <div class="w-24 h-24 rounded-full flex items-center justify-center">
         <img src="{% static 'imgs/user.png' %}" alt="User Avatar">
     </div>
 
-    <!-- User Name -->
     <h2 class="text-2xl font-extrabold text-white">{{ user.first_name }} {{ user.last_name }}</h2>
 
-    <!-- Edit Profile Button -->
     <button id="editProfileBtn" class="text-white bg-sky-800 hover:bg-sky-950 py-2 px-6 rounded-md font-semibold" onclick="toggleModal(true)">
         Edit Profile
     </button>
@@ -56,15 +53,12 @@
         </div>
 </div>
 {% endif %}
-<!-- Modal -->
 <div id="editProfileModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-xl px-6 py-4 space-y-6 max-w-md w-full relative">
-        <!-- Close Modal Button -->
         <button id="closeModalBtn" class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-5xl font-bold mr-2" onclick="toggleModal(false)">
             &times;
         </button>
 
-        <!-- Profile Edit Form -->
         <form method="post" action="{% url 'edit_profile' %}" class="bg-white rounded-xl px-6 py-8 space-y-6 max-w-md md:ml-auto w-full">
             {% csrf_token %}
             <h3 class="text-3xl font-extrabold">
@@ -85,7 +79,6 @@
 </div>
 {% endblock %}
 
-<!-- Extra Content -->
 {% block extra_content %}
 <link href="{% static 'content/style.css' %}" rel="stylesheet">
 <link href="{% static 'content/tailwind.css' %}" rel="stylesheet">
