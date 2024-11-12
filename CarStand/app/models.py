@@ -41,7 +41,6 @@ class Brand(models.Model):
     email = models.EmailField(unique=True)
     country = models.CharField(max_length=30)
     website = models.URLField()
-    # cellPhone = PhoneNumberField(null=False, blank=False, unique=True)
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$',
         message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."
@@ -53,7 +52,8 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.name
-
+    
+# Vehicle Model
 class CarModel(models.Model):
     brand = models.ForeignKey(Brand, related_name='brand_cars', on_delete=models.CASCADE)
     name = models.CharField(max_length=70)

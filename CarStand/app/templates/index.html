@@ -127,6 +127,7 @@
 
             <!-- Content exclusive to the homepage (index.html) -->
             {% block extra_content %}
+            <!-- If was not a admin user-->
             {% if manager is None %}
             <div class="carousel relative w-full max-w-6xl mx-auto mt-8 h-[40rem] shadow-2xl shadow-zinc-950">
                 <!-- Carousel Items Container -->
