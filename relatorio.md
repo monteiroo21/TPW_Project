@@ -12,7 +12,7 @@ João Monteiro - 114547
 
 ## Introduction
 
-**CarStand** it's a web based system that allows the management of a vehicle stand. This system is divided into 5 classes: Groups, Brands, Models, Cars and Motos. It allows to check what brands exist in the stand and also the groups that own those brands. For the costumer, it is possible to check which vehicles are available in the stand, add them to his favourites and also show interest in a certain vehicle. The admin, on the other hand, can accept or decline requests from the customers and can also add, remove or edit vehicles.
+**CarStand** is a web-based system designed to manage a vehicle stand. The system is structured into 5 classes: Groups, Brands, Models, Cars and Motos. It allows users to check what brands are available in the stand and view the groups that own those brands. For customers, it is possible to explore available vehicles in the stand, add them to their favourites and express interest in a certain vehicle. Administrators, on the other hand, can accept or decline requests from the customers and can also add, remove or edit vehicles. Besides the use of Django we also made use of Tailwind classes for our web system.
 
 ## Major functionalities
 
@@ -39,7 +39,7 @@ João Monteiro - 114547
 
 - **Add a vehicle to the favourites**
 
-    The customer can save vehicles, where he can store his favourites
+    The customer has the possibility to add a vehicle to his list of favourite vehicles
 
     ![No interest](screenshots/noInterest.png)
 
@@ -75,13 +75,56 @@ https://jorgedomingues.pythonanywhere.com/index/
 
 - **Regular Users**:
 
+**User 1**:
+
+    ```
+    username: joaoaugusto
+    password: joaocars12345
+    ```
+**User 2**:
+
+    ```
+    username: antoniojose32
+    password: joseaveiro27
+    ```
 
 
 - **Administrators**:
-
+    ```
+    username: admin
+    password: login
+    ```
 
 ### Local execution
+```
+python3 -m venv venv
+
+source venv/bin/activate
+
+pip install -r requirements.txt
+
+cd CarStand/
+
+python3 manage.py makemigrations app
+
+python3 manage.py migrate
+
+python3 manage.py runserver
+```
+
+**Tailwind:**
+```
+npm init -y
+
+npm install -D tailwindcss postcss autoprefixer
+
+npx tailwindcss init -p
+
+npx tailwindcss -i ./app/static/content/tailwind.css -o ./app/static/content/style.css --watch
+```
 
 
 
 ## Conclusion
+This project aimed to develop a web-based system capable of managing a vehicle stand. Within the system we incorporated distinct functionalities for customers and administrators. Through the use of these technologies we were able to create a system capable of fulfilling the main requirements.
+Throughout the development of the system we encountered challenges, especially related to the management of the relationships between different entities, that allowed us to improve our knowledge in the area.
