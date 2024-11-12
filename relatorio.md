@@ -59,7 +59,7 @@ João Monteiro - 114547
 
 - **Favourites**
 
-    An user, as previously seen, has the possibility to add a car to his favourites. To facilitate his experience, a customer can check a list with the cars he added to the favourites.
+    An user, as previously seen, has the possibility to add a car to his favourites. To facilitate his experience, a customer can check a list with the cars he added to the favourites. The favourites are added/removed while an user session is ongoing. When an user logouts, those favourites are loaded into the database. When an user is authenticated again, that information is loaded again into that session.
 
     ![Edit Profile](screenshots/favourites.png)
 
