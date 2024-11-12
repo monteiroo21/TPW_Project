@@ -2,12 +2,12 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from app.forms import ConfirmFilter, CreateMoto, MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar,CreateCarModel, UpdateCar, ProfileForm, UpdateMoto
 from django.contrib.auth import login, authenticate, logout
-from .models import Group, Brand, Profile,Favorite
+from .models import Group, Brand, Profile,Favorite,Car,CarModel,Moto
 from django.db.models import Q
-from app.loadBackup import *
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+# Filters a queryset of vehicles based on a search string matching brand and model names.
 def filterByBrandAndName(name,listVehicle):
     search_terms = name.split()
     name_query = Q()
@@ -119,6 +119,7 @@ def index(request):
     if request.user.is_authenticated:
         manager = request.user.username=='admin'
         if manager:
+            #For Confirm Purchase
             listForAccept=[]
             form = ConfirmFilter(request.POST)
             print(request.POST)
@@ -135,8 +136,10 @@ def index(request):
                 
                     if form.cleaned_data['typeV'] != "None":
                         if form.cleaned_data['typeV']=="Car":
+                            #Remove all motocycles in querySet
                             motos = motos.filter(id=-1)
                         else:
+                            #Remove all car in querySet
                             cars = cars.filter(id=-1)
                     if form.cleaned_data['profile'] is not None:
                         filterProfile=True
@@ -224,7 +227,9 @@ def car_detail(request, car_id):
         isSelected = car.interestedCustomers.filter(id=profile.id).exists()
         if car.purchaser is not None:
             isBuyed = car.purchaser.id == profile.id
+        
         if Favorite.objects.filter(profile=profile).exists() and not "favoriteCarList" in request.session:
+            #Load favorites to request.session
             request.session["favoriteCarList"] = [car.id for car in Favorite.objects.get(profile=profile).favoritesCar.all()]
         elif not "favoriteCarList" in request.session:
             request.session["favoriteCarList"] = []
@@ -267,6 +272,7 @@ def motorbike_detail(request, moto_id):
         if moto.purchaser is not None:
             isBuyed = moto.purchaser.id == profile.id
         if Favorite.objects.filter(profile=profile).exists() and not "favoriteMotoList" in request.session:
+            #Load favorites to request.session
             request.session["favoriteMotoList"] = [moto.id for moto in Favorite.objects.get(profile=profile).favoritesMoto.all()]
         elif not "favoriteMotoList" in request.session:
             request.session["favoriteMotoList"] = []
@@ -596,6 +602,8 @@ def loadFavourites(request):
     if not request.user.is_authenticated:
         return redirect("login")
     profile = get_object_or_404(Profile, user=request.user)
+    
+    # Security measure for users who did not load their favorites in the vehicle details
     if Favorite.objects.filter(profile=profile).exists() and not "favoriteCarList" in request.session:
         request.session["favoriteCarList"] = [car.id for car in Favorite.objects.get(profile=profile).favoritesCar.all()]
     if Favorite.objects.filter(profile=profile).exists() and not "favoriteMotoList" in request.session:

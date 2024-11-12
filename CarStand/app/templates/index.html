@@ -99,7 +99,6 @@
 
     <div id="logoutModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-xl px-6 py-4 space-y-6 max-w-md w-full relative">
-            <!-- Close Modal Button -->
             <button id="closeModalBtn"
                 class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-5xl font-bold mr-2">
                 &times;
@@ -125,11 +124,9 @@
             {% block content %}
             {% endblock %}
 
-            <!-- Content exclusive to the homepage (index.html) -->
             {% block extra_content %}
             {% if manager is None %}
             <div class="carousel relative w-full max-w-6xl mx-auto mt-8 h-[40rem] shadow-2xl shadow-zinc-950">
-                <!-- Carousel Items Container -->
                 <div class="carousel-inner relative overflow-hidden h-[40rem]">
                     {% for car in cars %}
                     <div class="carousel-item {% if forloop.first %}block{% else %}hidden{% endif %} w-full h-full">

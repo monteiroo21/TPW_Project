@@ -8,7 +8,6 @@
 
 <div class="flex justify-center items-center mt-8">
     <form method="get" action="{% url 'brands' %}" class="relative flex items-center">
-        <!-- Input Field -->
         <input 
             type="text" 
             name="query" 
@@ -16,7 +15,6 @@
             class="w-80 pl-12 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800"
         >
 
-        <!-- Search Icon -->
         <img 
             src="{% static 'imgs/search.svg' %}" 
             alt="Search Icon" 
@@ -28,19 +26,15 @@
 
 <div class="flex gap-8 w-full py-6 px-2 mt-10 justify-center flex-wrap">
     {% for brand in brands %}
-        <!-- Individual Card -->
         <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
             <a href="{% url 'brand_detail' brand.id %}">
-                <!-- Image Section -->
                 <div class="flex items-center justify-center">
                     {% if brand.logo %}
                         <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-full h-40 object-contain p-4 bg-white" />
                     {% else %}
-                        <!-- Optional placeholder image if no file is associated -->
                         <img src="{% static 'path/to/placeholder.jpg' %}" alt="No Image" class="w-full h-40 object-contain p-4" />
                     {% endif %}
                 </div>
-                <!-- Brand Info Section -->
                 <div class="px-6 py-4">
                     <div class="flex items-center justify-between">
                         <h3 class="text-2xl text-gray-800 font-bold mb-4">{{ brand.name }}</h3>
