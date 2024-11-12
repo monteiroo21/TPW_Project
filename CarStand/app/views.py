@@ -1,5 +1,4 @@
-from django.core.handlers.wsgi import WSGIRequest
-from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from app.forms import ConfirmFilter, CreateMoto, MotoSortAndFilter, SignUpForm, LoginForm, GroupSearchForm, BrandSearchForm,CarSortAndFilter,CreateCar,CreateCarModel, UpdateCar, ProfileForm, UpdateMoto
 from django.contrib.auth import login, authenticate, logout
 from .models import Group, Brand, Profile,Favorite,Car,CarModel,Moto
@@ -229,7 +228,7 @@ def car_detail(request, car_id):
             isBuyed = car.purchaser.id == profile.id
         
         if Favorite.objects.filter(profile=profile).exists() and not "favoriteCarList" in request.session:
-            #Load favorites to request.session
+            # Load favorites to request.session
             request.session["favoriteCarList"] = [car.id for car in Favorite.objects.get(profile=profile).favoritesCar.all()]
         elif not "favoriteCarList" in request.session:
             request.session["favoriteCarList"] = []
@@ -301,7 +300,8 @@ def selectCar(request, car_id):
     if not request.user.is_authenticated:
         return redirect("login")
     car = get_object_or_404(Car, id=car_id) 
-    profile = get_object_or_404(Profile, user=request.user) 
+    profile = get_object_or_404(Profile, user=request.user)
+
     if car.interestedCustomers.filter(id=profile.id).exists():
         car.interestedCustomers.remove(profile)
     else:
@@ -313,6 +313,7 @@ def selectMoto(request, moto_id):
         return redirect("login")
     moto = get_object_or_404(Moto, id=moto_id) 
     profile = get_object_or_404(Profile, user=request.user) 
+
     if moto.interestedCustomers.filter(id=profile.id).exists():
         moto.interestedCustomers.remove(profile)
     else:
@@ -350,6 +351,7 @@ def motorbikes(request):
     manager=None
     if request.user.is_authenticated:
         manager = request.user.username=='admin'
+
     if request.method == 'POST': 
         if form.is_valid():
             if form.cleaned_data['name']:
@@ -436,6 +438,7 @@ def group_detail(request, group_id):
 def create_car_model(request,type):
     if request.method == 'POST':
         formModel = CreateCarModel(request.POST)
+        
         if formModel.is_valid():
             brand=formModel.cleaned_data["brand"]
             name=formModel.cleaned_data["name"]

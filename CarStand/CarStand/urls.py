@@ -55,4 +55,5 @@ urlpatterns = [
     path('desiredvehicles/', views.desiredVehicles, name='desiredvehicles'),
 ]
 
+# Serve static files in development
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
