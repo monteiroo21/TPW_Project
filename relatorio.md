@@ -45,6 +45,38 @@ João Monteiro - 114547
 
     ![Interested](screenshots/interestAndFavorite.png)
 
+- **Profile page**
+
+    In the profile page, the customer can edit his profile, but can also see his favourite vehicles, the list of vehicles he has shown interest in (Wishlist) and an history log of the cars he already bought.
+
+    ![Profile](screenshots/profile.png)    
+
+- **Edit Profile**
+
+    It is possible to edit the profile, where an user can change his name and the email associated.
+
+    ![Edit Profile](screenshots/editProfile.png)
+
+- **Favourites**
+
+    An user, as previously seen, has the possibility to add a car to his favourites. To facilitate his experience, a customer can check a list with the cars he added to the favourites.
+
+    ![Edit Profile](screenshots/favourites.png)
+
+- **Wishlist**
+
+    As we said before, an user can show interest in a vehicle. In his profile page he will have a wishlist where he can observe the cars he has shown interest.
+
+    ![Edit Profile](screenshots/desired.png)
+
+- **Purchased Vehicles**
+
+    Lastly, an user also has the possibility to check the vehicles he already purchased within the system. 
+
+    ![Edit Profile](screenshots/purchased.png)
+
+    **It is important to refer that these functionalities (with the exception of editing a profile) are not possible with an administrator account, since his purpose in the system is different than the one from the client.**
+
 
 ### Admin
 
@@ -75,13 +107,13 @@ https://jorgedomingues.pythonanywhere.com/index/
 
 - **Regular Users**:
 
-**User 1**:
+    **User 1**:
 
     ```
     username: joaoaugusto
     password: joaocars12345
     ```
-**User 2**:
+    **User 2**:
 
     ```
     username: antoniojose32
