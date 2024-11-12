@@ -92,7 +92,7 @@ https://jorgedomingues.pythonanywhere.com/index/
 - **Administrators**:
     ```
     username: admin
-    password: login
+    password: admin
     ```
 
 ### Local execution
