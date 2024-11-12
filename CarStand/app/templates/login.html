@@ -60,8 +60,8 @@
               </a>
             </h1>
           </div>
-          <h4 class="text-xl ml-6 font-bold text-white">Immerse yourself in a hassle-free login journey with our
-            intuitively designed login form. Effortlessly access your account.</h4>
+          <h4 class="text-xl ml-6 font-bold text-white">Drive into your next adventure – login to explore the finest
+            cars!</h4>
         </div>
 
         <form method="post" action="{% url 'login' %}"
@@ -79,11 +79,11 @@
 
           {% if messages %}
           <div class="mb-4">
-              {% for message in messages %}
-              <div class="text-red-600 bg-red-100 p-3 rounded-md w-3/4">
-                  {{ message }}
-              </div>
-              {% endfor %}
+            {% for message in messages %}
+            <div class="text-red-600 bg-red-100 p-3 rounded-md w-3/4">
+              {{ message }}
+            </div>
+            {% endfor %}
           </div>
           {% endif %}
 
