@@ -1,21 +1,10 @@
 from typing import Any
 from django.db import models
-from django.contrib.auth.models import AbstractUser, UserManager, User
-# from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.auth.models import User
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-# # Create your models here.
-# class StandManager(UserManager):
-#     def create_user(self, username, password):
-#         pass
-#     def create_superuser(self, username: str, email: str | None, password: str | None):
-#         pass
-
-
-# class Client(AbstractUser):
-#     pass
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

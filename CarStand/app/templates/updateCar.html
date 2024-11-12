@@ -7,16 +7,13 @@
     <form action="." method="POST" enctype="multipart/form-data" class="bg-white rounded-lg shadow-lg px-8 py-6 w-full max-w-4xl space-y-6">
         {% csrf_token %}
 
-        <!-- Linha 1: Modelo e Botão "Create New Car Model" -->
         <div class="flex items-end space-x-4">
-            <!-- Modelo do Carro -->
             <div class="flex-1">
                 <label for="id_model" class="block text-gray-800 font-semibold mb-2">Model</label>
                 {{ form.model }}
             </div>
         </div>
 
-        <!-- Linha 2: Ano, Quilometragem, Preço -->
         <div class="flex flex-wrap space-x-4">
             <div class="flex-1">
                 <label for="id_year" class="block text-gray-800 font-semibold mb-2">Year</label>
@@ -32,7 +29,6 @@
             </div>
         </div>
 
-        <!-- Linha 3: Imagem, Cor, Número de Portas, Elétrico -->
         <div class="flex flex-wrap space-x-4">
             <div class="flex-1">
                 <label for="id_image" class="block text-gray-800 font-semibold mb-2">Image</label>
@@ -52,7 +48,6 @@
             </div>
         </div>
 
-        <!-- Botão de Atualizar -->
         <div class="text-center mt-4">
             <button
                 type="submit"
