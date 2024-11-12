@@ -41,6 +41,9 @@ João Monteiro - 114547
 
     The customer has the possibility to add a vehicle to his list of favourite vehicles
 
+    A key point to highlight is that the management of favorites operates on a session-based approach, where users add or remove their favorite cars and motorcycles dynamically during their session. These changes are stored temporarily in the session and are not immediately saved in the database. Instead, the data is only persisted to the database upon user logout, ensuring that the session serves as a flexible and temporary workspace before finalizing the user's choices in permanent storage.
+
+
     ![No interest](screenshots/noInterest.png)
 
     ![Interested](screenshots/interestAndFavorite.png)
@@ -90,7 +93,11 @@ João Monteiro - 114547
 
     The administrator has the possibility to add, edit or remove vehicles from the stand, in case of a new arrival to the stand, a change in price or in case of a sale.
 
+    It is important to emphasize that the relationship between Car Model and Car, and Motorbike is hierarchical, where Car Model acts as a shared template for both Car and Motorbike. This means that Car Model defines general attributes common to a vehicle model, such as brand, name, specifications, release year, and base price, while Car and Motorbike extend this by adding specific details for individual vehicles, such as year of manufacture, color, mileage, price, and customer-related information. Both Car and Motorbike reference Car Model via a ForeignKey, ensuring that multiple vehicles (cars or motorcycles) can share the same model data while maintaining their unique characteristics.
+
     ![Add Car](screenshots/createCar.png)
+
+    ![Add Model](screenshots/createNewModel.png)
 
     ![Edit Moto](screenshots/updateMoto.png)
 
