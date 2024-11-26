@@ -1,0 +1,67 @@
+{% extends "index.html" %}
+
+{% block content %}
+{% load static %}
+<div class="flex flex-col items-center mx-16">
+    <h1 class="text-2xl font-semibold text-white mb-6">Update Car</h1>
+    <form action="." method="POST" enctype="multipart/form-data" class="bg-white rounded-lg shadow-lg px-8 py-6 w-full max-w-4xl space-y-6">
+        {% csrf_token %}
+
+        <div class="flex items-end space-x-4">
+            <div class="flex-1">
+                <label for="id_model" class="block text-gray-800 font-semibold mb-2">Model</label>
+                {{ form.model }}
+            </div>
+        </div>
+
+        <div class="flex flex-wrap space-x-4">
+            <div class="flex-1">
+                <label for="id_year" class="block text-gray-800 font-semibold mb-2">Year</label>
+                {{ form.year }}
+            </div>
+            <div class="flex-1">
+                <label for="id_kilometers" class="block text-gray-800 font-semibold mb-2">Kilometers</label>
+                {{ form.kilometers }}
+            </div>
+            <div class="flex-1">
+                <label for="id_price" class="block text-gray-800 font-semibold mb-2">Price</label>
+                {{ form.price }}
+            </div>
+        </div>
+
+        <div class="flex flex-wrap space-x-4">
+            <div class="flex-1">
+                <label for="id_image" class="block text-gray-800 font-semibold mb-2">Image</label>
+                {{ form.image }}
+            </div>
+            <div class="flex-1">
+                <label for="id_color" class="block text-gray-800 font-semibold mb-2">Color</label>
+                {{ form.color }}
+            </div>
+            <div class="flex-1">
+                <label for="id_doors" class="block text-gray-800 font-semibold mb-2">Doors</label>
+                {{ form.doors }}
+            </div>
+            <div class="flex-1">
+                <label for="id_electric" class="block text-gray-800 font-semibold mb-2">Electric</label>
+                {{ form.electric }}
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button
+                type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-6 border border-blue-500 rounded-lg"
+            >
+                Update
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet" />
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet" />
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet" />
+{% endblock %}

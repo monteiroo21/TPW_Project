@@ -1,0 +1,136 @@
+{% extends "index.html" %}
+
+{% block content %}
+{% load static %}
+<div class="flex flex-col items-center mx-16">
+  <form id="searchForm" action="." method="post" class="space-y-6">
+    {% csrf_token %}
+
+    <div class="flex items-center space-x-4">
+      <div class="flex-1">
+        <label for="id_name" class="block text-white font-semibold mb-2">Name</label>
+        {{ form.name }}
+      </div>
+
+      <div class="flex-1">
+        <label for="id_sort" class="block text-white font-semibold mb-2">Sort by</label>
+        {{ form.sort }}
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-4 justify-center">
+      <button type="button" onclick="toggleModal(true)"
+        class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-300 shadow-md transition duration-300 ease-in-out">
+        Advanced Filters
+      </button>
+
+      <button type="submit"
+        class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-300 shadow-md transition duration-300 ease-in-out">
+        Search
+      </button>
+
+      {% if manager is not None and manager  %}
+      <a href="{% url 'createMoto' %}">
+        <button type="button"
+          class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md flex items-center">
+          <img src="{% static 'imgs/plus.png' %}" alt="Add Car Icon" class="mr-2 filter"
+            style="width: 16px; height: 16px; filter: brightness(0) invert(1);">
+          Add Motorbike
+        </button>
+      </a>
+      {% endif %}
+    </div>
+
+    <div id="advancedFiltersModal"
+      class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+      <div class="relative p-5 border w-1/3 shadow-lg rounded-md bg-white">
+        <div class="text-center">
+          <h3 class="text-lg leading-6 font-medium text-gray-900">Advanced Filters</h3>
+          <button type="button" onclick="toggleModal(false)" class="absolute top-0 right-0 p-2 text-black">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <div class="mt-2 px-7 py-3">
+            <div class="flex items-center space-x-4">
+              <div class="flex-1">
+                <label for="id_condition" class="block text-gray-700 text-sm font-bold mb-2">Condition</label>
+                {{ form.newOrUsed }}
+              </div>
+              <div class="flex-1">
+                <label for="id_color" class="block text-gray-700 text-sm font-bold mb-2">Color</label>
+                {{ form.color }}
+              </div>
+              <div class="flex-1">
+                <label for="id_priceMax" class="block text-gray-700 text-sm font-bold mb-2">Max Price</label>
+                {{ form.priceMax }}
+              </div>
+              <div class="flex-1">
+                <label for="id_priceMin" class="block text-gray-700 text-sm font-bold mb-2">Min Price</label>
+                {{ form.priceMin }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="text-center">
+      {% if errors is not None %}
+      <div id="error-message" class="text-red-500 font-bold text-2xl">
+        <h1>{{ errors }}</h1>
+      </div>
+      {% endif %}
+    </div>
+  </form>
+</div>
+</div>
+</form>
+
+<div class="flex gap-8 w-full py-6 px-2 mt-1 justify-center flex-wrap">
+  {% for moto in motos %}
+  <div class="w-80 h-96 rounded-2xl shadow-lg shadow-zinc-950 p-2 flex flex-col justify-between items-center mb-8">
+    <img src="{{ moto.image.url }}" alt="{{ moto.model }}" class="w-full h-52 object-contain" />
+    <div class="w-full text-center bg-white py-1 rounded-xl mt-auto">
+      <h2 class="text-lg font-bold">
+        {{ moto.model.brand.name }} {{ moto.model.name }}
+      </h2>
+      <p class="text-sm text-gray-600">Price: {{ moto.price }}€</p>
+      <a href="{% url 'motorbike_detail' moto.id %}">
+        <button
+          class="mt-6 bg-sky-800 text-white text-base font-bold px-3 py-1 rounded-lg hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-300 mb-2 transition duration-300 ease-in-out">
+          View Details
+        </button>
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+
+{% endblock %}
+
+{% block extra_content %}
+<link href="{% static 'content/style.css' %}" rel="stylesheet" />
+<link href="{% static 'content/tailwind.css' %}" rel="stylesheet" />
+<link href="{% static 'content/stylespages.css' %}" rel="stylesheet" />
+<script>
+  function toggleModal(show) {
+    const modal = document.getElementById('advancedFiltersModal');
+    if (show) {
+      modal.classList.remove('hidden');
+    } else {
+      modal.classList.add('hidden');
+    }
+  }
+
+  window.addEventListener("click", function (event) {
+    var modal = document.getElementById('advancedFiltersModal');
+    if (event.target === modal) {
+      toggleModal(false);
+    }
+  });
+
+</script>
+{% endblock %}
