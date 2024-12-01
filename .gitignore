@@ -1,4 +1,3 @@
 venv/
 *.pyc
 CarStand/app/migrations/
-CarStand_v2/app/migrations/
