@@ -6,6 +6,7 @@ import { BrandsComponent } from './components/brands/brands.component';
 import { GroupsComponent } from './components/groups/groups.component';
 
 export const routes: Routes = [
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'cars', component: CarsComponent },
     { path: 'motorbikes', component: MotorBikesComponent },
