@@ -649,89 +649,110 @@ def desiredVehicles(request):
 
 
 ################# API #################
-from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
+from rest_framework import status
 from app.models import Profile, Group, Brand, CarModel, Car, Moto, Favorite
 from app.serializers import (
     ProfileSerializer, GroupSerializer, BrandSerializer, 
     CarModelSerializer, CarSerializer, MotoSerializer, FavoriteSerializer
 )
-from rest_framework.permissions import IsAuthenticated
 
-class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
+# Profile Views
+@api_view(['GET'])
+def get_profiles(request):
+    profiles = Profile.objects.all()
+    serializer = ProfileSerializer(profiles, many=True)
+    return Response(serializer.data)
 
-    @action(detail=False, methods=['get'])
-    def me(self, request):
-        profile = get_object_or_404(Profile, user=request.user)
-        serializer = self.get_serializer(profile)
+@api_view(['GET'])
+def get_profile(request, pk):
+    try:
+        profile = Profile.objects.get(pk=pk)
+    except Profile.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = ProfileSerializer(profile)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def create_profile(request):
+    serializer = ProfileSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def update_profile(request, pk):
+    try:
+        profile = Profile.objects.get(pk=pk)
+    except Profile.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = ProfileSerializer(profile, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
         return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class GroupViewSet(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
+@api_view(['DELETE'])
+def delete_profile(request, pk):
+    try:
+        profile = Profile.objects.get(pk=pk)
+    except Profile.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    profile.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
-class BrandViewSet(viewsets.ModelViewSet):
-    queryset = Brand.objects.all()
-    serializer_class = BrandSerializer
 
-class CarModelViewSet(viewsets.ModelViewSet):
-    queryset = CarModel.objects.all()
-    serializer_class = CarModelSerializer
+# Similar views for Group, Brand, CarModel, Car, Moto, Favorite
+# Example: Car Views
 
-class CarViewSet(viewsets.ModelViewSet):
-    queryset = Car.objects.all()
-    serializer_class = CarSerializer
+@api_view(['GET'])
+def get_cars(request):
+    cars = Car.objects.all()
+    serializer = CarSerializer(cars, many=True)
+    return Response(serializer.data)
 
-    @action(detail=True, methods=['post'])
-    def select(self, request, pk=None):
-        car = get_object_or_404(Car, pk=pk)
-        profile = get_object_or_404(Profile, user=request.user)
-        if car.interestedCustomers.filter(id=profile.id).exists():
-            car.interestedCustomers.remove(profile)
-        else:
-            car.interestedCustomers.add(profile)
-        return Response({'status': 'selection updated'})
+@api_view(['GET'])
+def get_car(request, pk):
+    try:
+        car = Car.objects.get(pk=pk)
+    except Car.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = CarSerializer(car)
+    return Response(serializer.data)
 
-class MotoViewSet(viewsets.ModelViewSet):
-    queryset = Moto.objects.all()
-    serializer_class = MotoSerializer
+@api_view(['POST'])
+def create_car(request):
+    serializer = CarSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=True, methods=['post'])
-    def select(self, request, pk=None):
-        moto = get_object_or_404(Moto, pk=pk)
-        profile = get_object_or_404(Profile, user=request.user)
-        if moto.interestedCustomers.filter(id=profile.id).exists():
-            moto.interestedCustomers.remove(profile)
-        else:
-            moto.interestedCustomers.add(profile)
-        return Response({'status': 'selection updated'})
-
-class FavoriteViewSet(viewsets.ModelViewSet):
-    queryset = Favorite.objects.all()
-    serializer_class = FavoriteSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        profile = get_object_or_404(Profile, user=self.request.user)
-        return Favorite.objects.filter(profile=profile)
-
-    @action(detail=False, methods=['get'])
-    def cars(self, request):
-        profile = get_object_or_404(Profile, user=request.user)
-        favorites = Favorite.objects.filter(profile=profile).first()
-        cars = favorites.favoritesCar.all() if favorites else []
-        serializer = CarSerializer(cars, many=True)
+@api_view(['PUT'])
+def update_car(request, pk):
+    try:
+        car = Car.objects.get(pk=pk)
+    except Car.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = CarSerializer(car, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
         return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=['get'])
-    def motos(self, request):
-        profile = get_object_or_404(Profile, user=request.user)
-        favorites = Favorite.objects.filter(profile=profile).first()
-        motos = favorites.favoritesMoto.all() if favorites else []
-        serializer = MotoSerializer(motos, many=True)
-        return Response(serializer.data)
+@api_view(['DELETE'])
+def delete_car(request, pk):
+    try:
+        car = Car.objects.get(pk=pk)
+    except Car.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    car.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)

@@ -53,6 +53,9 @@ urlpatterns = [
     path('create-car-model/<int:type>', views.create_car_model, name='create_car_model'),
     path('vehiclespurchased/', views.vehiclesPurchased, name='vehiclespurchased'),
     path('desiredvehicles/', views.desiredVehicles, name='desiredvehicles'),
+
+    ############################## API ##############################
+    path('ws/cars', views.CarSerializer)
 ]
 
 # Serve static files in development
