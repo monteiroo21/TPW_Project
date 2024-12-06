@@ -1,3 +1,5 @@
+import { Group } from "./group";
+
 export interface Brand {
     id: number;
     name: string;
@@ -5,7 +7,7 @@ export interface Brand {
     country: string;
     website: string;
     cellphone: string;
-    group: number;
+    group: Group;
     description: string;
     logo?: string;  // path to the logo
 }

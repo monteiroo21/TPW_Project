@@ -1,6 +1,8 @@
+import { CarModel } from "./model";
+
 export interface Moto {
     id: number;
-    model: number;  // MotoModel ID
+    model: CarModel;  // MotoModel ID
     year: number;
     new: boolean;
     kilometers: number;
