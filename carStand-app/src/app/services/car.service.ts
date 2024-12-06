@@ -1,32 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Car } from '../interfaces/car';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CarService {
-    private baseURL = 'http://localhost:8000/api/cars/';
+    private baseURL = 'http://localhost:8000/api';
 
-    constructor(private http: HttpClient) { }
+    constructor() { }
 
-    getCars(): Observable<any> {
-        return this.http.get(this.baseURL);
+    async getCars(): Promise<Car[]> {
+        const url = `${this.baseURL}/cars`;
+        const data = await fetch(url);
+        return await data.json() ?? [];
     }
 
-    getCar(id: number): Observable<any> {
-        return this.http.get(`${this.baseURL}${id}/`);
+    async getCar(id: number): Promise<Car> {
+        const url = `${this.baseURL}/cars?id=${id}`;
+        const data = await fetch(url);
+        return await data.json() ?? undefined;
     }
 
-    createCar(car: any): Observable<any> {
-        return this.http.post(`${this.baseURL}create/`, car);
-    }
-
-    updateCar(id: number, car: any): Observable<any> {
-        return this.http.put(`${this.baseURL}update/${id}/`, car);
-    }
-
-    deleteCar(id: number): Observable<any> {
-        return this.http.delete(`${this.baseURL}delete/${id}/`);
-    }
+    // Depois implementar o resto dos métodos
 }

@@ -666,7 +666,8 @@ def get_cars(request):
 
 
 @api_view(['GET'])
-def get_car(request, id):
+def get_car(request):
+    id = int(request.GET['id'])
     try:
         car = Car.objects.get(id=id)
     except Car.DoesNotExist:
@@ -686,7 +687,8 @@ def create_car(request):
 
 
 @api_view(['PUT'])
-def update_car(request, id):
+def update_car(request):
+    id = request.data['id']
     try:
         car = Car.objects.get(id=id)
     except Car.DoesNotExist:
