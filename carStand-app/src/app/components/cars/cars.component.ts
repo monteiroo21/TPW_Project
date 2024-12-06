@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CardsAndMotosCardsComponent } from '../Cards/cards-and-motos-cards/cards-and-motos-cards.component';
 import { Car } from '../../interfaces/car';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CarService } from '../../services/car.service';
 
 @Component({
   selector: 'app-cars',
@@ -11,5 +12,10 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './cars.component.css'
 })
 export class CarsComponent {
-  // cars: Car[]; // Array of cars
+  cars: Car[] = [];
+  carService: CarService = inject(CarService);
+
+  constructor() {
+    this.carService.getCars().then(cars => this.cars = cars);
+  }
 }

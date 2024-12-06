@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Car } from '../../../interfaces/car';
 
 @Component({
   selector: 'app-cards-and-motos-cards',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './cards-and-motos-cards.component.css'
 })
 export class CardsAndMotosCardsComponent {
-
+  @Input() cars: Car[] = [];
 }
