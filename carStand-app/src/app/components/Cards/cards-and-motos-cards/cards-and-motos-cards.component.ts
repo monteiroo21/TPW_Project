@@ -10,4 +10,5 @@ import { Car } from '../../../interfaces/car';
 })
 export class CardsAndMotosCardsComponent {
   @Input() cars: Car[] = [];
+  urlImage:string="http://localhost:8000";
 }
