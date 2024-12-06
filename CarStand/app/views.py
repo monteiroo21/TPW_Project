@@ -646,3 +646,92 @@ def desiredVehicles(request):
         "motos": motos
     }
     return render(request, 'desired_vehicles.html', context)
+
+
+################# API #################
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from app.models import Profile, Group, Brand, CarModel, Car, Moto, Favorite
+from app.serializers import (
+    ProfileSerializer, GroupSerializer, BrandSerializer, 
+    CarModelSerializer, CarSerializer, MotoSerializer, FavoriteSerializer
+)
+from rest_framework.permissions import IsAuthenticated
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        profile = get_object_or_404(Profile, user=request.user)
+        serializer = self.get_serializer(profile)
+        return Response(serializer.data)
+
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+class BrandViewSet(viewsets.ModelViewSet):
+    queryset = Brand.objects.all()
+    serializer_class = BrandSerializer
+
+class CarModelViewSet(viewsets.ModelViewSet):
+    queryset = CarModel.objects.all()
+    serializer_class = CarModelSerializer
+
+class CarViewSet(viewsets.ModelViewSet):
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer
+
+    @action(detail=True, methods=['post'])
+    def select(self, request, pk=None):
+        car = get_object_or_404(Car, pk=pk)
+        profile = get_object_or_404(Profile, user=request.user)
+        if car.interestedCustomers.filter(id=profile.id).exists():
+            car.interestedCustomers.remove(profile)
+        else:
+            car.interestedCustomers.add(profile)
+        return Response({'status': 'selection updated'})
+
+class MotoViewSet(viewsets.ModelViewSet):
+    queryset = Moto.objects.all()
+    serializer_class = MotoSerializer
+
+    @action(detail=True, methods=['post'])
+    def select(self, request, pk=None):
+        moto = get_object_or_404(Moto, pk=pk)
+        profile = get_object_or_404(Profile, user=request.user)
+        if moto.interestedCustomers.filter(id=profile.id).exists():
+            moto.interestedCustomers.remove(profile)
+        else:
+            moto.interestedCustomers.add(profile)
+        return Response({'status': 'selection updated'})
+
+class FavoriteViewSet(viewsets.ModelViewSet):
+    queryset = Favorite.objects.all()
+    serializer_class = FavoriteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        profile = get_object_or_404(Profile, user=self.request.user)
+        return Favorite.objects.filter(profile=profile)
+
+    @action(detail=False, methods=['get'])
+    def cars(self, request):
+        profile = get_object_or_404(Profile, user=request.user)
+        favorites = Favorite.objects.filter(profile=profile).first()
+        cars = favorites.favoritesCar.all() if favorites else []
+        serializer = CarSerializer(cars, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def motos(self, request):
+        profile = get_object_or_404(Profile, user=request.user)
+        favorites = Favorite.objects.filter(profile=profile).first()
+        motos = favorites.favoritesMoto.all() if favorites else []
+        serializer = MotoSerializer(motos, many=True)
+        return Response(serializer.data)
