@@ -1,3 +1,5 @@
 <div class="pt-24 px-10 mb-20">
-    <app-cards-and-motos-cards [cars]="cars"></app-cards-and-motos-cards>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <app-cards-and-motos-cards *ngFor="let car of cars" [car]="car"></app-cards-and-motos-cards>
+    </div>
 </div>

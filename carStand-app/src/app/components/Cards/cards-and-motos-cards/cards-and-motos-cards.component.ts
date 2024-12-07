@@ -9,6 +9,6 @@ import { Car } from '../../../interfaces/car';
   styleUrl: './cards-and-motos-cards.component.css'
 })
 export class CardsAndMotosCardsComponent {
-  @Input() cars: Car[] = [];
-  urlImage:string="http://localhost:8000";
+  @Input() car: any;
+  urlImage: string = "http://localhost:8000";
 }
