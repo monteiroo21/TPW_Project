@@ -3,12 +3,13 @@
     <div class="flex justify-center bg-slate-900 rounded-2xl m-1">
         <img class="pt-4 px-4 rounded-t-2xl w-60 h-60 object-contain transition-opacity hover:opacity-90"
             [src]="car ? urlImage + car.image : urlImageMoto + moto.image"
-            [alt]="car ? car.model.brand.name + ' ' + car.model.name : moto.brand.name + ' ' + moto.model.name" />
+            [alt]="car ? car.model.brand.name + ' ' + car.model.name : moto.model.brand.name + ' ' + moto.model.name" />
     </div>
     <div class="px-5 pt-2 pb-4">
         <div>
             <h5 class="text-2xl font-bold tracking-tight text-gray-900">
-                {{ car ? (car.model.brand.name + ' ' + car.model.name) : (moto.brand.name + ' ' + moto.model.name) }}
+                {{ car ? (car.model.brand.name + ' ' + car.model.name) : (moto.model.brand.name + ' ' + moto.model.name)
+                }}
             </h5>
 
             <div class="flex justify-between mt-4">

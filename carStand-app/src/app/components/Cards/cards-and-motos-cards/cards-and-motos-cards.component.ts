@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Car } from '../../../interfaces/car';
 
 @Component({
   selector: 'app-cards-and-motos-cards',
