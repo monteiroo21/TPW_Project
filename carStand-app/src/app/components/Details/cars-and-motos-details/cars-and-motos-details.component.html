@@ -1,52 +1,57 @@
-<div class="container mx-auto mt-20 px-4">
-    <div *ngIf="car" class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-2xl font-bold mb-4 text-gray-800">Car Details</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="relative mt-20 container mx-auto px-4">
+    <!-- Botão Go Back -->
+    <button (click)="goBack()"
+        class="absolute bottom-4 left-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all">
+        Go Back
+    </button>
+
+    <!-- Car Details -->
+    <div *ngIf="car" class="bg-gray-100 shadow-xl rounded-lg p-8 mb-10">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">🚗 Car Details</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Car Information -->
             <div>
-                <p class="text-gray-600"><strong>Brand:</strong> {{ car.model.brand.name }}</p>
-                <p class="text-gray-600"><strong>Model:</strong> {{ car.model.name }}</p>
-                <p class="text-gray-600"><strong>Year:</strong> {{ car.year }}</p>
-                <p class="text-gray-600"><strong>Price:</strong> {{ car.price }}€</p>
-                <p class="text-gray-600"><strong>Kilometers:</strong> {{ car.kilometers }} km</p>
-                <p class="text-gray-600"><strong>Color:</strong> {{ car.color }}</p>
-                <p class="text-gray-600"><strong>Electric:</strong> {{ car.electric ? 'Yes' : 'No' }}</p>
-                <p class="text-gray-600"><strong>Doors:</strong> {{ car.doors }}</p>
-                <p class="text-gray-600"><strong>Specifications:</strong> {{ car.model.specifications }}</p>
-                <p class="text-gray-600"><strong>Release Year:</strong> {{ car.model.releaseYear }}</p>
-                <p class="text-gray-600"><strong>Base Price:</strong> {{ car.model.base_price }}</p>
+                <p class="text-gray-700 text-lg"><strong>Brand:</strong> {{ car.model.brand.name }}</p>
+                <p class="text-gray-700 text-lg"><strong>Model:</strong> {{ car.model.name }}</p>
+                <p class="text-gray-700 text-lg"><strong>Year:</strong> {{ car.year }}</p>
+                <p class="text-gray-700 text-lg"><strong>Price:</strong> {{ car.price }}€</p>
+                <p class="text-gray-700 text-lg"><strong>Kilometers:</strong> {{ car.kilometers }} km</p>
+                <p class="text-gray-700 text-lg"><strong>Color:</strong> {{ car.color }}</p>
+                <p class="text-gray-700 text-lg"><strong>Electric:</strong> {{ car.electric ? 'Yes' : 'No' }}</p>
+                <p class="text-gray-700 text-lg"><strong>Doors:</strong> {{ car.doors }}</p>
+                <p class="text-gray-700 text-lg"><strong>Specifications:</strong> {{ car.model.specifications }}</p>
+                <p class="text-gray-700 text-lg"><strong>Release Year:</strong> {{ car.model.releaseYear }}</p>
+                <p class="text-gray-700 text-lg"><strong>Base Price:</strong> {{ car.model.base_price }}</p>
             </div>
+            <!-- Car Image -->
             <div class="flex justify-center items-center">
-                <img class="rounded-t-2xl w-60 h-60 object-contain transition-transform hover:scale-105"
+                <img class="rounded-lg shadow-md w-80 h-80 object-contain transform transition-transform hover:scale-105"
                     [src]="urlImage + car.image" [alt]="car.model.brand.name + ' ' + car.model.name" />
             </div>
         </div>
     </div>
 
-    <div *ngIf="moto" class="bg-white shadow-md rounded-lg p-6 mt-10">
-        <h2 class="text-2xl font-bold mb-4 text-gray-800">Moto Details</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Moto Details -->
+    <div *ngIf="moto" class="bg-gray-100 shadow-xl rounded-lg p-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">🏍️ Moto Details</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Moto Information -->
             <div>
-                <p class="text-gray-600"><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
-                <p class="text-gray-600"><strong>Model:</strong> {{ moto.model.name }}</p>
-                <p class="text-gray-600"><strong>Year:</strong> {{ moto.year }}</p>
-                <p class="text-gray-600"><strong>Price:</strong> {{ moto.price }}€</p>
-                <p class="text-gray-600"><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
-                <p class="text-gray-600"><strong>Color:</strong> {{ moto.color }}</p>
-                <p class="text-gray-600"><strong>Specifications:</strong> {{ moto.model.specifications }}</p>
-                <p class="text-gray-600"><strong>Release Year:</strong> {{ moto.model.releaseYear }}</p>
-                <p class="text-gray-600"><strong>Base Price:</strong> {{ moto.model.base_price }}</p>
+                <p class="text-gray-700 text-lg"><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
+                <p class="text-gray-700 text-lg"><strong>Model:</strong> {{ moto.model.name }}</p>
+                <p class="text-gray-700 text-lg"><strong>Year:</strong> {{ moto.year }}</p>
+                <p class="text-gray-700 text-lg"><strong>Price:</strong> {{ moto.price }}€</p>
+                <p class="text-gray-700 text-lg"><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
+                <p class="text-gray-700 text-lg"><strong>Color:</strong> {{ moto.color }}</p>
+                <p class="text-gray-700 text-lg"><strong>Specifications:</strong> {{ moto.model.specifications }}</p>
+                <p class="text-gray-700 text-lg"><strong>Release Year:</strong> {{ moto.model.releaseYear }}</p>
+                <p class="text-gray-700 text-lg"><strong>Base Price:</strong> {{ moto.model.base_price }}</p>
             </div>
+            <!-- Moto Image -->
             <div class="flex justify-center items-center">
-                <img class="rounded-t-2xl w-60 h-60 object-contain transition-transform hover:scale-105"
+                <img class="rounded-lg shadow-md w-80 h-80 object-contain transform transition-transform hover:scale-105"
                     [src]="urlImage + moto.image" [alt]="moto.model.brand.name + ' ' + moto.model.name" />
             </div>
         </div>
-    </div>
-
-    <div class="flex justify-center mt-10">
-        <button (click)="goBack()"
-            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all">
-            Go Back
-        </button>
     </div>
 </div>
