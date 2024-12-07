@@ -11,4 +11,7 @@ import { Car } from '../../../interfaces/car';
 export class CardsAndMotosCardsComponent {
   @Input() car: any;
   urlImage: string = "http://localhost:8000";
+
+  @Input() moto: any;
+  urlImageMoto: string = "http://localhost:8000";
 }

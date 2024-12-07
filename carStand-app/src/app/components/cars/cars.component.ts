@@ -7,7 +7,7 @@ import { CarService } from '../../services/car.service';
 
 @Component({
   selector: 'app-cars',
-  imports: [CommonModule, CardsAndMotosCardsComponent, FormsModule], // Falta o import do Car aqui!!!
+  imports: [CommonModule, CardsAndMotosCardsComponent, FormsModule],
   templateUrl: './cars.component.html',
   styleUrl: './cars.component.css'
 })
