@@ -4,7 +4,7 @@ import { Brand } from '../interfaces/brand';
 @Injectable({
     providedIn: 'root'
 })
-export class BrandServuce {
+export class BrandService {
     private baseURL = 'http://localhost:8000/api';
 
     constructor() { }

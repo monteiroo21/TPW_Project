@@ -1,3 +1,5 @@
 <div class="pt-24 px-10 mb-20">
-    <app-brands-and-groups-cards></app-brands-and-groups-cards>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <app-brands-and-groups-cards *ngFor="let group of groups" [group]="group"></app-brands-and-groups-cards>
+    </div>
 </div>

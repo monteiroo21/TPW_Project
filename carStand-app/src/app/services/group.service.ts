@@ -4,18 +4,18 @@ import { Group } from '../interfaces/group';
 @Injectable({
     providedIn: 'root'
 })
-export class BrandServuce {
+export class GroupService {
     private baseURL = 'http://localhost:8000/api';
 
     constructor() { }
 
-    async getBrands(): Promise<Group[]> {
+    async getGroups(): Promise<Group[]> {
         const url = `${this.baseURL}/groups`;
         const data = await fetch(url);
         return await data.json() ?? [];
     }
 
-    async getBrand(id: number): Promise<Group> {
+    async getGroup(id: number): Promise<Group> {
         const url = `${this.baseURL}/groups/${id}`;
         const data = await fetch(url);
         return await data.json() ?? undefined;
