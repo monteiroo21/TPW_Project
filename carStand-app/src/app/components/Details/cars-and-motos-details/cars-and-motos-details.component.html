@@ -1,23 +1,21 @@
-<div *ngIf="car">
-    <h2>Car Details</h2>
-    <p><strong>Brand:</strong> {{ car.model.brand.name }}</p>
-    <p><strong>Model:</strong> {{ car.model.name }}</p>
-    <p><strong>Year:</strong> {{ car.year }}</p>
-    <p><strong>Price:</strong> {{ car.price }}€</p>
-    <p><strong>Kilometers:</strong> {{ car.kilometers }} km</p>
-    <p><strong>Color:</strong> {{ car.color }}</p>
-    <p><strong>Electric:</strong> {{ car.electric ? 'Yes' : 'No' }}</p>
-    <p><strong>Doors:</strong> {{ car.doors }}</p>
-</div>
+<div class="pt-24 px-10 mb-20">
+    <div *ngIf="car">
+        <h2>Car Details</h2>
+        <p><strong>Year:</strong> {{ car.year }}</p>
+        <p><strong>Price:</strong> {{ car.price }}€</p>
+        <p><strong>Kilometers:</strong> {{ car.kilometers }} km</p>
+        <p><strong>Color:</strong> {{ car.color }}</p>
+        <p><strong>Electric:</strong> {{ car.electric ? 'Yes' : 'No' }}</p>
+        <p><strong>Doors:</strong> {{ car.doors }}</p>
+    </div>
 
-<div *ngIf="moto">
-    <h2>Moto Details</h2>
-    <p><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
-    <p><strong>Model:</strong> {{ moto.model.name }}</p>
-    <p><strong>Year:</strong> {{ moto.year }}</p>
-    <p><strong>Price:</strong> {{ moto.price }}€</p>
-    <p><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
-    <p><strong>Color:</strong> {{ moto.color }}</p>
-</div>
+    <div *ngIf="moto">
+        <h2>Moto Details</h2>
+        <p><strong>Year:</strong> {{ moto.year }}</p>
+        <p><strong>Price:</strong> {{ moto.price }}€</p>
+        <p><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
+        <p><strong>Color:</strong> {{ moto.color }}</p>
+    </div>
 
-<button (click)="goBack()">Go Back</button>
+    <button (click)="goBack()">Go Back</button>
+</div>

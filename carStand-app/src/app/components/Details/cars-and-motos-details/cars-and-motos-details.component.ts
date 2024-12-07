@@ -9,7 +9,7 @@ import { MotoService } from '../../../services/moto.service';
 
 @Component({
   selector: 'app-cars-and-motos-details',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './cars-and-motos-details.component.html',
   styleUrl: './cars-and-motos-details.component.css'
 })
