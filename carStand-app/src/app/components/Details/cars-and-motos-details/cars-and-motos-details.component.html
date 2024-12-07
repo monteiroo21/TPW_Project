@@ -1,13 +1,14 @@
-<div class="relative mt-20 container mx-auto px-4">
-    <!-- Botão Go Back -->
+<div>
     <button (click)="goBack()"
-        class="absolute bottom-4 left-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all">
+        class="absolute top-4 left-4 bg-slate-700 hover:bg-slate-900 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all mt-20">
         Go Back
     </button>
+</div>
 
+<div class="relative mt-40 container mx-auto px-4">
     <!-- Car Details -->
-    <div *ngIf="car" class="bg-gray-100 shadow-xl rounded-lg p-8 mb-10">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">🚗 Car Details</h2>
+    <div *ngIf="car" class="shadow-xl rounded-lg p-8 mb-10">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Car Details</h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Car Information -->
             <div>
@@ -32,8 +33,8 @@
     </div>
 
     <!-- Moto Details -->
-    <div *ngIf="moto" class="bg-gray-100 shadow-xl rounded-lg p-8">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">🏍️ Moto Details</h2>
+    <div *ngIf="moto" class="shadow-xl rounded-lg p-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Moto Details</h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Moto Information -->
             <div>
