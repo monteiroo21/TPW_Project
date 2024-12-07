@@ -1,6 +1,8 @@
-<div class="pt-24 px-10 mb-20">
+<div>
     <div *ngIf="car">
         <h2>Car Details</h2>
+        <p><strong>Brand:</strong> {{ car.model.brand.name }}</p>
+        <p><strong>Model:</strong> {{ car.model.name }}</p>
         <p><strong>Year:</strong> {{ car.year }}</p>
         <p><strong>Price:</strong> {{ car.price }}€</p>
         <p><strong>Kilometers:</strong> {{ car.kilometers }} km</p>
@@ -11,6 +13,8 @@
 
     <div *ngIf="moto">
         <h2>Moto Details</h2>
+        <p><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
+        <p><strong>Model:</strong> {{ moto.model.name }}</p>
         <p><strong>Year:</strong> {{ moto.year }}</p>
         <p><strong>Price:</strong> {{ moto.price }}€</p>
         <p><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
