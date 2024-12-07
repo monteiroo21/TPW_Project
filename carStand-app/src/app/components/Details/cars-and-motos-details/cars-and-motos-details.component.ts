@@ -20,9 +20,16 @@ export class CarsAndMotosDetailsComponent {
   carService: CarService = inject(CarService);
   motoService: MotoService = inject(MotoService);
 
+  urlImage: string = "http://localhost:8000";
   constructor(private route: ActivatedRoute, private location: Location) {
-    this.getCarDetails();
-    this.getMotoDetails();
+    let type: string = this.route.snapshot.params['type'];
+    if (type == "car") {
+      this.getCarDetails();
+    }
+    else
+    {
+      this.getMotoDetails();
+    }
   }
 
   getCarDetails(): void {
