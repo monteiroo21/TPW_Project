@@ -47,8 +47,4 @@ export class CarsAndMotosDetailsComponent {
     num = +num;
     this.motoService.getMoto(num).then((moto: Moto) => { this.moto = moto; });
   }
-
-  goBack(): void {
-    this.location.back();
-  }
 }
