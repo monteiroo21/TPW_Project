@@ -16,7 +16,7 @@ export class GroupService {
     }
 
     async getGroup(id: number): Promise<Group> {
-        const url = `${this.baseURL}/groups/${id}`;
+        const url = `${this.baseURL}/groups/?id=${id}`;
         const data = await fetch(url);
         return await data.json() ?? undefined;
     }

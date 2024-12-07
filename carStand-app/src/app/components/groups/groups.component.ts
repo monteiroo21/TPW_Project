@@ -17,6 +17,10 @@ export class GroupsComponent {
   groupService: GroupService = inject(GroupService);
 
   constructor() {
-    this.groupService.getGroups().then(groups => this.groups = groups);
+    this.groupService.getGroups().then(groups => {
+      this.groups = groups;
+      console.log(this.groups);
+    });
   }
 }
+

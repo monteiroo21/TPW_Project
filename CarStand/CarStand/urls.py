@@ -65,6 +65,11 @@ urlpatterns = [
     path('api/motorbikes/create', views.create_motorbike, name='api_create_motorbike'),
     path('api/motorbikes/update', views.update_motorbike, name='api_update_motorbike'),
     path('api/motorbikes/delete/<int:id>', views.delete_motorbike, name='api_delete_motorbike'),
+    path('api/brands', views.get_brands, name='api_get_brands'),
+    path('api/brands', views.get_brand, name='api_get_brand'),
+    path('api/groups', views.get_groups, name='api_get_groups'),
+    path('api/groups', views.get_group, name='api_get_group'),
+
 ]
 
 # Serve static files in development
