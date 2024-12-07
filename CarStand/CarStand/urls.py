@@ -56,12 +56,12 @@ urlpatterns = [
 
     ############################## API ##############################
     path('api/cars', views.get_cars, name='api_get_cars'),
-    path('api/cars', views.get_car, name='api_get_car'),
+    path('api/car', views.get_car, name='api_get_car'),
     path('api/cars/create', views.create_car, name='api_create_car'),
     path('api/cars/update', views.update_car, name='api_update_car'),
     path('api/cars/delete/<int:id>', views.delete_car, name='api_delete_car'),
     path('api/motorbikes', views.get_motorbikes, name='api_get_motorbikes'),
-    path('api/motorbikes', views.get_motorbike, name='api_get_motorbike'),
+    path('api/motorbike', views.get_motorbike, name='api_get_motorbike'),
     path('api/motorbikes/create', views.create_motorbike, name='api_create_motorbike'),
     path('api/motorbikes/update', views.update_motorbike, name='api_update_motorbike'),
     path('api/motorbikes/delete/<int:id>', views.delete_motorbike, name='api_delete_motorbike'),
