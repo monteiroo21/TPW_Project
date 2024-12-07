@@ -13,6 +13,6 @@ export const routes: Routes = [
     { path: 'motorbikes', component: MotorBikesComponent },
     { path: 'brands', component: BrandsComponent },
     { path: 'groups', component: GroupsComponent },
-    { path: 'carsdetails/:num', component: CarsAndMotosDetailsComponent },
-    { path: 'motosdetails/:num', component: CarsAndMotosDetailsComponent }
+    { path: 'carsdetails/:type/:num', component: CarsAndMotosDetailsComponent },
+    { path: 'motosdetails/:type/:num', component: CarsAndMotosDetailsComponent }
 ];

@@ -16,7 +16,7 @@ export class CarService {
     }
 
     async getCar(id: number): Promise<Car> {
-        const url = `${this.baseURL}/cars?id=${id}`;
+        const url = `${this.baseURL}/car?id=${id}`;
         const data = await fetch(url);
         return await data.json() ?? undefined;
     }

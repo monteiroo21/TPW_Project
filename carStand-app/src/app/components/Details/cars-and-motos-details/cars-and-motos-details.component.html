@@ -1,4 +1,4 @@
-<div>
+<div class="mt-20">
     <div *ngIf="car">
         <h2>Car Details</h2>
         <p><strong>Brand:</strong> {{ car.model.brand.name }}</p>
@@ -9,6 +9,10 @@
         <p><strong>Color:</strong> {{ car.color }}</p>
         <p><strong>Electric:</strong> {{ car.electric ? 'Yes' : 'No' }}</p>
         <p><strong>Doors:</strong> {{ car.doors }}</p>
+        <p><strong>Specifications:</strong> {{ car.model.specifications }}</p>
+                <img class="pt-4 px-4 rounded-t-2xl w-60 h-60 object-contain transition-opacity hover:opacity-90"
+            [src]="urlImage + car.image "
+            [alt]="car.model.brand.name + ' ' + car.model.name" />
     </div>
 
     <div *ngIf="moto">
@@ -19,6 +23,11 @@
         <p><strong>Price:</strong> {{ moto.price }}€</p>
         <p><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
         <p><strong>Color:</strong> {{ moto.color }}</p>
+        <p><strong>Color:</strong> {{ moto.color }}</p>
+        <p><strong>Specifications:</strong> {{ moto.model.specifications }}</p>
+        <img class="pt-4 px-4 rounded-t-2xl w-60 h-60 object-contain transition-opacity hover:opacity-90"
+        [src]="urlImage + moto.image"
+        [alt]="moto.model.brand.name + ' ' + moto.model.name" />
     </div>
 
     <button (click)="goBack()">Go Back</button>
