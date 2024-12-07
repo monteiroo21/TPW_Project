@@ -6,10 +6,11 @@ import { Car } from '../../../interfaces/car';
 import { Moto } from '../../../interfaces/moto';
 import { CarService } from '../../../services/car.service';
 import { MotoService } from '../../../services/moto.service';
+import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
 
 @Component({
   selector: 'app-cars-and-motos-details',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, GoBackComponent],
   templateUrl: './cars-and-motos-details.component.html',
   styleUrl: './cars-and-motos-details.component.css'
 })
@@ -26,8 +27,7 @@ export class CarsAndMotosDetailsComponent {
     if (type == "car") {
       this.getCarDetails();
     }
-    else
-    {
+    else {
       this.getMotoDetails();
     }
   }
