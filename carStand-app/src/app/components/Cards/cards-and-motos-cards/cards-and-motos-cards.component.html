@@ -5,28 +5,35 @@
             [src]="car ? urlImage + car.image : urlImageMoto + moto.image"
             [alt]="car ? car.model.brand.name + ' ' + car.model.name : moto.model.brand.name + ' ' + moto.model.name" />
     </div>
-    <div class="px-5 pt-2 pb-4">
+    <div class="px-4 pt-2 pb-4">
         <div>
-            <h5 class="text-2xl font-bold tracking-tight text-gray-900">
+            <h5 class="text-xl font-bold tracking-tight text-gray-900">
                 {{ car ? (car.model.brand.name + ' ' + car.model.name) : (moto.model.brand.name + ' ' + moto.model.name)
                 }}
             </h5>
 
             <div class="flex justify-between mt-4">
-                <span class="text-md font-medium text-gray-900 bg-slate-200 px-2 py-1 rounded-md">{{ car ? car.year :
+                <span class="text-sm font-medium text-gray-900 bg-slate-200 px-2 py-1 rounded-md">{{ car ? car.year
+                    :
                     moto.year }}</span>
-                <span class="text-md font-medium text-gray-900 bg-slate-200 px-2 py-1 rounded-md">{{ car ?
+                <span class="text-sm font-medium text-gray-900 bg-slate-200 px-2 py-1 rounded-md">{{ car ?
                     car.kilometers : moto.kilometers || 0 }} km</span>
-                <span *ngIf="car" class="text-md font-medium text-gray-900 bg-slate-200 px-2 py-1 rounded-md">
+                <span *ngIf="car" class="text-sm font-medium text-gray-900 bg-slate-200 px-2 py-1 rounded-md">
                     {{ car.electric ? 'Electric' : 'Fuel' }}
                 </span>
-                <span *ngIf="car" class="text-md font-medium text-gray-900 bg-slate-200 px-2 py-1 rounded-md">
+                <span *ngIf="car" class="text-sm font-medium text-gray-900 bg-slate-200 px-2 py-1 rounded-md">
                     {{ car.doors }} doors
+                </span>
+                <span *ngIf="moto" class="text-sm font-medium text-gray-900 bg-slate-200 px-2 py-1 rounded-md">
+                    Fuel
+                </span>
+                <span *ngIf="moto" class="text-sm font-medium text-gray-900 bg-slate-200 px-2 py-1 rounded-md">
+                    {{ moto.color }}
                 </span>
             </div>
         </div>
         <div class="flex items-center justify-between mt-4">
-            <span class="text-xl font-bold text-gray-900">${{ car ? car.price : moto.price }}</span>
+            <span class="text-lg font-bold text-gray-900 ml-4">${{ car ? car.price : moto.price }}</span>
             <a href="#"
                 class="text-white bg-slate-700 hover:bg-slate-800 font-semibold rounded-2xl text-lg px-4 py-2 transition-colors">
                 See Details
