@@ -1,36 +1,52 @@
-<div class="mt-20">
-    <div *ngIf="car">
-        <h2>Car Details</h2>
-        <p><strong>Brand:</strong> {{ car.model.brand.name }}</p>
-        <p><strong>Model:</strong> {{ car.model.name }}</p>
-        <p><strong>Year:</strong> {{ car.year }}</p>
-        <p><strong>Price:</strong> {{ car.price }}€</p>
-        <p><strong>Kilometers:</strong> {{ car.kilometers }} km</p>
-        <p><strong>Color:</strong> {{ car.color }}</p>
-        <p><strong>Electric:</strong> {{ car.electric ? 'Yes' : 'No' }}</p>
-        <p><strong>Doors:</strong> {{ car.doors }}</p>
-        <p><strong>Specifications:</strong> {{ car.model.specifications }}</p>
-        <p><strong>Release Year:</strong> {{ car.model.releaseYear }}</p>
-        <p><strong>Base Price:</strong> {{ car.model.base_price }}</p>
-        <img class="pt-4 px-4 rounded-t-2xl w-60 h-60 object-contain transition-opacity hover:opacity-90"
-            [src]="urlImage + car.image " [alt]="car.model.brand.name + ' ' + car.model.name" />
+<div class="container mx-auto mt-20 px-4">
+    <div *ngIf="car" class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Car Details</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <p class="text-gray-600"><strong>Brand:</strong> {{ car.model.brand.name }}</p>
+                <p class="text-gray-600"><strong>Model:</strong> {{ car.model.name }}</p>
+                <p class="text-gray-600"><strong>Year:</strong> {{ car.year }}</p>
+                <p class="text-gray-600"><strong>Price:</strong> {{ car.price }}€</p>
+                <p class="text-gray-600"><strong>Kilometers:</strong> {{ car.kilometers }} km</p>
+                <p class="text-gray-600"><strong>Color:</strong> {{ car.color }}</p>
+                <p class="text-gray-600"><strong>Electric:</strong> {{ car.electric ? 'Yes' : 'No' }}</p>
+                <p class="text-gray-600"><strong>Doors:</strong> {{ car.doors }}</p>
+                <p class="text-gray-600"><strong>Specifications:</strong> {{ car.model.specifications }}</p>
+                <p class="text-gray-600"><strong>Release Year:</strong> {{ car.model.releaseYear }}</p>
+                <p class="text-gray-600"><strong>Base Price:</strong> {{ car.model.base_price }}</p>
+            </div>
+            <div class="flex justify-center items-center">
+                <img class="rounded-t-2xl w-60 h-60 object-contain transition-transform hover:scale-105"
+                    [src]="urlImage + car.image" [alt]="car.model.brand.name + ' ' + car.model.name" />
+            </div>
+        </div>
     </div>
 
-    <div *ngIf="moto">
-        <h2>Moto Details</h2>
-        <p><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
-        <p><strong>Model:</strong> {{ moto.model.name }}</p>
-        <p><strong>Year:</strong> {{ moto.year }}</p>
-        <p><strong>Price:</strong> {{ moto.price }}€</p>
-        <p><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
-        <p><strong>Color:</strong> {{ moto.color }}</p>
-        <p><strong>Color:</strong> {{ moto.color }}</p>
-        <p><strong>Specifications:</strong> {{ moto.model.specifications }}</p>
-        <p><strong>Release Year:</strong> {{ moto.model.releaseYear }}</p>
-        <p><strong>Base Price:</strong> {{ moto.model.base_price }}</p>
-        <img class="pt-4 px-4 rounded-t-2xl w-60 h-60 object-contain transition-opacity hover:opacity-90"
-            [src]="urlImage + moto.image" [alt]="moto.model.brand.name + ' ' + moto.model.name" />
+    <div *ngIf="moto" class="bg-white shadow-md rounded-lg p-6 mt-10">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Moto Details</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <p class="text-gray-600"><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
+                <p class="text-gray-600"><strong>Model:</strong> {{ moto.model.name }}</p>
+                <p class="text-gray-600"><strong>Year:</strong> {{ moto.year }}</p>
+                <p class="text-gray-600"><strong>Price:</strong> {{ moto.price }}€</p>
+                <p class="text-gray-600"><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
+                <p class="text-gray-600"><strong>Color:</strong> {{ moto.color }}</p>
+                <p class="text-gray-600"><strong>Specifications:</strong> {{ moto.model.specifications }}</p>
+                <p class="text-gray-600"><strong>Release Year:</strong> {{ moto.model.releaseYear }}</p>
+                <p class="text-gray-600"><strong>Base Price:</strong> {{ moto.model.base_price }}</p>
+            </div>
+            <div class="flex justify-center items-center">
+                <img class="rounded-t-2xl w-60 h-60 object-contain transition-transform hover:scale-105"
+                    [src]="urlImage + moto.image" [alt]="moto.model.brand.name + ' ' + moto.model.name" />
+            </div>
+        </div>
     </div>
 
-    <button (click)="goBack()">Go Back</button>
+    <div class="flex justify-center mt-10">
+        <button (click)="goBack()"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all">
+            Go Back
+        </button>
+    </div>
 </div>
