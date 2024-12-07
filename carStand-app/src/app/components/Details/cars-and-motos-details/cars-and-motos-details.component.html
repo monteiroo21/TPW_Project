@@ -1,28 +1,29 @@
 <div>
-    <button (click)="goBack()"
-        class="absolute top-4 left-4 bg-slate-700 hover:bg-slate-900 text-white font-semibold py-2 px-4 rounded-lg shadow-lg transition-all mt-20">
-        Go Back
+    <button (click)="goBack()" class="absolute top-4 left-6 py-2 px-4 mt-20 flex items-center group">
+        <img src="../../../../assets/left.png" alt="back"
+            class="w-10 h-10 filter invert brightness-0 hover:brightness-0 group-hover:filter-none group-hover:bg-white rounded-full">
+        <span class="text-white font-medium text-lg ml-2 group-hover:border-b-2 group-hover:border-white">Go Back</span>
     </button>
 </div>
 
-<div class="relative mt-40 container mx-auto px-4">
+<div class="relative mt-36 container mx-auto px-4">
     <!-- Car Details -->
-    <div *ngIf="car" class="shadow-xl rounded-lg p-8 mb-10">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">Car Details</h2>
+    <div *ngIf="car" class="shadow-2xl rounded-xl p-8 mb-14">
+        <h2 class="text-3xl font-bold text-slate-100 mb-6">{{ car.model.brand.name }} {{ car.model.name }}</h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Car Information -->
             <div>
-                <p class="text-gray-700 text-lg"><strong>Brand:</strong> {{ car.model.brand.name }}</p>
-                <p class="text-gray-700 text-lg"><strong>Model:</strong> {{ car.model.name }}</p>
-                <p class="text-gray-700 text-lg"><strong>Year:</strong> {{ car.year }}</p>
-                <p class="text-gray-700 text-lg"><strong>Price:</strong> {{ car.price }}€</p>
-                <p class="text-gray-700 text-lg"><strong>Kilometers:</strong> {{ car.kilometers }} km</p>
-                <p class="text-gray-700 text-lg"><strong>Color:</strong> {{ car.color }}</p>
-                <p class="text-gray-700 text-lg"><strong>Electric:</strong> {{ car.electric ? 'Yes' : 'No' }}</p>
-                <p class="text-gray-700 text-lg"><strong>Doors:</strong> {{ car.doors }}</p>
-                <p class="text-gray-700 text-lg"><strong>Specifications:</strong> {{ car.model.specifications }}</p>
-                <p class="text-gray-700 text-lg"><strong>Release Year:</strong> {{ car.model.releaseYear }}</p>
-                <p class="text-gray-700 text-lg"><strong>Base Price:</strong> {{ car.model.base_price }}</p>
+                <p class="text-slate-100 text-lg"><strong>Brand:</strong> {{ car.model.brand.name }}</p>
+                <p class="text-slate-100 text-lg"><strong>Model:</strong> {{ car.model.name }}</p>
+                <p class="text-slate-100 text-lg"><strong>Year:</strong> {{ car.year }}</p>
+                <p class="text-slate-100 text-lg"><strong>Price:</strong> {{ car.price }}€</p>
+                <p class="text-slate-100 text-lg"><strong>Kilometers:</strong> {{ car.kilometers }} km</p>
+                <p class="text-slate-100 text-lg"><strong>Color:</strong> {{ car.color }}</p>
+                <p class="text-slate-100 text-lg"><strong>Electric:</strong> {{ car.electric ? 'Yes' : 'No' }}</p>
+                <p class="text-slate-100 text-lg"><strong>Doors:</strong> {{ car.doors }}</p>
+                <p class="text-slate-100 text-lg"><strong>Specifications:</strong> {{ car.model.specifications }}</p>
+                <p class="text-slate-100 text-lg"><strong>Release Year:</strong> {{ car.model.releaseYear }}</p>
+                <p class="text-slate-100 text-lg"><strong>Base Price:</strong> {{ car.model.base_price }}</p>
             </div>
             <!-- Car Image -->
             <div class="flex justify-center items-center">
@@ -33,20 +34,20 @@
     </div>
 
     <!-- Moto Details -->
-    <div *ngIf="moto" class="shadow-xl rounded-lg p-8">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">Moto Details</h2>
+    <div *ngIf="moto" class="shadow-2xl rounded-xl p-8 mb-14">
+        <h2 class="text-3xl font-bold text-slate-100 mb-6">{{ moto.model.brand.name }} {{ moto.model.name }}</h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Moto Information -->
             <div>
-                <p class="text-gray-700 text-lg"><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
-                <p class="text-gray-700 text-lg"><strong>Model:</strong> {{ moto.model.name }}</p>
-                <p class="text-gray-700 text-lg"><strong>Year:</strong> {{ moto.year }}</p>
-                <p class="text-gray-700 text-lg"><strong>Price:</strong> {{ moto.price }}€</p>
-                <p class="text-gray-700 text-lg"><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
-                <p class="text-gray-700 text-lg"><strong>Color:</strong> {{ moto.color }}</p>
-                <p class="text-gray-700 text-lg"><strong>Specifications:</strong> {{ moto.model.specifications }}</p>
-                <p class="text-gray-700 text-lg"><strong>Release Year:</strong> {{ moto.model.releaseYear }}</p>
-                <p class="text-gray-700 text-lg"><strong>Base Price:</strong> {{ moto.model.base_price }}</p>
+                <p class="text-slate-100 text-lg"><strong>Brand:</strong> {{ moto.model.brand.name }}</p>
+                <p class="text-slate-100 text-lg"><strong>Model:</strong> {{ moto.model.name }}</p>
+                <p class="text-slate-100 text-lg"><strong>Year:</strong> {{ moto.year }}</p>
+                <p class="text-slate-100 text-lg"><strong>Price:</strong> {{ moto.price }}€</p>
+                <p class="text-slate-100 text-lg"><strong>Kilometers:</strong> {{ moto.kilometers }} km</p>
+                <p class="text-slate-100 text-lg"><strong>Color:</strong> {{ moto.color }}</p>
+                <p class="text-slate-100 text-lg"><strong>Specifications:</strong> {{ moto.model.specifications }}</p>
+                <p class="text-slate-100 text-lg"><strong>Release Year:</strong> {{ moto.model.releaseYear }}</p>
+                <p class="text-slate-100 text-lg"><strong>Base Price:</strong> {{ moto.model.base_price }}</p>
             </div>
             <!-- Moto Image -->
             <div class="flex justify-center items-center">
