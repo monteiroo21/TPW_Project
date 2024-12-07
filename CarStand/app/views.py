@@ -658,6 +658,9 @@ from app.serializers import (
     CarModelSerializer, CarSerializer, MotoSerializer, FavoriteSerializer
 )
 
+
+################# Car #################
+
 @api_view(['GET'])
 def get_cars(request):
     cars = Car.objects.all()
@@ -710,3 +713,59 @@ def delete_car(request, id):
     
     car.delete()
     return Response({'message': 'Car deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
+
+################# Motorbike #################
+
+@api_view(['GET'])
+def get_motorbikes(request):
+    motos = Moto.objects.all()
+    serializer = MotoSerializer(motos, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_motorbike(request):
+    id = int(request.GET['id'])
+    try:
+        moto = Moto.objects.get(id=id)
+    except Moto.DoesNotExist:
+        return Response({'error': 'Motorbike not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = MotoSerializer(moto)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def create_motorbike(request):
+    serializer = MotoSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['PUT'])
+def update_motorbike(request):
+    id = request.data['id']
+    try:
+        moto = Moto.objects.get(id=id)
+    except Moto.DoesNotExist:
+        return Response({'error': 'Motorbike not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = MotoSerializer(moto, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def delete_motorbike(request, id):
+    try:
+        moto = Moto.objects.get(id=id)
+    except Moto.DoesNotExist:
+        return Response({'error': 'Motorbike not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    moto.delete()
+    return Response({'message': 'Motorbike deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
