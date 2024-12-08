@@ -17,5 +17,5 @@ export const routes: Routes = [
     { path: 'carsdetails/:type/:num', component: CarsAndMotosDetailsComponent },
     { path: 'motosdetails/:type/:num', component: CarsAndMotosDetailsComponent },
     { path: 'brandsdetails/:type/:num', component: GroupsAndBrandsDetailsComponent },
-    { path: 'groupsdetails/:type/:num', component: GroupsAndBrandsDetailsComponent }
+    { path: 'groupdetails/:type/:num', component: GroupsAndBrandsDetailsComponent }
 ];
