@@ -69,6 +69,7 @@ urlpatterns = [
     path('api/brand', views.get_brand, name='api_get_brand'),
     path('api/groups', views.get_groups, name='api_get_groups'),
     path('api/group', views.get_group, name='api_get_group'),
+    path('api/search/<str:type>/', views.search, name='search'),
 
 ]
 
