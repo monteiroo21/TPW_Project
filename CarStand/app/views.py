@@ -769,3 +769,45 @@ def delete_motorbike(request, id):
     
     moto.delete()
     return Response({'message': 'Motorbike deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
+
+################# Groups #################
+
+@api_view(['GET'])
+def get_groups(request):
+    groups = Group.objects.all()
+    serializer = GroupSerializer(groups, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_group(request):
+    id = int(request.GET['id'])
+    try:
+        group = Group.objects.get(id=id)
+    except Group.DoesNotExist:
+        return Response({'error': 'Group not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = GroupSerializer(group)
+    return Response(serializer.data)
+
+
+################# Brands #################
+
+@api_view(['GET'])
+def get_brands(request):
+    brands = Brand.objects.all()
+    serializer = BrandSerializer(brands, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_brand(request):
+    id = int(request.GET['id'])
+    try:
+        brand = Brand.objects.get(id=id)
+    except Brand.DoesNotExist:
+        return Response({'error': 'Brand not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = BrandSerializer(brand)
+    return Response(serializer.data)

@@ -1,0 +1,66 @@
+<div class="mt-20 absolute flex">
+    <app-go-back></app-go-back>
+</div>
+
+<div class="relative mt-36 container mx-auto px-4">
+    <div *ngIf="group" class="p-8 mb-14 bg-slate-900 rounded-xl shadow-lg">
+        <div class="grid grid-cols-1 lg:grid-cols-2 items-center">
+            <div class="flex flex-col items-start text-white space-y-4">
+                <h1 class="text-5xl font-extrabold mb-4">{{ group.name }}</h1>
+                <p class="text-lg">
+                    <strong>Country: </strong>{{ group.country }}
+                </p>
+                <p class="text-lg">
+                    <strong>Email: </strong>
+                    <a href="mailto:{{ group.email }}" class="underline hover:text-gray-300">
+                        {{ group.email }}
+                    </a>
+                </p>
+                <p class="text-lg">
+                    <strong>Website:</strong>
+                    <a href="{{ group.website }}" target="_blank" class="underline hover:text-gray-300">
+                        Visit {{ group.name }}'s website
+                    </a>
+                </p>
+            </div>
+    
+            <div class="flex justify-end">
+                <img
+                    class="rounded-xl shadow-xl h-64 w-auto object-contain bg-slate-100"
+                    [src]="urlImage + group.headquarters"
+                    [alt]="group.name"
+                />
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="brand" class="p-8 mb-14">
+        <div class="grid grid-cols-1 lg:grid-cols-2 items-center">
+            <div class="flex flex-col items-start text-white lg:w-2/3 space-y-4">
+                <h1 class="text-5xl font-extrabold mb-4">{{ brand.name }}</h1>
+                <p class="text-lg"><strong>Country:</strong> {{ brand.country }}</p>
+                <p class="text-lg"><strong>Email: </strong><a href="mailto:{{ brand.email }}"
+                        class="underline hover:text-gray-300">{{ brand.email }}</a></p>
+                <p class="text-lg"><strong>Phone:</strong> {{ brand.cellPhone }}</p>
+                <p class="text-lg">
+                    <strong>Website: </strong>
+                    <a href="{{ brand.website }}" target="_blank" class="underline hover:text-gray-300">
+                        Visit {{ brand.name }}'s website
+                    </a>
+                </p>
+                <p class="text-lg"><strong>Group: </strong><a href="{{ '/groupdetails/group/'+brand.group.id }}" class="underline hover:text-gray-300">{{ brand.group.name }}</a></p>
+            </div>
+    
+            <div class="flex justify-end">
+                <img
+                    class="rounded-2xl shadow-2xl shadow-zinc-950 w-60 h-64 w-auto object-contain"
+                    [src]="urlImage + brand.logo"
+                    [alt]="brand.name"
+                />
+            </div>
+        </div>
+        <div class="border-4 border-white rounded-2xl text-white px-6 py-4 mt-10 mx-20 mb-8">
+            <p class="text-base"><strong>Description:</strong> {{ brand.description }}</p>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import { MotorBikesComponent } from './components/motor-bikes/motor-bikes.compon
 import { BrandsComponent } from './components/brands/brands.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { CarsAndMotosDetailsComponent } from './components/Details/cars-and-motos-details/cars-and-motos-details.component';
+import { GroupsAndBrandsDetailsComponent } from './components/Details/groups-and-brands-details/groups-and-brands-details.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -14,5 +15,7 @@ export const routes: Routes = [
     { path: 'brands', component: BrandsComponent },
     { path: 'groups', component: GroupsComponent },
     { path: 'carsdetails/:type/:num', component: CarsAndMotosDetailsComponent },
-    { path: 'motosdetails/:type/:num', component: CarsAndMotosDetailsComponent }
+    { path: 'motosdetails/:type/:num', component: CarsAndMotosDetailsComponent },
+    { path: 'branddetails/:type/:num', component: GroupsAndBrandsDetailsComponent },
+    { path: 'groupdetails/:type/:num', component: GroupsAndBrandsDetailsComponent }
 ];
