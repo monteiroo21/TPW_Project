@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -15,8 +15,8 @@ import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
   styleUrl: './cars-and-motos-details.component.css'
 })
 export class CarsAndMotosDetailsComponent {
-  car: Car | undefined = undefined;
-  moto: Moto | undefined = undefined;
+  @Input() car: Car | undefined = undefined;
+  @Input() moto: Moto | undefined = undefined;
 
   carService: CarService = inject(CarService);
   motoService: MotoService = inject(MotoService);

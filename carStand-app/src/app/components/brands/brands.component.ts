@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Brand } from '../../interfaces/brand';
 import { BrandService } from '../../services/brand.service';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
   selector: 'app-brands',
   standalone: true,
-  imports: [CommonModule, BrandsAndGroupsCardsComponent, FormsModule],
+  imports: [CommonModule, BrandsAndGroupsCardsComponent, FormsModule, SearchBarComponent],
   templateUrl: './brands.component.html',
   styleUrls: ['./brands.component.css']
 })

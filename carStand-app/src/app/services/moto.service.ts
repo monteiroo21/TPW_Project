@@ -10,13 +10,13 @@ export class MotoService {
     constructor() { }
 
     async getMotos(): Promise<Moto[]> {
-        const url = `${this.baseURL}/motorbikes`;
+        const url = `${this.baseURL}/motos`;
         const data = await fetch(url);
         return await data.json() ?? [];
     }
 
     async getMoto(id: number): Promise<Moto> {
-        const url = `${this.baseURL}/motorbike?id=${id}`;
+        const url = `${this.baseURL}/moto?id=${id}`;
         const data = await fetch(url);
         return await data.json() ?? undefined;
     }

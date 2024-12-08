@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -15,8 +15,8 @@ import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
   styleUrl: './groups-and-brands-details.component.css'
 })
 export class GroupsAndBrandsDetailsComponent {
-  group: Group | undefined = undefined;
-  brand: Brand | undefined = undefined;
+  @Input() group: Group | undefined = undefined;
+  @Input() brand: Brand | undefined = undefined;
 
   groupService: GroupService = inject(GroupService);
   brandService: BrandService = inject(BrandService);

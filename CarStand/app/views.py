@@ -816,6 +816,7 @@ def get_brand(request):
 
 ################# Search #################
 
+@api_view(['GET'])
 def search(request, type):
     query = request.GET.get('q', '').strip()
     if query:

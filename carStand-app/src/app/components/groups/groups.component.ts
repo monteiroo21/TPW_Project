@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Group } from '../../interfaces/group';
 import { GroupService } from '../../services/group.service';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
   selector: 'app-groups',
   standalone: true,
-  imports: [CommonModule, BrandsAndGroupsCardsComponent, FormsModule],
+  imports: [CommonModule, BrandsAndGroupsCardsComponent, FormsModule, SearchBarComponent],
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.css']
 })

@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Moto } from '../../interfaces/moto';
 import { MotoService } from '../../services/moto.service';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
   selector: 'app-motor-bikes',
-  imports: [CommonModule, CardsAndMotosCardsComponent, FormsModule],
+  imports: [CommonModule, CardsAndMotosCardsComponent, FormsModule, SearchBarComponent],
   templateUrl: './motor-bikes.component.html',
   styleUrl: './motor-bikes.component.css'
 })
