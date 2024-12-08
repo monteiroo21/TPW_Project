@@ -1,0 +1,41 @@
+<div class="mt-20 absolute flex">
+    <app-go-back></app-go-back>
+</div>
+
+<div class="relative mt-36 container mx-auto px-4">
+    <div *ngIf="group" class="p-8 mb-14 bg-slate-900 rounded-xl shadow-lg">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="flex justify-center items-center mr-10">
+                <img class="rounded-xl shadow-xl w-92 h-92 object-contain bg-slate-100" [src]="urlImage + group.headquarters"
+                    [alt]="group.name" />
+            </div>
+            <div>
+                <h1 class="text-4xl font-bold text-white mb-4">{{ group.name }}</h1>
+                <ul class="space-y-2 text-lg text-slate-100">
+                    <li><strong>Country:</strong> {{ group.country }}</li>
+                    <li><strong>Email: </strong>{{ group.email }}</li>
+                    <li><strong>Website: </strong>{{ group.website }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="brand" class="p-8 mb-14 bg-slate-900 rounded-xl shadow-lg">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="flex justify-center items-center mr-10">
+                <img class="rounded-xl shadow-xl w-92 h-92 object-contain bg-slate-100" [src]="urlImageBrand + brand.logo"
+                    [alt]="brand.name" />
+            </div>
+            <div>
+                <h1 class="text-4xl font-bold text-white mb-4">{{ brand.name }}</h1>
+                <ul class="space-y-2 text-lg text-slate-100">
+                    <li><strong>Country:</strong> {{ brand.country }}</li>
+                    <li><strong>Email: </strong>{{ brand.email }}</li>
+                    <li><strong>Phone: </strong>{{ brand.cellphone }}</li>
+                    <li><strong>Website: </strong>{{ brand.website }}</li>
+                    <li><strong>Group: </strong>{{ brand.group }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

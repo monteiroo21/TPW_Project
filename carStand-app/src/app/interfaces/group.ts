@@ -5,5 +5,5 @@ export interface Group {
     country: string;
     website: string;
     logo?: string;  // path to the logo
-    headquartes?: string;   // path to the headquartes
+    headquarters?: string;   // path to the headquarters
 }

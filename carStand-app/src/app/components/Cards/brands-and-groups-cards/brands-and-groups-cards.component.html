@@ -1,6 +1,6 @@
 <div
     class="bg-white rounded-2xl shadow-md w-72 h-68 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
-    <a href="#">
+    <a href="{{ group ? '/groupdetails/group/'+group.id : '/branddetails/brand/'+brand.id }}">
         <div class="flex items-center justify-center">
             <img [src]="group ? urlImage + group.logo : urlImageBrand + brand.logo" [alt]="group ? group.name : brand.name"
                 class="w-full h-56 object-contain p-4 bg-white" />
