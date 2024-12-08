@@ -1,1 +1,46 @@
-<p>search-bar works!</p>
+<div class="justify-center items-center container">
+    <!-- Search Input -->
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (input)="onSearch()"
+      placeholder="Search {{ type }}"
+      class="w-full py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  
+    <!-- Content: Either Results or Full List -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4">
+      <!-- Cards for Cars and Motos -->
+      <ng-container *ngIf="type === 'cars'">
+        <app-cards-and-motos-cards
+          *ngFor="let result of results"
+          [car]="result"
+        ></app-cards-and-motos-cards>
+      </ng-container>
+      <ng-container *ngIf="type === 'motos'">
+        <app-cards-and-motos-cards
+          *ngFor="let result of results"
+          [moto]="result"
+        ></app-cards-and-motos-cards>
+      </ng-container>
+  
+      <!-- Cards for Brands and Groups -->
+      <ng-container *ngIf="type === 'groups'">
+        <app-brands-and-groups-cards
+          *ngFor="let result of results"
+          [group]="result"
+        ></app-brands-and-groups-cards>
+      </ng-container>
+      <ng-container *ngIf="type === 'brands'">
+        <app-brands-and-groups-cards
+          *ngFor="let result of results"
+          [brand]="result"
+        ></app-brands-and-groups-cards>
+      </ng-container>
+    </div>
+  
+    <!-- No Results Found -->
+    <div *ngIf="searchQuery && results && !results.length" class="mt-8 p-4 text-gray-500 text-center">
+      No results found.
+    </div>
+  </div>

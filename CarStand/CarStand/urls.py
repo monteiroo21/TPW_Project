@@ -60,15 +60,16 @@ urlpatterns = [
     path('api/cars/create', views.create_car, name='api_create_car'),
     path('api/cars/update', views.update_car, name='api_update_car'),
     path('api/cars/delete/<int:id>', views.delete_car, name='api_delete_car'),
-    path('api/motorbikes', views.get_motorbikes, name='api_get_motorbikes'),
-    path('api/motorbike', views.get_motorbike, name='api_get_motorbike'),
-    path('api/motorbikes/create', views.create_motorbike, name='api_create_motorbike'),
-    path('api/motorbikes/update', views.update_motorbike, name='api_update_motorbike'),
-    path('api/motorbikes/delete/<int:id>', views.delete_motorbike, name='api_delete_motorbike'),
+    path('api/motos', views.get_motorbikes, name='api_get_motorbikes'),
+    path('api/moto', views.get_motorbike, name='api_get_motorbike'),
+    path('api/motos/create', views.create_motorbike, name='api_create_motorbike'),
+    path('api/motos/update', views.update_motorbike, name='api_update_motorbike'),
+    path('api/motos/delete/<int:id>', views.delete_motorbike, name='api_delete_motorbike'),
     path('api/brands', views.get_brands, name='api_get_brands'),
     path('api/brand', views.get_brand, name='api_get_brand'),
     path('api/groups', views.get_groups, name='api_get_groups'),
     path('api/group', views.get_group, name='api_get_group'),
+    path('api/search/<str:type>/', views.search, name='search'),
 
 ]
 

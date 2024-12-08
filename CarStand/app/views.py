@@ -811,3 +811,29 @@ def get_brand(request):
     
     serializer = BrandSerializer(brand)
     return Response(serializer.data)
+
+
+
+################# Search #################
+
+@api_view(['GET'])
+def search(request, type):
+    query = request.GET.get('q', '').strip()
+    if query:
+        if type=='brands':
+            brands = Brand.objects.filter(name__icontains=query)
+            serializer = BrandSerializer(brands, many=True)
+            return Response(serializer.data)
+        elif type=='groups':
+            groups = Group.objects.filter(name__icontains=query)
+            serializer = GroupSerializer(groups, many=True)
+            return Response(serializer.data)
+        elif type=='cars':
+            cars = Car.objects.filter(Q(model__brand__name__icontains=query) | Q(model__name__icontains=query))
+            serializer = CarSerializer(cars, many=True)
+            return Response(serializer.data)
+        elif type=='motos':
+            motos = Moto.objects.filter(Q(model__brand__name__icontains=query) | Q(model__name__icontains=query))
+            serializer = MotoSerializer(motos, many=True)
+            return Response(serializer.data)
+    return Response({'error': 'No results found'}, status=status.HTTP_404_NOT_FOUND)
