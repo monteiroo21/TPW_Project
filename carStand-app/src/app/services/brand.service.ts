@@ -16,7 +16,7 @@ export class BrandService {
     }
 
     async getBrand(id: number): Promise<Brand> {
-        const url = `${this.baseURL}/brands?id=${id}`;
+        const url = `${this.baseURL}/brand?id=${id}`;
         const data = await fetch(url);
         return await data.json() ?? undefined;
     }

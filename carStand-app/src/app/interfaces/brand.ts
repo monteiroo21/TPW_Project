@@ -6,7 +6,7 @@ export interface Brand {
     email: string;
     country: string;
     website: string;
-    cellphone: string;
+    cellPhone: string;
     group: Group;
     description: string;
     logo?: string;  // path to the logo
