@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { CardsAndMotosCardsComponent } from '../Cards/cards-and-motos-cards/cards-and-motos-cards.component';
 import { Car } from '../../interfaces/car';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +7,7 @@ import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
   selector: 'app-cars',
-  imports: [CommonModule, CardsAndMotosCardsComponent, FormsModule, SearchBarComponent],
+  imports: [CommonModule, FormsModule, SearchBarComponent],
   templateUrl: './cars.component.html',
   styleUrl: './cars.component.css'
 })

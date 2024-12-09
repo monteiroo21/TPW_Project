@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { BrandsAndGroupsCardsComponent } from '../Cards/brands-and-groups-cards/brands-and-groups-cards.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Brand } from '../../interfaces/brand';
@@ -9,7 +8,7 @@ import { SearchBarComponent } from '../search-bar/search-bar.component';
 @Component({
   selector: 'app-brands',
   standalone: true,
-  imports: [CommonModule, BrandsAndGroupsCardsComponent, FormsModule, SearchBarComponent],
+  imports: [CommonModule, FormsModule, SearchBarComponent],
   templateUrl: './brands.component.html',
   styleUrls: ['./brands.component.css']
 })

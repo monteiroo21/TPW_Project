@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { BrandsAndGroupsCardsComponent } from '../Cards/brands-and-groups-cards/brands-and-groups-cards.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Group } from '../../interfaces/group';
@@ -9,7 +8,7 @@ import { SearchBarComponent } from '../search-bar/search-bar.component';
 @Component({
   selector: 'app-groups',
   standalone: true,
-  imports: [CommonModule, BrandsAndGroupsCardsComponent, FormsModule, SearchBarComponent],
+  imports: [CommonModule, FormsModule, SearchBarComponent],
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.css']
 })
