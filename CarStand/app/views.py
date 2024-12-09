@@ -820,20 +820,57 @@ def get_brand(request):
 def search(request, type):
     query = request.GET.get('q', '').strip()
     if query:
-        if type=='brands':
+        search_terms = query.split()
+
+        if type == 'brands':
             brands = Brand.objects.filter(name__icontains=query)
             serializer = BrandSerializer(brands, many=True)
             return Response(serializer.data)
-        elif type=='groups':
+
+        if type == 'groups':
             groups = Group.objects.filter(name__icontains=query)
             serializer = GroupSerializer(groups, many=True)
             return Response(serializer.data)
-        elif type=='cars':
-            cars = Car.objects.filter(Q(model__brand__name__icontains=query) | Q(model__name__icontains=query))
-            serializer = CarSerializer(cars, many=True)
+
+        if type in ['cars', 'motos']:
+            if type == 'cars':
+                model_class = Car
+                serializer_class = CarSerializer
+            else:
+                model_class = Moto
+                serializer_class = MotoSerializer
+
+            name_query = Q()
+            match_found = False
+            list_vehicle = model_class.objects.all()
+
+            for i in range(len(search_terms), 0, -1):
+                possible_brand = " ".join(search_terms[:i])
+                remaining_terms = search_terms[i:]
+
+                brand_query = Q(model__brand__name__icontains=possible_brand)
+                model_query = Q()
+
+                for term in remaining_terms:
+                    model_query &= Q(model__name__icontains=term)
+
+                if remaining_terms:
+                    name_query = brand_query & model_query
+                else:
+                    name_query = brand_query | Q(model__name__icontains=possible_brand)
+
+                if list_vehicle.filter(name_query).exists():
+                    match_found = True
+                    list_vehicle = list_vehicle.filter(name_query)
+                    break
+
+            if not match_found:
+                generic_query = Q()
+                for term in search_terms:
+                    generic_query |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
+                list_vehicle = list_vehicle.filter(generic_query)
+
+            serializer = serializer_class(list_vehicle, many=True)
             return Response(serializer.data)
-        elif type=='motos':
-            motos = Moto.objects.filter(Q(model__brand__name__icontains=query) | Q(model__name__icontains=query))
-            serializer = MotoSerializer(motos, many=True)
-            return Response(serializer.data)
+
     return Response({'error': 'No results found'}, status=status.HTTP_404_NOT_FOUND)
