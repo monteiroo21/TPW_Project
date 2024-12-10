@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   title = 'carStand-app';
   showNavbarFooter = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     initFlowbite();
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         const currentRoute = event.urlAfterRedirects.split('?')[0];
-        const excludedRoutes = ['/login'];
+        const excludedRoutes = ['/login', '/signup'];
 
         this.showNavbarFooter = !excludedRoutes.includes(currentRoute);
       });

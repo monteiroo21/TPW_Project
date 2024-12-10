@@ -1,0 +1,64 @@
+<div class="font-[sans-serif] bg-gradient-to-r from-slate-900 to-slate-700 text-gray-800">
+    <a class="absolute top-4 left-4 flex items-center space-x-2 group">
+        <app-go-back></app-go-back>
+    </a>
+    <div class="min-h-screen flex fle-col items-center justify-center lg:p-6 p-4">
+        <div class="grid md:grid-cols-2 items-center gap-10 max-w-6xl w-full">
+
+            <div>
+                <div class="flex items-center space-x-2">
+                    <a routerLink="/">
+                        <img src="../../../assets/logo-removebg-preview.png" alt="logo"
+                            class="w-20 h-20 md:w-32 md:h-32" />
+                    </a>
+                    <h1 class="text-6xl font-extrabold mb-6 lg:leading-[50px] text-white">
+                        <a routerLink="/">
+                            CarStand
+                        </a>
+                    </h1>
+                </div>
+                <h4 class="text-xl ml-6 font-bold text-white">
+                    Join us and start your journey toward the car of your dreams!
+                </h4>
+            </div>
+
+            <div class="bg-white rounded-xl px-6 py-8 space-y-6 max-w-md md:ml-auto w-full">
+                <h3 class="text-3xl font-extrabold mb-8">
+                    Sign up
+                </h3>
+
+                <div class="mb-4">
+                    <p class="text-black mb-2">Username</p>
+                    <input type="text" placeholder="Enter your username" class="rounded-lg mt-1">
+                </div>
+
+                <div class="mb-4">
+                    <p class="text-black mb-2">Email</p>
+                    <input type="email" placeholder="Enter your email" class="rounded-lg mt-1">
+                </div>
+
+                <div class="mb-4">
+                    <p class="text-black mb-2">Password</p>
+                    <input type="password" placeholder="Enter your password" class="rounded-lg mt-1">
+                </div>
+
+                <div class="mb-4">
+                    <p class="text-black mb-2">Confirm Password</p>
+                    <input type="password" placeholder="Confirm your password" class="rounded-lg mt-1">
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
+                    <button type="button"
+                        class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">
+                        Sign Up
+                    </button>
+                    <p class="text-sm text-blue">
+                        <a routerLink="/login" class="text-blue font-semibold underline ml-1">Already have an
+                            account?</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
