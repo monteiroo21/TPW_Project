@@ -11,7 +11,7 @@ import { filter } from 'rxjs/operators';
   standalone: true,
   imports: [CommonModule, RouterOutlet, NavbarComponent, FooterComponent],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'], // Corrigido: styleUrls no plural
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   title = 'carStand-app';
