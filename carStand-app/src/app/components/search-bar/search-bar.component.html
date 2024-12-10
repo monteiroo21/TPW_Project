@@ -1,31 +1,28 @@
 <div class="w-full">
-  <div class="justify-center items-center">
-    <!-- Search Input -->
-    <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search {{ type }}"
-      class="w-96 py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+  <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search {{ type }}"
+    class="w-96 py-3 border-2 border-slate-900 rounded-lg shadow-sm focus:outline-none" />
 
-    <!-- Content: Either Results or Full List -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-8 justify-center items-center">
-      <!-- Cards for Cars and Motos -->
-      <ng-container *ngIf="type === 'cars'">
-        <app-cards-and-motos-cards *ngFor="let result of results" [car]="result"></app-cards-and-motos-cards>
-      </ng-container>
-      <ng-container *ngIf="type === 'motos'">
-        <app-cards-and-motos-cards *ngFor="let result of results" [moto]="result"></app-cards-and-motos-cards>
-      </ng-container>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-8 justify-center items-center">
+    <ng-container *ngIf="type === 'cars'">
+      <app-cards-and-motos-cards class="flex justify-center items-center" *ngFor="let result of results"
+        [car]="result"></app-cards-and-motos-cards>
+    </ng-container>
+    <ng-container *ngIf="type === 'motos'">
+      <app-cards-and-motos-cards class="flex justify-center items-center" *ngFor="let result of results"
+        [moto]="result"></app-cards-and-motos-cards>
+    </ng-container>
 
-      <!-- Cards for Brands and Groups -->
-      <ng-container *ngIf="type === 'groups'">
-        <app-brands-and-groups-cards *ngFor="let result of results" [group]="result"></app-brands-and-groups-cards>
-      </ng-container>
-      <ng-container *ngIf="type === 'brands'">
-        <app-brands-and-groups-cards *ngFor="let result of results" [brand]="result"></app-brands-and-groups-cards>
-      </ng-container>
-    </div>
+    <ng-container *ngIf="type === 'groups'">
+      <app-brands-and-groups-cards class="flex justify-center items-center" *ngFor="let result of results"
+        [group]="result"></app-brands-and-groups-cards>
+    </ng-container>
+    <ng-container *ngIf="type === 'brands'">
+      <app-brands-and-groups-cards class="flex justify-center items-center" *ngFor="let result of results"
+        [brand]="result"></app-brands-and-groups-cards>
+    </ng-container>
+  </div>
 
-    <!-- No Results Found -->
-    <div *ngIf="searchQuery && results && !results.length" class="mt-8 p-4 text-gray-500 text-center">
-      No results found.
-    </div>
+  <div *ngIf="searchQuery && results && !results.length" class="mt-8 p-4 text-gray-500 text-center">
+    No results found.
   </div>
 </div>
