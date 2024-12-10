@@ -1,7 +1,7 @@
 <div class="justify-center items-center">
-    <app-navbar></app-navbar>
+    <app-navbar *ngIf="showNavbarFooter"></app-navbar>
     <main class="justify-center items-center">
         <router-outlet></router-outlet>
     </main>
-    <app-footer></app-footer>
+    <app-footer *ngIf="showNavbarFooter"></app-footer>
 </div>
