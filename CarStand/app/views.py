@@ -655,7 +655,7 @@ from rest_framework import status
 from app.models import Profile, Group, Brand, CarModel, Car, Moto, Favorite
 from app.serializers import (
     ProfileSerializer, GroupSerializer, BrandSerializer, 
-    CarModelSerializer, CarSerializer, MotoSerializer, FavoriteSerializer
+    CarModelSerializer, CarSerializer, MotoSerializer, FavoriteSerializer,UserSerializer
 )
 
 
@@ -874,3 +874,60 @@ def search(request, type):
             return Response(serializer.data)
 
     return Response({'error': 'No results found'}, status=status.HTTP_404_NOT_FOUND)
+
+################# Authentication #################
+
+@api_view(['POST'])
+def post_sign_up(request):
+    data = request.data
+    serializer = UserSerializer(data=data)
+    if serializer.is_valid():
+        user = serializer.save()
+        login(request, user)
+        return Response({"message": "User created and logged in successfully."}, status=status.HTTP_201_CREATED)
+    print(serializer.errors)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def post_log_in(request):
+    print(request.user)
+    username = request.data.get('username')
+    password = request.data.get('password')
+    print(request.data)
+    user = authenticate(request, username=username, password=password)
+    print(user)
+    if user is not None:
+        login(request, user)
+        return Response({"message": "Login successful."}, status=status.HTTP_200_OK)
+    return Response({"error": "Invalid username or password."}, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['POST'])
+def post_logout_view(request):
+    print(request.user)
+    profile = get_object_or_404(Profile, user=request.user)
+    print(1)
+    if not Favorite.objects.filter(profile=profile).exists():
+        Favorite(profile=profile).save()
+    print(1)
+    favorite=Favorite.objects.get(profile=profile)
+    favorite.favoritesCar.clear()
+    favorite.favoritesMoto.clear()
+
+    print(1)
+    if "favoriteCarList" in request.session:
+        for car_id in request.session["favoriteCarList"]:
+            if Car.objects.filter(id=car_id).exists():
+                car = Car.objects.get(id=car_id)
+                favorite.favoritesCar.add(car)
+    if "favoriteMotoList" in request.session:
+        for moto_id in request.session["favoriteMotoList"]:
+            moto = get_object_or_404(Moto, id=moto_id)
+            favorite.favoritesMoto.add(moto)
+
+    print(1)
+    favorite.save()
+    print(1)
+    logout(request)
+    print(1)
+    return Response({"message": "Logged out and favorites saved."}, status=status.HTTP_200_OK)
+
