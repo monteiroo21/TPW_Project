@@ -5,6 +5,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrandsAndGroupsCardsComponent } from '../Cards/brands-and-groups-cards/brands-and-groups-cards.component';
 import { CardsAndMotosCardsComponent } from '../Cards/cards-and-motos-cards/cards-and-motos-cards.component';
 import { VehiclesFilterComponent } from '../vehicles-filter/vehicles-filter.component';
+import { FilterCar, FilterMoto } from '../../interfaces/filter.interface';
+import { FilterSortService } from '../../services/filter-sort.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -17,47 +19,25 @@ export class SearchBarComponent {
   @Input() type!: string;
   searchQuery: string = '';
   results: any[] = [];
+  filters: FilterCar | FilterMoto | undefined = undefined;
 
-  constructor(private http: HttpClient) { }
+  constructor(private filterSortService: FilterSortService) { }
 
-  onSearch() {
+  async onSearch() {
     if (this.searchQuery.trim()) {
-      this.http
-        .get<any[]>(
-          `http://localhost:8000/api/search/${this.type}/?q=${this.searchQuery}`
-        )
-        .subscribe(
-          (results) => {
-            this.results = results;
-          },
-          (error) => {
-            this.results = [];
-          }
-        );
+      this.results = await this.filterSortService.searchVehicles(this.type, this.searchQuery);
     } else {
-      this.http
-        .get<any[]>(`http://localhost:8000/api/${this.type}`)
-        .subscribe(
-          (results) => {
-            this.results = results;
-          },
-          (error) => {
-            this.results = [];
-          }
-        );
+      await this.ngOnInit();
     }
   }
 
-  ngOnInit() {
-    this.http
-      .get<any[]>(`http://localhost:8000/api/${this.type}`)
-      .subscribe(
-        (results) => {
-          this.results = results;
-        },
-        (error) => {
-          this.results = [];
-        }
-      );
+  async onFiltersApplied(filters: FilterCar | FilterMoto) {
+    console.log('Filtros aplicados:', filters);
+    filters = { ...filters, name: this.searchQuery };
+    this.results = await this.filterSortService.filterVehicles(this.type, filters);
+  }
+
+  async ngOnInit() {
+    this.results = await this.filterSortService.getVehiclesByType(this.type);
   }
 }

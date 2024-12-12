@@ -874,3 +874,78 @@ def search(request, type):
             return Response(serializer.data)
 
     return Response({'error': 'No results found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+################# Filters #################
+
+@api_view(['GET'])
+def unified_search_and_filter(request, type):
+    """
+    Search for vehicles, brands, or groups with filters and sorting.
+    """
+    query = request.GET.get('q', '').strip()
+    filters = {
+        'minPrice': request.GET.get('minPrice'),
+        'maxPrice': request.GET.get('maxPrice'),
+        'color': request.GET.get('color'),
+        'isEletric': request.GET.get('isEletric'),
+        'doors': request.GET.get('doors'),
+        'condition': request.GET.get('condition')
+    }
+    sort_option = request.GET.get('sort')  # Adiciona o parâmetro de ordenação
+
+    if type == 'brands':
+        brands = Brand.objects.filter(name__icontains=query) if query else Brand.objects.all()
+        serializer = BrandSerializer(brands, many=True)
+        return Response(serializer.data)
+
+    if type == 'groups':
+        groups = Group.objects.filter(name__icontains=query) if query else Group.objects.all()
+        serializer = GroupSerializer(groups, many=True)
+        return Response(serializer.data)
+
+    if type in ['cars', 'motos']:
+        model_class = Car if type == 'cars' else Moto
+        serializer_class = CarSerializer if type == 'cars' else MotoSerializer
+
+        objects = model_class.objects.all()
+        if query:
+            search_terms = query.split()
+            query_filter = Q()
+            for term in search_terms:
+                query_filter |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
+            objects = objects.filter(query_filter)
+
+        if filters['minPrice']:
+            objects = objects.filter(price__gte=filters['minPrice'])
+        if filters['maxPrice']:
+            objects = objects.filter(price__lte=filters['maxPrice'])
+        if filters['color'] != "" and filters['color'] != None:
+            objects = objects.filter(color__icontains=filters['color'])
+        if filters['isEletric']:
+            objects = objects.filter(electric=(filters['isEletric'].lower() == 'true'))
+        if filters['doors']:
+            objects = objects.filter(doors=int(filters['doors']))
+        if filters['condition'] != "" and filters['condition'] != None:
+            objects = objects.filter(new=filters['condition'].lower() == 'new')
+
+        # Apply sorting
+        if sort_option:
+            sort_fields = {
+                'price_asc': 'price',
+                'price_desc': '-price',
+                'year_asc': 'year',
+                'year_desc': '-year',
+                'brand_asc': 'model__brand__name',
+                'brand_desc': '-model__brand__name',
+                'kilometers_asc': 'kilometers',
+                'kilometers_desc': '-kilometers',
+            }
+            if sort_option in sort_fields:
+                objects = objects.order_by(sort_fields[sort_option])
+
+        # Serialize and return data
+        serializer = serializer_class(objects, many=True)
+        return Response(serializer.data)
+
+    return Response({'error': 'Invalid type or no results found'}, status=status.HTTP_404_NOT_FOUND)

@@ -4,7 +4,10 @@
       class="w-96 py-3 border-2 border-slate-700 rounded-lg shadow-sm focus:outline-none focus:border-slate-800 focus:border-2" />
 
     <div *ngIf="type === 'cars' || type === 'motos'">
-      <app-vehicles-filter></app-vehicles-filter>
+      <app-vehicles-filter
+      [type]="type"
+      (applyFilters)="onFiltersApplied($event)"
+    ></app-vehicles-filter>
     </div>
   </div>
 
