@@ -2,22 +2,22 @@ import { Injectable } from '@angular/core';
 import { Brand } from '../interfaces/brand';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class BrandService {
-    private baseURL = 'http://localhost:8000/api';
+  private baseURL = 'http://localhost:8000/api';
 
-    constructor() { }
+  constructor() { }
 
-    async getBrands(): Promise<Brand[]> {
-        const url = `${this.baseURL}/brands`;
-        const data = await fetch(url);
-        return await data.json() ?? [];
-    }
+  async getBrands(): Promise<Brand[]> {
+    const url = `${this.baseURL}/brands`;
+    const data = await fetch(url);
+    return await data.json() ?? [];
+  }
 
-    async getBrand(id: number): Promise<Brand> {
-        const url = `${this.baseURL}/brand?id=${id}`;
-        const data = await fetch(url);
-        return await data.json() ?? undefined;
-    }
+  async getBrand(id: number): Promise<Brand> {
+    const url = `${this.baseURL}/brand?id=${id}`;
+    const data = await fetch(url);
+    return await data.json() ?? undefined;
+  }
 }
