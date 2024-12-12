@@ -1,6 +1,13 @@
 <div class="w-full">
-  <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search {{ type }}"
-    class="w-96 py-3 border-2 border-slate-900 rounded-lg shadow-sm focus:outline-none" />
+  <div class="flex items-center space-x-4">
+    <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search {{ type }}"
+      class="w-96 py-3 border-2 border-slate-900 rounded-lg shadow-sm focus:outline-none" />
+
+    <div *ngIf="type === 'cars' || type === 'motos'">
+      <h1 class="text-white text-3xl">Olá</h1>
+    </div>
+  </div>
+
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-8 justify-center items-center">
     <ng-container *ngIf="type === 'cars'">
