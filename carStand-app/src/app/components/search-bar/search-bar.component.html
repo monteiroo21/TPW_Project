@@ -1,15 +1,15 @@
 <div class="w-full">
-  <div class="flex items-center space-x-4">
+  <div class="flex items-center space-x-4 ml-72 mt-4">
     <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search {{ type }}"
-      class="w-96 py-3 border-2 border-slate-900 rounded-lg shadow-sm focus:outline-none" />
+      class="w-96 py-3 border-2 border-slate-700 rounded-lg shadow-sm focus:outline-none focus:border-slate-800 focus:border-2" />
 
     <div *ngIf="type === 'cars' || type === 'motos'">
-      <h1 class="text-white text-3xl">Olá</h1>
+      <app-vehicles-filter></app-vehicles-filter>
     </div>
   </div>
 
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-8 justify-center items-center">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-16 justify-center items-center">
     <ng-container *ngIf="type === 'cars'">
       <app-cards-and-motos-cards class="flex justify-center items-center" *ngFor="let result of results"
         [car]="result"></app-cards-and-motos-cards>

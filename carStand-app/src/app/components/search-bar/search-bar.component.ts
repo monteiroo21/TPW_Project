@@ -4,11 +4,12 @@ import { Component, Input } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrandsAndGroupsCardsComponent } from '../Cards/brands-and-groups-cards/brands-and-groups-cards.component';
 import { CardsAndMotosCardsComponent } from '../Cards/cards-and-motos-cards/cards-and-motos-cards.component';
+import { VehiclesFilterComponent } from '../vehicles-filter/vehicles-filter.component';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [CommonModule, FormsModule, BrandsAndGroupsCardsComponent, CardsAndMotosCardsComponent, HttpClientModule],
+  imports: [CommonModule, FormsModule, BrandsAndGroupsCardsComponent, CardsAndMotosCardsComponent, HttpClientModule, VehiclesFilterComponent],
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.css']
 })
@@ -17,7 +18,7 @@ export class SearchBarComponent {
   searchQuery: string = '';
   results: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   onSearch() {
     if (this.searchQuery.trim()) {
@@ -35,15 +36,15 @@ export class SearchBarComponent {
         );
     } else {
       this.http
-      .get<any[]>(`http://localhost:8000/api/${this.type}`)
-      .subscribe(
-        (results) => {
-          this.results = results;
-        },
-        (error) => {
-          this.results = [];
-        }
-      );
+        .get<any[]>(`http://localhost:8000/api/${this.type}`)
+        .subscribe(
+          (results) => {
+            this.results = results;
+          },
+          (error) => {
+            this.results = [];
+          }
+        );
     }
   }
 
