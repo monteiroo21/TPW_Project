@@ -936,3 +936,12 @@ def post_logout_view(request):
     cache.delete("user")
     return Response({"message": "Logged out and favorites saved."}, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def get_isAuth(request):
+    user=cache.get("user")
+    print(user)
+    if user is None:
+        data={"authenticated":False,"isManager":False,"username":""}
+    else:
+        data={"authenticated":True,"isManager":user.username=="admin","username":user.username}
+    return Response(data) 
