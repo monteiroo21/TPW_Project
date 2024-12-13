@@ -10,6 +10,7 @@ import { MotoService } from '../../../services/moto.service';
 import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
 import { AuthData } from '../../../interfaces/authData';
 import { FavoriteService } from '../../../services/favorite.service';
+import { PurchaserAndSelectedVehiclesService } from '../../../services/purchaser-and-selected-vehicles.service';
 
 @Component({
   selector: 'app-cars-and-motos-details',
@@ -25,7 +26,11 @@ export class CarsAndMotosDetailsComponent {
   motoService: MotoService = inject(MotoService);
   authService: AuthService = inject(AuthService);
   favoriteService: FavoriteService = inject(FavoriteService);
+  purchaserService: PurchaserAndSelectedVehiclesService = inject(PurchaserAndSelectedVehiclesService);
+  
   authState: AuthData | null = null;
+  isSelected: boolean = false;
+  isBuyed: boolean | null = null; 
 
   urlImage: string = "http://localhost:8000";
   constructor(private route: ActivatedRoute, private location: Location) {
@@ -47,6 +52,8 @@ export class CarsAndMotosDetailsComponent {
       return undefined;
     num = +num;
     this.carService.getCar(num).then((car: Car) => { this.car = car; });
+    this.checkVehicleStatus("car");  
+
   }
 
   getMotoDetails(): void {
@@ -55,6 +62,8 @@ export class CarsAndMotosDetailsComponent {
       return undefined;
     num = +num;
     this.motoService.getMoto(num).then((moto: Moto) => { this.moto = moto; });
+    this.checkVehicleStatus("moto");  
+
   }
 
   isFavorite(): boolean {
@@ -83,6 +92,31 @@ export class CarsAndMotosDetailsComponent {
       }
     }
   }
+  async checkVehicleStatus(type: string): Promise<void> {
+    const num: any = this.route.snapshot.params['num'];
+    if (num == null)
+      return undefined;
+      const id = +num;
+      console.log(id);
+      
+      if (id) {
+        const status = await this.purchaserService.getVehicleStatus(id, type);
+        this.isSelected = status.isSelected;
+        this.isBuyed = status.isBuyed;
+      
+  }
+  }
+
+  async toggleInterest(): Promise<void> {
+    const id = this.car ? this.car.id : this.moto?.id;
+    const type = this.car ? 'car' : 'moto';
+
+    if (id) {
+      await this.purchaserService.toggleInterest(id, type);
+      this.checkVehicleStatus(type) // Atualiza o estado após alternar
+    }
+  }
   
+
   
 }
