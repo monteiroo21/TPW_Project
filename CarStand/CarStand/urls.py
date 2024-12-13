@@ -70,6 +70,7 @@ urlpatterns = [
     path('api/groups', views.get_groups, name='api_get_groups'),
     path('api/group', views.get_group, name='api_get_group'),
     path('api/search/<str:type>/', views.search, name='search'),
+    path('api/<str:type>/filters', views.unified_search_and_filter, name='search'),
     path('api/signup', views.post_sign_up, name='api_post_sign_up'),
     path('api/login', views.post_log_in, name='api_post_log_in'),
     path('api/logout', views.post_logout_view, name='api_post_logout_view'),
