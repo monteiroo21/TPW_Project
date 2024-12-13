@@ -1041,3 +1041,27 @@ def save_favorites(request, type):
     favorite.save()
 
     return Response({"message": f"{type.capitalize()} favorites updated successfully."})
+
+# @api_view(['GET'])
+# def get_favorites(request, type):
+#     user = request.user
+#     if not user.is_authenticated:
+#         return Response({"error": "User not authenticated."}, status=401)
+    
+#     favorites_ids = request.GET.getlist('favorites[]')
+
+#     if type == "cars":
+#         favorites = Car.objects.filter(id__in=favorites_ids)
+#         serialized_favorites = CarSerializer(favorites, many=True).data
+#         print(f"Favorites for cars: {serialized_favorites}")
+#     elif type == "motos":
+#         favorites = Moto.objects.filter(id__in=favorites_ids)
+#         serialized_favorites = MotoSerializer(favorites, many=True).data
+#         print(f"Favorites for motos: {serialized_favorites}")
+#     else:
+#         return Response({"error": "Invalid type specified."}, status=400)
+    
+#     return Response({
+#         "message": f"Fetched {type} favorites successfully.",
+#         "favorites": serialized_favorites
+#     })
