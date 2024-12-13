@@ -29,26 +29,38 @@
 
                 <div class="mb-4">
                     <p class="text-black mb-2">Username</p>
-                    <input type="text" placeholder="Enter your username" class="rounded-lg mt-1">
+                    <input type="text"  [(ngModel)]="username" placeholder="Enter your username" class="rounded-lg mt-1">
                 </div>
 
                 <div class="mb-4">
                     <p class="text-black mb-2">Email</p>
-                    <input type="email" placeholder="Enter your email" class="rounded-lg mt-1">
+                    <input type="email" [(ngModel)]="email"  placeholder="Enter your email" class="rounded-lg mt-1">
+                </div>
+
+                <div class="mb-4">
+                    <p class="text-black mb-2">First_name</p>
+                    <input type="text" [(ngModel)]="first_name"  placeholder="Enter your first_name" class="rounded-lg mt-1">
+                </div>
+
+                <div class="mb-4">
+                    <p class="text-black mb-2">Last_name</p>
+                    <input type="text" [(ngModel)]="last_name"  placeholder="Enter your last_name" class="rounded-lg mt-1">
                 </div>
 
                 <div class="mb-4">
                     <p class="text-black mb-2">Password</p>
-                    <input type="password" placeholder="Enter your password" class="rounded-lg mt-1">
+                    <input type="password" [(ngModel)]="password"  placeholder="Enter your password" class="rounded-lg mt-1">
                 </div>
 
                 <div class="mb-4">
                     <p class="text-black mb-2">Confirm Password</p>
-                    <input type="password" placeholder="Confirm your password" class="rounded-lg mt-1">
+                    <input type="password" [(ngModel)]="confirmPassword"  placeholder="Confirm your password" class="rounded-lg mt-1">
                 </div>
 
+                <div class="text-red-500 mb-4" *ngIf="errorMessage">{{ errorMessage }}</div>
+
                 <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
-                    <button type="button"
+                    <button type="button"  (click)="onSignUp()" 
                         class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">
                         Sign Up
                     </button>

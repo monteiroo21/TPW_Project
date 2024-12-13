@@ -655,7 +655,7 @@ from rest_framework import status
 from app.models import Profile, Group, Brand, CarModel, Car, Moto, Favorite
 from app.serializers import (
     ProfileSerializer, GroupSerializer, BrandSerializer, 
-    CarModelSerializer, CarSerializer, MotoSerializer, FavoriteSerializer
+    CarModelSerializer, CarSerializer, MotoSerializer, FavoriteSerializer,UserSerializer
 )
 
 
@@ -949,3 +949,74 @@ def unified_search_and_filter(request, type):
         return Response(serializer.data)
 
     return Response({'error': 'Invalid type or no results found'}, status=status.HTTP_404_NOT_FOUND)
+
+################# Authentication #################
+from django.core.cache import cache
+@api_view(['POST'])
+def post_sign_up(request):
+    data = request.data
+    serializer = UserSerializer(data=data)
+    print(serializer)
+    if serializer.is_valid():
+        user = serializer.save()
+        user.refresh_from_db()
+        print(user)
+        login(request, user)
+        cache.set("user",user,timeout=10800)
+        return Response({"message": "User created and logged in successfully."}, status=status.HTTP_201_CREATED)
+    print(serializer.errors)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def post_log_in(request):
+    print(request.user)
+    username = request.data.get('username')
+    password = request.data.get('password')
+    print(request.data)
+    print([(user1.user.username,user1.user.password) for user1 in Profile.objects.all()])
+    user = authenticate(request, username=username, password=password)
+    print(user)
+    if user is not None:
+        login(request, user)
+        cache.set("user",user,timeout=10800)
+        print(cache.get("user"))
+        print(cache.get("user"))
+        return Response({"message": "Login successful."}, status=status.HTTP_200_OK)
+    return Response({"error": "Invalid username or password."}, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['POST'])
+def post_logout_view(request):
+    user=cache.get("user")
+    print(user)
+    profile = get_object_or_404(Profile, user=user)
+    if not Favorite.objects.filter(profile=profile).exists():
+        Favorite(profile=profile).save()
+    favorite=Favorite.objects.get(profile=profile)
+    favorite.favoritesCar.clear()
+    favorite.favoritesMoto.clear()
+    
+
+    # if "favoriteCarList" in request.session:
+    #     for car_id in request.session["favoriteCarList"]:
+    #         if Car.objects.filter(id=car_id).exists():
+    #             car = Car.objects.get(id=car_id)
+    #             favorite.favoritesCar.add(car)
+    # if "favoriteMotoList" in request.session:
+    #     for moto_id in request.session["favoriteMotoList"]:
+    #         moto = get_object_or_404(Moto, id=moto_id)
+    #         favorite.favoritesMoto.add(moto)
+
+    favorite.save()
+    logout(request)
+    cache.delete("user")
+    return Response({"message": "Logged out and favorites saved."}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_isAuth(request):
+    user=cache.get("user")
+    print(user)
+    if user is None:
+        data={"authenticated":False,"isManager":False,"username":""}
+    else:
+        data={"authenticated":True,"isManager":user.username=="admin","username":user.username}
+    return Response(data) 

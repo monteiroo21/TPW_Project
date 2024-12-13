@@ -27,19 +27,19 @@
             </h3>
 
             <div class="mb-4">
-                <p class="text-black">Email</p>
-                <input type="email" name="email" class="w-full bg-lightgrey p-2 rounded-lg mt-1"
-                    placeholder="Enter your email" />
+                <p class="text-black">Username</p>
+                <input type="text" [(ngModel)]="username"  name="email" class="w-full bg-lightgrey p-2 rounded-lg mt-1"
+                    placeholder="Enter your username" />
             </div>
 
             <div class="mb-4">
                 <p class="text-black">Password</p>
-                <input type="password" name="password" class="w-full bg-lightgrey p-2 rounded-lg mt-1"
+                <input type="password" [(ngModel)]="password"  name="password" class="w-full bg-lightgrey p-2 rounded-lg mt-1"
                     placeholder="Enter your password" />
             </div>
 
             <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
-                <button type="submit"
+                <button type="submit" (click)="onLogin()"
                     class="w-32 text-center shadow-xl py-3 px-6 text-sm font-semibold rounded-md text-white bg-gray-800 hover:bg-[#222] focus:outline-none">
                     Log in
                 </button>
