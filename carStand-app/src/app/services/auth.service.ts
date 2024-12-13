@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthData } from '../interfaces/authData';
+import { FavoriteService } from './favorite.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,13 @@ export class AuthService {
   private authStateSubject = new BehaviorSubject<AuthData>({
     authenticated: false,
     isManager: false,
-    username: ''
+    username: '',
+    favoriteCarList:[],
+    favoriteMotoList:[],
   });
 
   authState$ = this.authStateSubject.asObservable();
-  constructor() {
+  constructor(private favoriteService: FavoriteService) {
     this.checkAuthStatus();
   }
 
@@ -31,6 +34,7 @@ export class AuthService {
 
     const result = await response.json();
     await this.checkAuthStatus();
+    this.setFavorites()
     return result;
   }
 
@@ -45,10 +49,12 @@ export class AuthService {
     });
     const result = await response.json();
     await this.checkAuthStatus();
+    this.setFavorites()
     return result;
   }
 
   async logout(): Promise<any> {
+    await this.sendFavorites();
     const url = `${this.baseURL}logout`;
     const response = await fetch(url, {
       method: "POST",
@@ -73,10 +79,25 @@ export class AuthService {
       this.authStateSubject.next({
         authenticated: false,
         isManager: false,
-        username: ''
+        username: '',
+        favoriteCarList:[],
+        favoriteMotoList:[],
       });
     }
   }
 
+  setFavorites(): void{
+  const authState = this.authStateSubject.value;
+    this.favoriteService.initializeList("favoriteCarList",authState.favoriteCarList)
+    this.favoriteService.initializeList("favoriteMotoList",authState.favoriteMotoList)
+  }
+  
+
+  async sendFavorites(): Promise<void>{
+    await this.favoriteService.sendFavoritesToBackend('cars', "favoriteCarList");
+    await this.favoriteService.sendFavoritesToBackend('motos', "favoriteMotoList");
+    this.favoriteService.clearFavorite("favoriteCarList")
+    this.favoriteService.clearFavorite("favoriteMotoList")
+  }
   //Implentar depois o edit_profile
 }
