@@ -79,7 +79,7 @@ def log_in(request):
 
 @login_required
 def edit_profile(request):
-    user = request.user
+    user = user
     manager = user.username=='admin'
     if request.method == "POST":
         form = ProfileForm(request.POST, instance=user)
