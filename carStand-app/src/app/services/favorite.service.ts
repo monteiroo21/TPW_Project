@@ -19,6 +19,8 @@ export class FavoriteService {
     return favorites ? JSON.parse(favorites) : [];
   }
 
+
+
   isFavorite(storageKey: string, itemId: number): boolean {
     const favorites = this.getFavorites(storageKey);
     return favorites.includes(itemId);
@@ -67,4 +69,26 @@ export class FavoriteService {
       console.error(error);
     }
   }
+
+  // async getFavoritesBackend(type: string, storageKey: string): Promise<any> {
+  //   const url = `${this.baseURL}/favorites/${type}/get`;
+  //   const favorites = this.getFavorites(storageKey)
+  //   try {
+  //     const response = await fetch(url, {
+  //       method: 'GET',
+  //       headers: new Headers({
+  //         'Content-Type': 'application/json',
+  //       }),
+  //       body: JSON.stringify({ favorites }),
+  //     });
+
+  //     const data = await response.json();
+  //     console.log(`Fetched ${type} favorites from backend`, data);
+  //     return data.favorites;
+  //   } catch (error) {
+  //     console.error(error);
+  //     return [];
+  //   }
+  // }
+
 }
