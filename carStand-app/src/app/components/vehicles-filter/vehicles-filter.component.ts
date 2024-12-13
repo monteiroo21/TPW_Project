@@ -53,4 +53,25 @@ export class VehiclesFilterComponent {
   closeModal() {
     this.isModalOpen = false;
   }
+
+  clearFilters(): void {
+    if (this.type === 'cars') {
+      this.carFilters = {
+        isEletric: false,
+        doors: '',
+        condition: '',
+        color: '',
+        minPrice: 0,
+        maxPrice: 0
+      };
+    } else {
+      this.motoFilters = {
+        condition: '',
+        color: '',
+        minPrice: 0,
+        maxPrice: 0
+      };
+    }
+  }
+
 }
