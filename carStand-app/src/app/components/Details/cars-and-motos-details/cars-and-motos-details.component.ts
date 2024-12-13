@@ -10,16 +10,19 @@ import { MotoService } from '../../../services/moto.service';
 import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
 import { AuthData } from '../../../interfaces/authData';
 import { FavoriteService } from '../../../services/favorite.service';
+import { CardsAndMotosCardsComponent } from "../../Cards/cards-and-motos-cards/cards-and-motos-cards.component";
 
 @Component({
   selector: 'app-cars-and-motos-details',
-  imports: [CommonModule, FormsModule, GoBackComponent],
+  imports: [CommonModule, FormsModule, GoBackComponent, CardsAndMotosCardsComponent],
   templateUrl: './cars-and-motos-details.component.html',
   styleUrl: './cars-and-motos-details.component.css'
 })
 export class CarsAndMotosDetailsComponent {
   @Input() car: Car | undefined = undefined;
   @Input() moto: Moto | undefined = undefined;
+  cars: Car[] = [];
+  motos: Moto[] = [];
 
   carService: CarService = inject(CarService);
   motoService: MotoService = inject(MotoService);
@@ -29,15 +32,17 @@ export class CarsAndMotosDetailsComponent {
 
   urlImage: string = "http://localhost:8000";
   constructor(private route: ActivatedRoute, private location: Location) {
-      this.authService.authState$.subscribe((state) => {
-        this.authState = state;
-      });
+    this.authService.authState$.subscribe((state) => {
+      this.authState = state;
+    });
     let type: string = this.route.snapshot.params['type'];
     if (type == "car") {
       this.getCarDetails();
+      this.carService.getCarsNum(4).then((cars: Car[]) => { this.cars = cars; });
     }
     else {
       this.getMotoDetails();
+      this.motoService.getMotosNum(4).then((motos: Moto[]) => { this.motos = motos; });
     }
   }
 
@@ -61,20 +66,20 @@ export class CarsAndMotosDetailsComponent {
     if (this.car || this.moto) {
       const id = this.car ? this.car.id : this.moto?.id;
       const typeList = this.car ? 'favoriteCarList' : 'favoriteMotoList';
-  
+
       return id ? this.favoriteService.isFavorite(typeList, id) : false;
     }
     return false;
   }
-  
+
   toggleFavorite(): void {
     if (this.car || this.moto) {
       const id = this.car ? this.car.id : this.moto?.id;
       const type = this.car ? 'favoriteCarList' : 'favoriteMotoList';
-  
+
       if (id) {
         const isFavorite = this.favoriteService.toggleFavorite(type, id);
-  
+
         if (isFavorite) {
           console.log(`${type === 'favoriteCarList' ? 'Car' : 'Moto'} ${id} added to favorites.`);
         } else {
@@ -83,6 +88,5 @@ export class CarsAndMotosDetailsComponent {
       }
     }
   }
-  
-  
+
 }

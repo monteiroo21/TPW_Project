@@ -6,7 +6,7 @@
         <div *ngIf="car || moto" class="p-8 mb-14 bg-slate-900 rounded-xl shadow-xl">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="flex justify-center items-center mr-10">
-                    <img class="rounded-xl shadow-xl w-92 h-92 object-contain bg-slate-100"
+                    <img class="rounded-xl shadow-xl w-[600px] h-96 object-contain bg-slate-100"
                         [src]="urlImage + (car ? car.image : moto?.image)"
                         [alt]="car ? (car.model.brand.name + ' ' + car.model.name) : (moto?.model?.brand?.name + ' ' + moto?.model?.name)" />
                 </div>
@@ -33,24 +33,34 @@
                 <strong>Specifications:</strong> {{ car ? car.model.specifications : moto?.model?.specifications }}
             </p>
             <div *ngIf="authState?.authenticated && !authState?.isManager" class="flex justify-end mt-6 space-x-4">
-                <button
-                    (click)="toggleFavorite()"
-                    class="flex items-center px-4 py-2 rounded-xl font-medium"
-                    [ngClass]="{
+                <button (click)="toggleFavorite()" class="flex items-center px-4 py-2 rounded-xl font-medium" [ngClass]="{
                     'bg-slate-100 text-slate-900 hover:bg-slate-300': !isFavorite(),
                     'bg-red-600 text-white hover:bg-red-500': isFavorite()
-                    }"
-                >
-                    <img
-                    [src]="isFavorite() ? '../../../../assets/favorite_active.png' : '../../../../assets/favorite_inactive.png'"
-                    alt="Favorite Icon"
-                    class="w-5 h-5 mr-2"
-                    >
+                    }">
+                    <img [src]="isFavorite() ? '../../../../assets/favorite_active.png' : '../../../../assets/favorite_inactive.png'"
+                        alt="Favorite Icon" class="w-5 h-5 mr-2">
                     {{ isFavorite() ? 'Remove from Favorites' : 'Add to Favorites' }}
                 </button>
                 <button class="px-6 py-2 bg-slate-700 text-white rounded-xl hover:bg-slate-500 font-medium">
                     Show Interest
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-10 container mx-auto">
+        <div class="bg-slate-900 rounded-xl shadow-xl px-10 pb-10 pt-6">
+            <h1 class="text-2xl font-bold text-white ml-6">Discover more {{ car ? 'cars' : 'cotorbikes' }} available
+                for you ...</h1>
+            <div>
+                <div *ngIf="car"
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-8 justify-center items-center">
+                    <app-cards-and-motos-cards *ngFor=" let car of cars" [car]="car"></app-cards-and-motos-cards>
+                </div>
+                <div *ngIf="moto"
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-8 justify-center items-center">
+                    <app-cards-and-motos-cards *ngFor=" let moto of motos" [moto]="moto"></app-cards-and-motos-cards>
+                </div>
             </div>
         </div>
     </div>

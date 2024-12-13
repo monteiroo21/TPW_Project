@@ -34,10 +34,10 @@
         </div>
         <div class="flex items-center justify-between mt-4">
             <span class="text-lg font-bold text-gray-900 ml-3">${{ car ? car.price : moto.price }}</span>
-            <a routerLink="{{ car ? '/carsdetails/car/'+car.id : '/motosdetails/motorbike/'+moto.id }}"
-                class="text-white bg-slate-700 hover:bg-slate-800 font-semibold rounded-xl text-lg px-3 py-1 transition-colors">
+            <button (click)="navigateToDetails(car ? 'car' : 'moto', car ? car.id : moto.id)"
+                class="text-white bg-slate-700 hover:bg-slate-800 font-semibold rounded-2xl text-lg px-4 py-2 transition-colors">
                 See Details
-            </a>
+            </button>
         </div>
     </div>
 </div>
