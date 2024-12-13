@@ -1,6 +1,4 @@
 export interface FilterCar {
-    name: string;
-    sort: string;
     isEletric: boolean;
     doors: string;
     condition: string;
@@ -10,8 +8,6 @@ export interface FilterCar {
 }
 
 export interface FilterMoto {
-    name: string;
-    sort: string;
     condition: string;
     color: string;
     minPrice: number;

@@ -15,8 +15,6 @@ export class VehiclesFilterComponent {
   isModalOpen: boolean = false;
 
   carFilters: FilterCar = {
-    name: '',
-    sort: '',
     isEletric: false,
     doors: '',
     condition: '',
@@ -26,8 +24,6 @@ export class VehiclesFilterComponent {
   };
 
   motoFilters: FilterMoto = {
-    name: '',
-    sort: '',
     condition: '',
     color: '',
     minPrice: 0,
