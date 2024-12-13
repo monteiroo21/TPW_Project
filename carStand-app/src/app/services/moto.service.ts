@@ -21,5 +21,11 @@ export class MotoService {
     return await data.json() ?? undefined;
   }
 
+  async getMotosNum(num: Number): Promise<Moto[]> {
+    const url = `${this.baseURL}/motos?num=${num}`;
+    const data = await fetch(url);
+    return await data.json() ?? [];
+  }
+
   // Depois implementar o resto dos métodos
 }
