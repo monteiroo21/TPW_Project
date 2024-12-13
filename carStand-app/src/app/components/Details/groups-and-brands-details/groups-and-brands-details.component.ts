@@ -9,10 +9,11 @@ import { Moto } from '../../../interfaces/moto';
 import { GroupService } from '../../../services/group.service';
 import { BrandService } from '../../../services/brand.service';
 import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
+import { BrandsAndGroupsCardsComponent } from '../../Cards/brands-and-groups-cards/brands-and-groups-cards.component';
 
 @Component({
   selector: 'app-groups-and-brands-details',
-  imports: [CommonModule, FormsModule, GoBackComponent],
+  imports: [CommonModule, FormsModule, GoBackComponent, BrandsAndGroupsCardsComponent],
   templateUrl: './groups-and-brands-details.component.html',
   styleUrl: './groups-and-brands-details.component.css'
 })
