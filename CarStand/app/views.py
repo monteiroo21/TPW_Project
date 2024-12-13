@@ -661,9 +661,14 @@ from app.serializers import (
 
 ################# Car #################
 
+import random
+
 @api_view(['GET'])
 def get_cars(request):
     cars = Car.objects.all()
+    if 'num' in request.GET:
+        num = int(request.GET['num'])
+        cars = random.sample(list(cars), num)
     serializer = CarSerializer(cars, many=True)
     return Response(serializer.data)
 
@@ -720,6 +725,9 @@ def delete_car(request, id):
 @api_view(['GET'])
 def get_motorbikes(request):
     motos = Moto.objects.all()
+    if 'num' in request.GET:
+        num = int(request.GET['num'])
+        motos = random.sample(list(motos), num)
     serializer = MotoSerializer(motos, many=True)
     return Response(serializer.data)
 

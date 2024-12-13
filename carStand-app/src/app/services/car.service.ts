@@ -21,5 +21,11 @@ export class CarService {
     return await data.json() ?? undefined;
   }
 
+  async getCarsNum(num: Number): Promise<Car[]> {
+    const url = `${this.baseURL}/cars?num=${num}`;
+    const data = await fetch(url);
+    return await data.json() ?? [];
+  }
+
   // Depois implementar o resto dos métodos
 }
