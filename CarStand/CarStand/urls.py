@@ -77,7 +77,7 @@ urlpatterns = [
     path('api/login', views.post_log_in, name='api_post_log_in'),
     path('api/logout', views.post_logout_view, name='api_post_logout_view'),
     path('api/isAuth', views.get_isAuth, name='api_get_isAuth'),
-
+    path('api/favorites/<str:type>/', views.save_favorites, name='api_save_favorites'),
 ]
 
 # Serve static files in development

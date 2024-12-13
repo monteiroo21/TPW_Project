@@ -9,6 +9,7 @@ import { AuthService } from '../../../services/auth.service';
 import { MotoService } from '../../../services/moto.service';
 import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
 import { AuthData } from '../../../interfaces/authData';
+import { FavoriteService } from '../../../services/favorite.service';
 
 @Component({
   selector: 'app-cars-and-motos-details',
@@ -23,6 +24,7 @@ export class CarsAndMotosDetailsComponent {
   carService: CarService = inject(CarService);
   motoService: MotoService = inject(MotoService);
   authService: AuthService = inject(AuthService);
+  favoriteService: FavoriteService = inject(FavoriteService);
   authState: AuthData | null = null;
 
   urlImage: string = "http://localhost:8000";
@@ -54,4 +56,33 @@ export class CarsAndMotosDetailsComponent {
     num = +num;
     this.motoService.getMoto(num).then((moto: Moto) => { this.moto = moto; });
   }
+
+  isFavorite(): boolean {
+    if (this.car || this.moto) {
+      const id = this.car ? this.car.id : this.moto?.id;
+      const typeList = this.car ? 'favoriteCarList' : 'favoriteMotoList';
+  
+      return id ? this.favoriteService.isFavorite(typeList, id) : false;
+    }
+    return false;
+  }
+  
+  toggleFavorite(): void {
+    if (this.car || this.moto) {
+      const id = this.car ? this.car.id : this.moto?.id;
+      const type = this.car ? 'favoriteCarList' : 'favoriteMotoList';
+  
+      if (id) {
+        const isFavorite = this.favoriteService.toggleFavorite(type, id);
+  
+        if (isFavorite) {
+          console.log(`${type === 'favoriteCarList' ? 'Car' : 'Moto'} ${id} added to favorites.`);
+        } else {
+          console.log(`${type === 'favoriteCarList' ? 'Car' : 'Moto'} ${id} removed from favorites.`);
+        }
+      }
+    }
+  }
+  
+  
 }
