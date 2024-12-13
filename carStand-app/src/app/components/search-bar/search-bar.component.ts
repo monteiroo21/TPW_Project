@@ -21,23 +21,31 @@ export class SearchBarComponent {
   results: any[] = [];
   filters: FilterCar | FilterMoto | undefined = undefined;
   filtersApplied: boolean = false;
+  sortOption: string = '';
 
   constructor(private filterSortService: FilterSortService) { }
 
   async onSearch() {
     this.filtersApplied = false;
     if (this.searchQuery.trim()) {
-      this.results = await this.filterSortService.searchVehicles(this.type, this.searchQuery);
+      this.results = await this.filterSortService.searchVehicles(this.type, this.searchQuery, this.sortOption);
     } else {
       await this.ngOnInit();
     }
   }
 
   async onFiltersApplied(filters: FilterCar | FilterMoto) {
-    console.log('Filtros aplicados:', filters);
     this.filtersApplied = true;
     filters = { ...filters, name: this.searchQuery };
-    this.results = await this.filterSortService.filterVehicles(this.type, filters);
+    this.results = await this.filterSortService.filterVehicles(this.type, filters, this.sortOption);
+  }
+
+  async onSortChanged() {
+    if (this.filtersApplied) {
+      await this.onFiltersApplied(this.filters!);
+    } else {
+      await this.onSearch();
+    }
   }
 
   async ngOnInit() {

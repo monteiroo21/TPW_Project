@@ -976,8 +976,6 @@ def unified_search_and_filter(request, type):
                 'price_desc': '-price',
                 'year_asc': 'year',
                 'year_desc': '-year',
-                'brand_asc': 'model__brand__name',
-                'brand_desc': '-model__brand__name',
                 'kilometers_asc': 'kilometers',
                 'kilometers_desc': '-kilometers',
             }
@@ -1026,6 +1024,7 @@ def post_log_in(request):
         return Response({"message": "Login successful."}, status=status.HTTP_200_OK)
     return Response({"error": "Invalid username or password."}, status=status.HTTP_401_UNAUTHORIZED)
 
+
 @api_view(['POST'])
 def post_logout_view(request):
     user = cache.get("user")
@@ -1051,6 +1050,7 @@ def get_isAuth(request):
             favoriteMotoList = [moto.id for moto in Favorite.objects.get(profile=profile).favoritesMoto.all()]
         data = {"authenticated": True, "isManager": user.username == "admin", "username": user.username, "favoriteCarList":favoriteCarList, "favoriteMotoList":favoriteMotoList}
     return Response(data)
+
 
 @api_view(['POST'])
 def save_favorites(request, type):
@@ -1081,6 +1081,7 @@ def save_favorites(request, type):
     favorite.save()
 
     return Response({"message": f"{type.capitalize()} favorites updated successfully."})
+
 
 # @api_view(['GET'])
 # def get_favorites(request, type):
