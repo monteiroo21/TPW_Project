@@ -49,16 +49,25 @@ export class GroupsAndBrandsDetailsComponent {
   
     this.groupService.getGroup(num).then((group: Group) => {
       this.group = group;
-      console.log("Fetched group details:", group);
-    }).catch((error) => {
-      console.error("Error fetching group details:", error);
-    });
+      this.brands = group.brands; // Define as marcas do grupo
+      console.log("Detalhes do grupo:", group);
   
-    this.groupService.getBrandsByGroup(num).then((brands: Brand[]) => {
-      this.brands = brands;
-      console.log("Fetched brands for group:", brands);
+      // Processar cada marca e dividir os modelos em carros e motas
+      this.brands?.forEach((brand) => {
+        this.brandService.getModelsByBrand(brand.id).then((models) => {
+          brand.models = models;
+          brand.cars = models.filter((model) => model.vehicle_type === "Car"); // Filtra carros
+          brand.motos = models.filter((model) => model.vehicle_type === "Moto"); // Filtra motas
+  
+          console.log(`Modelos para a marca ${brand.name}:`, models);
+          console.log(`Carros para a marca ${brand.name}:`, brand.cars);
+          console.log(`Motas para a marca ${brand.name}:`, brand.motos);
+        }).catch((error) => {
+          console.error(`Erro ao buscar modelos para a marca ${brand.name}:`, error);
+        });
+      });
     }).catch((error) => {
-      console.error("Error fetching brands for group:", error);
+      console.error("Erro ao buscar detalhes do grupo:", error);
     });
   }
   
