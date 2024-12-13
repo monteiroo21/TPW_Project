@@ -20,10 +20,12 @@ export class SearchBarComponent {
   searchQuery: string = '';
   results: any[] = [];
   filters: FilterCar | FilterMoto | undefined = undefined;
+  filtersApplied: boolean = false;
 
   constructor(private filterSortService: FilterSortService) { }
 
   async onSearch() {
+    this.filtersApplied = false;
     if (this.searchQuery.trim()) {
       this.results = await this.filterSortService.searchVehicles(this.type, this.searchQuery);
     } else {
@@ -33,6 +35,7 @@ export class SearchBarComponent {
 
   async onFiltersApplied(filters: FilterCar | FilterMoto) {
     console.log('Filtros aplicados:', filters);
+    this.filtersApplied = true;
     filters = { ...filters, name: this.searchQuery };
     this.results = await this.filterSortService.filterVehicles(this.type, filters);
   }

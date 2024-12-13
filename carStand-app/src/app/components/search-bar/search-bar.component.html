@@ -4,10 +4,7 @@
       class="w-96 py-3 border-2 border-slate-700 rounded-lg shadow-sm focus:outline-none focus:border-slate-800 focus:border-2" />
 
     <div *ngIf="type === 'cars' || type === 'motos'">
-      <app-vehicles-filter
-      [type]="type"
-      (applyFilters)="onFiltersApplied($event)"
-    ></app-vehicles-filter>
+      <app-vehicles-filter [type]="type" (applyFilters)="onFiltersApplied($event)"></app-vehicles-filter>
     </div>
   </div>
 
@@ -32,7 +29,7 @@
     </ng-container>
   </div>
 
-  <div *ngIf="searchQuery && results && !results.length" class="mt-8 p-4 text-gray-500 text-center">
+  <div *ngIf="(searchQuery || filtersApplied) && results && !results.length" class="mt-8 p-4 text-gray-500 text-center">
     No results found.
   </div>
 </div>
