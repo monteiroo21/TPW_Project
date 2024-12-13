@@ -900,7 +900,7 @@ def unified_search_and_filter(request, type):
         'doors': request.GET.get('doors'),
         'condition': request.GET.get('condition')
     }
-    sort_option = request.GET.get('sort')  # Adiciona o parâmetro de ordenação
+    sort_option = request.GET.get('sort')
 
     if type == 'brands':
         brands = Brand.objects.filter(name__icontains=query) if query else Brand.objects.all()
@@ -918,11 +918,7 @@ def unified_search_and_filter(request, type):
 
         objects = model_class.objects.all()
         if query:
-            search_terms = query.split()
-            query_filter = Q()
-            for term in search_terms:
-                query_filter |= Q(model__name__icontains=term) | Q(model__brand__name__icontains=term)
-            objects = objects.filter(query_filter)
+            objects=filterByBrandAndName(query,objects)
 
         if filters['minPrice']:
             objects = objects.filter(price__gte=filters['minPrice'])
@@ -1079,6 +1075,11 @@ def save_favorites(request, type):
 @api_view(['GET'])
 def get_vehicle_status(request, vehicle_id, type):
     user = cache.get("user")
+    if user is None:
+        return Response({
+        "isSelected": False
+    })
+
     if not user.is_authenticated:
         return Response({"error": "User not authenticated."}, status=401)
 
