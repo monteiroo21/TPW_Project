@@ -6,9 +6,9 @@ import { Injectable } from '@angular/core';
 export class FavoriteService {
   private baseURL = 'http://localhost:8000/api';
 
-  constructor() {}
+  constructor() { }
 
-  initializeList(storageKey: string,list: number[]=[]): void {
+  initializeList(storageKey: string, list: number[] = []): void {
     if (!sessionStorage.getItem(storageKey)) {
       sessionStorage.setItem(storageKey, JSON.stringify(list));
     }
@@ -38,10 +38,10 @@ export class FavoriteService {
       sessionStorage.setItem(storageKey, JSON.stringify(favorites));
     }
 
-    return !isFavorite; 
+    return !isFavorite;
   }
 
-  clearFavorite(storageKey: string): void{
+  clearFavorite(storageKey: string): void {
     if (sessionStorage.getItem(storageKey)) {
       sessionStorage.removeItem(storageKey);
     }

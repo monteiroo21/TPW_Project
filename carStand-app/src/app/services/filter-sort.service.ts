@@ -8,10 +8,14 @@ export class FilterSortService {
 
   constructor() { }
 
-  async getVehiclesByType(type: string): Promise<any[]> {
-    const url = `${this.baseURL}/${type}`;
+  async getVehiclesByType(type: string, sortOption: string = ''): Promise<any[]> {
+    const url = new URL(`${this.baseURL}/${type}`);
+    if (sortOption) {
+      url.searchParams.append('sort', sortOption);
+    }
+
     try {
-      const response = await fetch(url);
+      const response = await fetch(url.toString());
       return await response.json() ?? [];
     } catch (error) {
       console.error('Erro ao buscar veículos:', error);
@@ -19,11 +23,17 @@ export class FilterSortService {
     }
   }
 
-  // Método para realizar busca por termo
-  async searchVehicles(type: string, query: string): Promise<any[]> {
-    const url = `${this.baseURL}/search/${type}/?q=${query}`;
+  async searchVehicles(type: string, query: string, sortOption: string = ''): Promise<any[]> {
+    const url = new URL(`${this.baseURL}/search/${type}/`);
+    if (query) {
+      url.searchParams.append('q', query);
+    }
+    if (sortOption) {
+      url.searchParams.append('sort', sortOption);
+    }
+
     try {
-      const response = await fetch(url);
+      const response = await fetch(url.toString());
       return await response.json() ?? [];
     } catch (error) {
       console.error('Erro ao buscar veículos com termo:', error);
@@ -31,13 +41,13 @@ export class FilterSortService {
     }
   }
 
-  // Método para buscar veículos com filtros
-  async filterVehicles(type: string, filters: any): Promise<any[]> {
+  async filterVehicles(type: string, filters: any, sortOption: string = ''): Promise<any[]> {
     const url = new URL(`${this.baseURL}/${type}/filters`);
     let n = 0;
+
     Object.keys(filters).forEach(key => {
-      if (key == "name" && filters[key] != "") {
-        url.searchParams.append("q", filters[key]);
+      if (key === 'name' && filters[key] !== '') {
+        url.searchParams.append('q', filters[key]);
         n += 1;
       }
 
@@ -46,6 +56,11 @@ export class FilterSortService {
         n += 1;
       }
     });
+
+    if (sortOption) {
+      url.searchParams.append('sort', sortOption);
+      n += 1;
+    }
 
     try {
       if (n >= 0) {
