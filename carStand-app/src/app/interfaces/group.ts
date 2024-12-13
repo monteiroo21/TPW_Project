@@ -1,3 +1,5 @@
+import { Brand } from "./brand";
+
 export interface Group {
     id: number;
     name: string;
@@ -6,4 +8,5 @@ export interface Group {
     website: string;
     logo?: string;  // path to the logo
     headquarters?: string;   // path to the headquarters
+    brands?: Brand[];
 }

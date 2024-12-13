@@ -1,50 +1,105 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Group } from '../../../interfaces/group';
 import { Brand } from '../../../interfaces/brand';
+import { Car } from '../../../interfaces/car';
+import { Moto } from '../../../interfaces/moto';
 import { GroupService } from '../../../services/group.service';
 import { BrandService } from '../../../services/brand.service';
 import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
+import { BrandsAndGroupsCardsComponent } from '../../Cards/brands-and-groups-cards/brands-and-groups-cards.component';
 
 @Component({
   selector: 'app-groups-and-brands-details',
-  imports: [CommonModule, FormsModule, GoBackComponent],
+  imports: [CommonModule, FormsModule, GoBackComponent, BrandsAndGroupsCardsComponent],
   templateUrl: './groups-and-brands-details.component.html',
   styleUrl: './groups-and-brands-details.component.css'
 })
 export class GroupsAndBrandsDetailsComponent {
   @Input() group: Group | undefined = undefined;
+  @Input() brands: Brand[] | undefined = undefined;
   @Input() brand: Brand | undefined = undefined;
+  @Input() cars: Car[] | undefined = undefined;
+  @Input() motos: Moto[] | undefined = undefined;
 
   groupService: GroupService = inject(GroupService);
   brandService: BrandService = inject(BrandService);
 
   urlImage: string = "http://localhost:8000";
   constructor(private route: ActivatedRoute, private location: Location) {
-    let type: string = this.route.snapshot.params['type'];
-    if (type == "group") {
-      this.getGroupDetails();
-    }
-    else {
-      this.getBrandDetails();
+    const type: string = this.route.snapshot.params['type'];
+    const num: string = this.route.snapshot.params['num'];
+  
+    if (type === "group") {
+      this.getGroupDetails(+num);
+    } else if (type === "brand") {
+      this.getBrandDetails(+num);
+    } else {
+      console.error("Invalid type parameter:", type);
     }
   }
 
-  getGroupDetails(): void {
-    let num: any = this.route.snapshot.params['num'];
-    if (num == null)
-      return undefined;
-    num = +num;
-    this.groupService.getGroup(num).then((group: Group) => { this.group = group; });
+  getGroupDetails(num: number): void {
+    if (!num) {
+      console.error("No group ID provided");
+      return;
+    }
+  
+    this.groupService.getGroup(num).then((group: Group) => {
+      this.group = group;
+      console.log("Fetched group details:", group);
+    }).catch((error) => {
+      console.error("Error fetching group details:", error);
+    });
+  
+    this.groupService.getBrandsByGroup(num).then((brands: Brand[]) => {
+      this.brands = brands;
+      console.log("Fetched brands for group:", brands);
+    }).catch((error) => {
+      console.error("Error fetching brands for group:", error);
+    });
+  }
+  
+  getBrandDetails(num: number): void {
+    if (!num) {
+      console.error("No brand ID provided");
+      return;
+    }
+  
+    this.brandService.getBrand(num).then((brand: Brand) => {
+      this.brand = brand;
+      console.log("Fetched brand details:", brand);
+    }).catch((error) => {
+      console.error("Error fetching brand details:", error);
+    });
+  
+    this.brandService.getModelsByBrand(num).then((data: { cars: Car[], motos: Moto[] }) => {
+      this.cars = data.cars;
+      this.motos = data.motos;
+      console.log("Fetched cars:", data.cars);
+      console.log("Fetched motos:", data.motos);
+    }).catch((error) => {
+      console.error("Error fetching cars and motos:", error);
+    });
   }
 
-  getBrandDetails(): void {
-    let num: any = this.route.snapshot.params['num'];
-    if (num == null)
-      return undefined;
-    num = +num;
-    this.brandService.getBrand(num).then((brand: Brand) => { this.brand = brand; });
+  ngOnInit(): void {
+    const type = this.route.snapshot.params['type'];
+    const num = this.route.snapshot.params['num'];
+  
+    if (!type || !num) {
+      console.error("Missing route parameters: type or num");
+      return;
+    }
+  
+    if (type === "group") {
+      this.getGroupDetails(+num);
+    } else if (type === "brand") {
+      this.getBrandDetails(+num);
+    } else {
+      console.error("Invalid type parameter:", type);
+    }
   }
 }
