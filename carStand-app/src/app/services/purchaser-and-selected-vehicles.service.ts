@@ -1,0 +1,63 @@
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PurchaserAndSelectedVehiclesService {
+
+  private baseURL = 'http://localhost:8000/api/';
+
+  constructor() {}
+
+  async toggleInterest(vehicleId: number, type: string): Promise<any> {
+    const url = `${this.baseURL}vehicles/${vehicleId}/${type}/interest/`;
+    try {
+      const response = await fetch(url, {
+        method: 'POST', 
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        }),
+      });
+
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async approveCustomer(vehicleId: number, type: string): Promise<any> {
+    const url = `${this.baseURL}vehicles/${vehicleId}/${type}/approve/`;
+    try {
+      const response = await fetch(url);
+
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async negateCustomer(vehicleId: number, type: string): Promise<any> {
+    const url = `${this.baseURL}vehicles/${vehicleId}/${type}/negate/`;
+    try {
+      const response = await fetch(url);
+
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async getVehicleStatus(vehicleId: number, type: string): Promise<{ isSelected: boolean; isBuyed: boolean | null}> {
+    const url = `${this.baseURL}vehicles/${vehicleId}/${type}/status/`;
+  
+    try {
+      const response = await fetch(url);
+  
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+      return { isSelected: false, isBuyed: null }; 
+    }
+  }
+  
+}
