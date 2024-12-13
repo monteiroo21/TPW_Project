@@ -1066,3 +1066,88 @@ def save_favorites(request, type):
 #         "message": f"Fetched {type} favorites successfully.",
 #         "favorites": serialized_favorites
 #     })
+
+
+@api_view(['GET'])
+def get_vehicle_status(request, vehicle_id, type):
+    user = cache.get("user")
+    if not user.is_authenticated:
+        return Response({"error": "User not authenticated."}, status=401)
+
+    profile = get_object_or_404(Profile, user=user)
+    isBuyed=None
+    if type == "car":
+        vehicle = get_object_or_404(Car, id=vehicle_id)
+    else:
+        vehicle = get_object_or_404(Moto, id=vehicle_id)
+
+    isSelected = vehicle.interestedCustomers.filter(id=profile.id).exists()
+    if vehicle.purchaser:
+        isBuyed = vehicle.purchaser.id == profile.id if vehicle.purchaser else False
+    print({"isSelected": isSelected,"isBuyed": isBuyed,})
+    return Response({
+        "isSelected": isSelected,
+        "isBuyed": isBuyed,
+    })
+
+
+@api_view(['POST'])
+def toggle_interest(request, vehicle_id, type):
+    user = cache.get("user")
+    if not user.is_authenticated:
+        return Response({"error": "User not authenticated."}, status=401)
+
+    profile = get_object_or_404(Profile, user=user)
+    print(user,profile)
+    if type == "car":
+        vehicle = get_object_or_404(Car, id=vehicle_id)
+    else:
+        vehicle = get_object_or_404(Moto, id=vehicle_id)
+
+
+    if vehicle.interestedCustomers.filter(id=profile.id).exists():
+        vehicle.interestedCustomers.remove(profile)
+    else:
+        vehicle.interestedCustomers.add(profile)
+    isSelected = vehicle.interestedCustomers.filter(id=profile.id).exists()
+    print("isSelected",isSelected)
+    return Response({"message": f"Interest {isSelected} successfully."})
+
+
+@api_view(['POST'])
+def approve_customer(request, vehicle_id, type):
+    user = cache.get("user")
+    manager = user.username=='admin'
+    if not user.is_authenticated or not manager:
+        return Response({"error": "User not authenticated or Not is The Manager."}, status=401)
+    if type == "car":
+        vehicle = get_object_or_404(Car, id=vehicle_id)
+    else:
+        vehicle = get_object_or_404(Moto, id=vehicle_id)
+
+    profile = get_object_or_404(Profile, user=user)
+
+    vehicle.interestedCustomers.clear()
+    vehicle.purchaser = profile
+    vehicle.save()
+
+    return Response({"message": "Customer approved and assigned to vehicle."})
+
+
+@api_view(['POST'])
+def negate_customer(request, vehicle_id, type):
+    user = cache.get("user")
+    manager = user.username=='admin'
+    if not user.is_authenticated or not manager:
+        return Response({"error": "User not authenticated or Not is The Manager."}, status=401)
+    if type == "car":
+        vehicle = get_object_or_404(Car, id=vehicle_id)
+    else:
+        vehicle = get_object_or_404(Moto, id=vehicle_id)
+
+
+    profile = get_object_or_404(Profile, user=user)
+
+    vehicle.interestedCustomers.remove(profile)
+
+    return Response({"message": "Customer removed from interested list."})
