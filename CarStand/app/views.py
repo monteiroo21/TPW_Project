@@ -951,6 +951,7 @@ def unified_search_and_filter(request, type):
     return Response({'error': 'Invalid type or no results found'}, status=status.HTTP_404_NOT_FOUND)
 
 ################# Authentication #################
+
 from django.core.cache import cache
 @api_view(['POST'])
 def post_sign_up(request):
@@ -966,6 +967,7 @@ def post_sign_up(request):
         return Response({"message": "User created and logged in successfully."}, status=status.HTTP_201_CREATED)
     print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 def post_log_in(request):
@@ -986,37 +988,80 @@ def post_log_in(request):
 
 @api_view(['POST'])
 def post_logout_view(request):
-    user=cache.get("user")
+    user = cache.get("user")
     print(user)
-    profile = get_object_or_404(Profile, user=user)
-    if not Favorite.objects.filter(profile=profile).exists():
-        Favorite(profile=profile).save()
-    favorite=Favorite.objects.get(profile=profile)
-    favorite.favoritesCar.clear()
-    favorite.favoritesMoto.clear()
-    
-
-    # if "favoriteCarList" in request.session:
-    #     for car_id in request.session["favoriteCarList"]:
-    #         if Car.objects.filter(id=car_id).exists():
-    #             car = Car.objects.get(id=car_id)
-    #             favorite.favoritesCar.add(car)
-    # if "favoriteMotoList" in request.session:
-    #     for moto_id in request.session["favoriteMotoList"]:
-    #         moto = get_object_or_404(Moto, id=moto_id)
-    #         favorite.favoritesMoto.add(moto)
-
-    favorite.save()
     logout(request)
     cache.delete("user")
     return Response({"message": "Logged out and favorites saved."}, status=status.HTTP_200_OK)
 
+
 @api_view(['GET'])
 def get_isAuth(request):
-    user=cache.get("user")
+    user = cache.get("user")
     print(user)
     if user is None:
-        data={"authenticated":False,"isManager":False,"username":""}
+        data = {"authenticated": False, "isManager": False, "username": "", "favoriteCarList":[], "favoriteMotoList":[]}
     else:
-        data={"authenticated":True,"isManager":user.username=="admin","username":user.username}
-    return Response(data) 
+        favoriteCarList=[]
+        favoriteMotoList=[]
+        profile = get_object_or_404(Profile, user=user)
+        if Favorite.objects.filter(profile=profile).exists():
+            favoriteCarList = [car.id for car in Favorite.objects.get(profile=profile).favoritesCar.all()]
+        if Favorite.objects.filter(profile=profile).exists():
+            favoriteMotoList = [moto.id for moto in Favorite.objects.get(profile=profile).favoritesMoto.all()]
+        data = {"authenticated": True, "isManager": user.username == "admin", "username": user.username, "favoriteCarList":favoriteCarList, "favoriteMotoList":favoriteMotoList}
+    return Response(data)
+
+@api_view(['POST'])
+def save_favorites(request, type):
+    user = cache.get("user")
+    if not user:
+        return Response({"error": "User not authenticated."}, status=401)
+    
+    profile = get_object_or_404(Profile, user=user)
+    favorite, created = Favorite.objects.get_or_create(profile=profile)
+    
+    if type == "cars":
+        favorite.favoritesCar.clear()
+    elif type == "motos":
+        favorite.favoritesMoto.clear()
+
+    favorites = request.data.get("favorites", [])
+    if type == "cars":
+        for car_id in favorites:
+            car = Car.objects.filter(id=car_id).first()
+            if car:
+                favorite.favoritesCar.add(car)
+    elif type == "motos":
+        for moto_id in favorites:
+            moto = Moto.objects.filter(id=moto_id).first()
+            if moto:
+                favorite.favoritesMoto.add(moto)
+
+    favorite.save()
+
+    return Response({"message": f"{type.capitalize()} favorites updated successfully."})
+
+# @api_view(['GET'])
+# def get_favorites(request, type):
+#     user = request.user
+#     if not user.is_authenticated:
+#         return Response({"error": "User not authenticated."}, status=401)
+    
+#     favorites_ids = request.GET.getlist('favorites[]')
+
+#     if type == "cars":
+#         favorites = Car.objects.filter(id__in=favorites_ids)
+#         serialized_favorites = CarSerializer(favorites, many=True).data
+#         print(f"Favorites for cars: {serialized_favorites}")
+#     elif type == "motos":
+#         favorites = Moto.objects.filter(id__in=favorites_ids)
+#         serialized_favorites = MotoSerializer(favorites, many=True).data
+#         print(f"Favorites for motos: {serialized_favorites}")
+#     else:
+#         return Response({"error": "Invalid type specified."}, status=400)
+    
+#     return Response({
+#         "message": f"Fetched {type} favorites successfully.",
+#         "favorites": serialized_favorites
+#     })

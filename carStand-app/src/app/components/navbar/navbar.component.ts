@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
 })
 export class NavbarComponent {
   authState: AuthData | null = null;
-  dropdownOpen = false; // Controla a visibilidade do dropdown
+  dropdownOpen = false;
   urlImage: string = "http://localhost:8000";
 
   constructor(private authService: AuthService) {
@@ -23,12 +23,12 @@ export class NavbarComponent {
 
 
   toggleDropdown(): void {
-    this.dropdownOpen = !this.dropdownOpen; // Alterna o estado de visibilidade
+    this.dropdownOpen = !this.dropdownOpen;
   }
 
   logout(): void {
     this.authService.logout().then(() => {
-      this.dropdownOpen = false; // Fecha o dropdown após logout
+      this.dropdownOpen = false;
     });
   }
 }
