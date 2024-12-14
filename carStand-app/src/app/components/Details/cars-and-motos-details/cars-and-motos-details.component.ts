@@ -30,12 +30,9 @@ export class CarsAndMotosDetailsComponent {
   authService: AuthService = inject(AuthService);
   favoriteService: FavoriteService = inject(FavoriteService);
   purchaserService: PurchaserAndSelectedVehiclesService = inject(PurchaserAndSelectedVehiclesService);
-
-
-  
   authState: AuthData | null = null;
   isSelected: boolean = false;
-  isBuyed: boolean | null = null; 
+  isBuyed: boolean | null = null;
 
   urlImage: string = "http://localhost:8000";
   constructor(private route: ActivatedRoute, private location: Location) {
@@ -60,8 +57,6 @@ export class CarsAndMotosDetailsComponent {
     num = +num;
     this.carService.getCar(num).then((car: Car) => { this.car = car; });
     this.checkVehicleStatus("car");
-
-
   }
 
   getMotoDetails(): void {
@@ -71,8 +66,6 @@ export class CarsAndMotosDetailsComponent {
     num = +num;
     this.motoService.getMoto(num).then((moto: Moto) => { this.moto = moto; });
     this.checkVehicleStatus("moto");
-
-
   }
 
   isFavorite(): boolean {
@@ -106,15 +99,15 @@ export class CarsAndMotosDetailsComponent {
     if (num == null)
       return undefined;
 
-      const id = +num;
-      console.log(id);
-      
-      if (id) {
-        const status = await this.purchaserService.getVehicleStatus(id, type);
-        this.isSelected = status.isSelected;
-        this.isBuyed = status.isBuyed;
-      
-  }
+    const id = +num;
+    console.log(id);
+
+    if (id) {
+      const status = await this.purchaserService.getVehicleStatus(id, type);
+      this.isSelected = status.isSelected;
+      this.isBuyed = status.isBuyed;
+
+    }
   }
 
   async toggleInterest(): Promise<void> {

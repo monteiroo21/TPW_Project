@@ -1,0 +1,24 @@
+<div class="relative w-full max-w-screen-xl mx-auto rounded-xl shadow-lg">
+    <div class="overflow-hidden relative w-full h-[700px] rounded-xl shadow-lg">
+        <div class="flex transition-transform duration-500"
+            [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
+            <a *ngFor="let carImage of CarsImages" routerLink="/carsdetails/car/{{carImage.id}}"
+                class="w-full flex-none object-cover h-full rounded-xl shadow-lg">
+                <img [src]="carImage.image" alt="Carousel image"
+                    class="w-full flex-none object-cover h-full rounded-xl shadow-lg"
+                    style="object-position: center -10%;" />
+            </a>
+        </div>
+    </div>
+
+    <button
+        class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-full hover:bg-gray-600"
+        (click)="prevSlide()">
+        &#10094;
+    </button>
+    <button
+        class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-full hover:bg-gray-600"
+        (click)="nextSlide()">
+        &#10095;
+    </button>
+</div>
