@@ -17,7 +17,7 @@ import { BrandsAndGroupsCardsComponent } from '../../Cards/brands-and-groups-car
   templateUrl: './groups-and-brands-details.component.html',
   styleUrl: './groups-and-brands-details.component.css'
 })
-export class GroupsAndBrandsDetailsComponent {
+export class GroupsAndBrandsDetailsComponent implements OnInit {
   @Input() group: Group | undefined = undefined;
   @Input() brands: Brand[] | undefined = undefined;
   @Input() brand: Brand | undefined = undefined;
@@ -28,81 +28,18 @@ export class GroupsAndBrandsDetailsComponent {
   brandService: BrandService = inject(BrandService);
 
   urlImage: string = "http://localhost:8000";
-  constructor(private route: ActivatedRoute, private location: Location) {
-    const type: string = this.route.snapshot.params['type'];
-    const num: string = this.route.snapshot.params['num'];
-  
-    if (type === "group") {
-      this.getGroupDetails(+num);
-    } else if (type === "brand") {
-      this.getBrandDetails(+num);
-    } else {
-      console.error("Invalid type parameter:", type);
-    }
-  }
 
-  getGroupDetails(num: number): void {
-    if (!num) {
-      console.error("No group ID provided");
-      return;
-    }
-  
-    this.groupService.getGroup(num).then((group: Group) => {
-      this.group = group;
-      this.brands = group.brands; // Define as marcas do grupo
-      console.log("Detalhes do grupo:", group);
-  
-      // Processar cada marca e dividir os modelos em carros e motas
-      this.brands?.forEach((brand) => {
-        this.brandService.getModelsByBrand(brand.id).then((models) => {
-          brand.models = models;
-          brand.cars = models.filter((model) => model.vehicle_type === "Car"); // Filtra carros
-          brand.motos = models.filter((model) => model.vehicle_type === "Moto"); // Filtra motas
-  
-          console.log(`Modelos para a marca ${brand.name}:`, models);
-          console.log(`Carros para a marca ${brand.name}:`, brand.cars);
-          console.log(`Motas para a marca ${brand.name}:`, brand.motos);
-        }).catch((error) => {
-          console.error(`Erro ao buscar modelos para a marca ${brand.name}:`, error);
-        });
-      });
-    }).catch((error) => {
-      console.error("Erro ao buscar detalhes do grupo:", error);
-    });
-  }
-  
-  getBrandDetails(num: number): void {
-    if (!num) {
-      console.error("No brand ID provided");
-      return;
-    }
-  
-    this.brandService.getBrand(num).then((brand: Brand) => {
-      this.brand = brand;
-      console.log("Fetched brand details:", brand);
-    }).catch((error) => {
-      console.error("Error fetching brand details:", error);
-    });
-  
-    this.brandService.getModelsByBrand(num).then((data: { cars: Car[], motos: Moto[] }) => {
-      this.cars = data.cars;
-      this.motos = data.motos;
-      console.log("Fetched cars:", data.cars);
-      console.log("Fetched motos:", data.motos);
-    }).catch((error) => {
-      console.error("Error fetching cars and motos:", error);
-    });
-  }
+  constructor(private route: ActivatedRoute, private location: Location) {}
 
   ngOnInit(): void {
     const type = this.route.snapshot.params['type'];
     const num = this.route.snapshot.params['num'];
-  
+
     if (!type || !num) {
       console.error("Missing route parameters: type or num");
       return;
     }
-  
+
     if (type === "group") {
       this.getGroupDetails(+num);
     } else if (type === "brand") {
@@ -110,5 +47,69 @@ export class GroupsAndBrandsDetailsComponent {
     } else {
       console.error("Invalid type parameter:", type);
     }
+  }
+
+  getGroupDetails(groupId: number): void {
+    if (!groupId) {
+      console.error("No group ID provided");
+      return;
+    }
+
+    this.groupService.getGroup(groupId)
+      .then((group: Group) => {
+        this.group = group;
+        this.brands = group.brands;
+        console.log("Group details fetched:", group);
+
+        this.brands?.forEach((brand) => {
+          this.fetchBrandModels(brand);
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching group details:", error);
+      });
+  }
+
+  getBrandDetails(brandId: number): void {
+    if (!brandId) {
+      console.error("No brand ID provided");
+      return;
+    }
+
+    this.brandService.getBrand(brandId)
+      .then((brand: Brand) => {
+        this.brand = brand;
+        console.log("Brand details fetched:", brand);
+      })
+      .catch((error) => {
+        console.error("Error fetching brand details:", error);
+      });
+
+    this.brandService.getModelsByBrand(brandId)
+      .then((data: { cars: Car[], motos: Moto[] }) => {
+        this.cars = data.cars;
+        this.motos = data.motos;
+        console.log("Cars fetched:", data.cars);
+        console.log("Motos fetched:", data.motos);
+      })
+      .catch((error) => {
+        console.error("Error fetching cars and motos:", error);
+      });
+  }
+
+  fetchBrandModels(brand: Brand): void {
+    this.brandService.getModelsByBrand(brand.id)
+      .then((data: { cars: Car[], motos: Moto[] }) => {
+        brand.models = [...data.cars, ...data.motos];
+        brand.cars = data.cars;
+        brand.motos = data.motos;
+
+        console.log(`Models for brand ${brand.name}:`, brand.models);
+        console.log(`Cars for brand ${brand.name}:`, brand.cars);
+        console.log(`Motos for brand ${brand.name}:`, brand.motos);
+      })
+      .catch((error) => {
+        console.error(`Error fetching models for brand ${brand.name}:`, error);
+      });
   }
 }

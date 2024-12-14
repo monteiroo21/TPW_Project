@@ -72,7 +72,7 @@
         <ng-container *ngIf="brand">
             <h2 class="text-3xl text-white font-bold mb-8">Cars</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-              <ng-container *ngFor="let car of cars">
+              <ng-container *ngFor="let car of brand.models">
                 <div
                   class="bg-white rounded-2xl shadow-md w-72 h-68 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
                   <a href="{{ '/cardetails/car/' + car.id }}">

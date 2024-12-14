@@ -13,7 +13,7 @@ export interface Brand {
     group: Group;
     description: string;
     logo?: string;  // path to the logo
-    models?: CarModel[];
+    models?: Car[] | Moto[] | CarModel[];
     cars?: Car[];
     motos?: Moto[];
 }
