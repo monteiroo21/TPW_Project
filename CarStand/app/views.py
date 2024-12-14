@@ -126,28 +126,7 @@ def index(request):
             motos=Moto.objects.all()
             filterProfile=False
 
-            if request.method == 'POST': 
-                if form.is_valid():
-                    if 'name' in form.cleaned_data:
-                        cars = filterByBrandAndName(form.cleaned_data['name'],cars)
-                        motos = filterByBrandAndName(form.cleaned_data['name'],motos)
-
-                
-                    if form.cleaned_data['typeV'] != "None":
-                        if form.cleaned_data['typeV']=="Car":
-                            #Remove all motocycles in querySet
-                            motos = motos.filter(id=-1)
-                        else:
-                            #Remove all car in querySet
-                            cars = cars.filter(id=-1)
-                    if form.cleaned_data['profile'] is not None:
-                        filterProfile=True
-                        profileName=form.cleaned_data['profile']
-                        profiles = Profile.objects.exclude(user__username="admin").filter(user__username__icontains=profileName)
-                        
-
-                else:   
-                    form = ConfirmFilter() 
+            profiles = Profile.objects.exclude(user__username="admin")
             for car in cars:
                 for profile in car.interestedCustomers.all():
                     if filterProfile and profile not in profiles:
@@ -158,7 +137,7 @@ def index(request):
                     if filterProfile and profile not in profiles:
                         continue
                     listForAccept.append({"vehicle":moto,"profile":profile,"type":0})
-            context = {"listForAccept":listForAccept,"form":form,"manager":manager}
+            context = {"listForAccept":listForAccept}
     return render(request, 'index.html', context)
 
 def cars(request):
@@ -1122,19 +1101,49 @@ def toggle_interest(request, vehicle_id, type):
     print("isSelected",isSelected)
     return Response({"message": f"Interest {isSelected} successfully."})
 
+@api_view(['GET'])
+def get_vehicles_for_approval(request):
+    # filterProfile = request.GET.get('filterProfile', 'false').lower() == 'true'
+
+    cars = Car.objects.all()
+    motos = Moto.objects.all()
+    profiles = Profile.objects.exclude(user__username="admin")
+
+    listForAccept = []
+
+    for car in cars:
+        for profile in car.interestedCustomers.all():
+            # if filterProfile and profile not in profiles:
+            if profile not in profiles:
+                continue
+            listForAccept.append({
+                "vehicle": CarSerializer(car).data,
+                "profile": ProfileSerializer(profile).data,
+                "type": "cars"
+            })
+
+    for moto in motos:
+        for profile in moto.interestedCustomers.all():
+            listForAccept.append({
+                "vehicle": MotoSerializer(moto).data,
+                "profile": ProfileSerializer(profile).data,
+                "type": "moto"
+            })
+
+    return Response({"listForAccept": listForAccept})
 
 @api_view(['POST'])
-def approve_customer(request, vehicle_id, type):
+def approve_customer(request, vehicle_id, profile_id, type):
     user = cache.get("user")
-    manager = user.username=='admin'
-    if not user.is_authenticated or not manager:
+    if not user or not user.is_authenticated or not user.username=='admin':
         return Response({"error": "User not authenticated or Not is The Manager."}, status=401)
-    if type == "car":
+        return Response({"error": "User not authenticated or Not is The Manager."}, status=401)
+    if type == "cars":
         vehicle = get_object_or_404(Car, id=vehicle_id)
     else:
         vehicle = get_object_or_404(Moto, id=vehicle_id)
 
-    profile = get_object_or_404(Profile, user=user)
+    profile = get_object_or_404(Profile, id=profile_id)
 
     vehicle.interestedCustomers.clear()
     vehicle.purchaser = profile
@@ -1144,19 +1153,19 @@ def approve_customer(request, vehicle_id, type):
 
 
 @api_view(['POST'])
-def negate_customer(request, vehicle_id, type):
+def negate_customer(request, vehicle_id, profile_id, type):
     user = cache.get("user")
-    manager = user.username=='admin'
-    if not user.is_authenticated or not manager:
+    if not user or not user.is_authenticated or not user.username=='admin':
         return Response({"error": "User not authenticated or Not is The Manager."}, status=401)
-    if type == "car":
+    if type == "cars":
         vehicle = get_object_or_404(Car, id=vehicle_id)
     else:
         vehicle = get_object_or_404(Moto, id=vehicle_id)
 
 
-    profile = get_object_or_404(Profile, user=user)
+    profile = get_object_or_404(Profile, id=profile_id)
 
     vehicle.interestedCustomers.remove(profile)
 
     return Response({"message": "Customer removed from interested list."})
+

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ElementForAccept } from '../interfaces/elementForAccept';
 
 @Injectable({
   providedIn: 'root'
@@ -25,11 +26,10 @@ export class PurchaserAndSelectedVehiclesService {
       console.error(error);
     }
   }
-
-  async approveCustomer(vehicleId: number, type: string): Promise<any> {
-    const url = `${this.baseURL}vehicles/${vehicleId}/${type}/approve/`;
+  async approveCustomer(vehicleId: number, profile_id: number, type: string): Promise<any> {
+    const url = `${this.baseURL}vehicles/${vehicleId}/${profile_id}/${type}/approve/`;
     try {
-      const response = await fetch(url);
+      const response = await fetch(url,{ method: 'POST'});
 
       return await response.json();
     } catch (error) {
@@ -37,10 +37,10 @@ export class PurchaserAndSelectedVehiclesService {
     }
   }
 
-  async negateCustomer(vehicleId: number, type: string): Promise<any> {
-    const url = `${this.baseURL}vehicles/${vehicleId}/${type}/negate/`;
+  async negateCustomer(vehicleId: number,  profile_id: number, type: string): Promise<any> {
+    const url = `${this.baseURL}vehicles/${vehicleId}/${profile_id}/${type}/negate/`;
     try {
-      const response = await fetch(url);
+      const response = await fetch(url,{ method: 'POST'});
 
       return await response.json();
     } catch (error) {
@@ -57,6 +57,25 @@ export class PurchaserAndSelectedVehiclesService {
     } catch (error) {
       console.error(error);
       return { isSelected: false, isBuyed: null }; 
+    }
+  }
+  async getVehiclesForApproval(): Promise<{ listForAccept: ElementForAccept[] }> {
+    const url = `${this.baseURL}vehicles/approval/`;
+    // if (filterProfile) {
+    //   url.searchParams.append('filterProfile', 'true');
+    // }
+  
+    try {
+      const response = await fetch(url);
+  
+      if (!response.ok) {
+        throw new Error(`Failed to fetch vehicles for approval: ${response.statusText}`);
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+      return { listForAccept: [] };
     }
   }
   
