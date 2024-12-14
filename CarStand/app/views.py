@@ -791,12 +791,33 @@ def get_group(request):
     serializer = GroupSerializer(group)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def get_brands_by_group(request, id):
+    try:
+        brand = Brand.objects.get(id=id)
+    except Brand.DoesNotExist:
+        return Response({'error': 'Brand not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    cars = Car.objects.filter(model__brand=brand)
+    motos = Moto.objects.filter(model__brand=brand)
+    
+    car_serializer = CarSerializer(cars, many=True)
+    moto_serializer = MotoSerializer(motos, many=True)
+    
+    return Response({
+        'cars': car_serializer.data,
+        'motos': moto_serializer.data
+    })
+
 
 ################# Brands #################
 
 @api_view(['GET'])
 def get_brands(request):
-    brands = Brand.objects.all()
+    brands = Brand.objects.prefetch_related(
+        'models__cars',
+        'models__motos'
+    ).all()
     serializer = BrandSerializer(brands, many=True)
     return Response(serializer.data)
 
@@ -810,6 +831,18 @@ def get_brand(request):
         return Response({'error': 'Brand not found'}, status=status.HTTP_404_NOT_FOUND)
     
     serializer = BrandSerializer(brand)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def get_models_by_brand(request):
+    brand_id = int(request.GET['id'])
+    try:
+        brand = Brand.objects.get(id=brand_id)
+    except Brand.DoesNotExist:
+        return Response({'error': 'Brand not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    models = CarModel.objects.filter(brand=brand)
+    serializer = CarModelSerializer(models, many=True)
     return Response(serializer.data)
 
 
