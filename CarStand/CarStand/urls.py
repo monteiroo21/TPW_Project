@@ -79,9 +79,10 @@ urlpatterns = [
     path('api/isAuth', views.get_isAuth, name='api_get_isAuth'),
     path('api/favorites/<str:type>/', views.save_favorites, name='api_save_favorites'),
     path('api/vehicles/<int:vehicle_id>/<str:type>/interest/', views.toggle_interest, name='toggle_interest'),
-    path('api/vehicles/<int:vehicle_id>/<str:type>/approve/', views.approve_customer, name='approve_customer'),
-    path('api/vehicles/<int:vehicle_id>/<str:type>/negate/', views.negate_customer, name='negate_customer'),
+    path('api/vehicles/<int:vehicle_id>/<int:profile_id>/<str:type>/approve/', views.approve_customer, name='approve_customer'),
+    path('api/vehicles/<int:vehicle_id>/<int:profile_id>/<str:type>/negate/', views.negate_customer, name='negate_customer'),
     path('api/vehicles/<int:vehicle_id>/<str:type>/status/', views.get_vehicle_status, name='get_vehicle_status'),
+    path('api/vehicles/approval/', views.get_vehicles_for_approval, name='get_vehicles_for_approval'),
 
 ]
 
