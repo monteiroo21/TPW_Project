@@ -12,9 +12,13 @@ import { AuthData } from '../../../interfaces/authData';
 import { FavoriteService } from '../../../services/favorite.service';
 import { PurchaserAndSelectedVehiclesService } from '../../../services/purchaser-and-selected-vehicles.service';
 import { CardsAndMotosCardsComponent } from "../../Cards/cards-and-motos-cards/cards-and-motos-cards.component";
+import { FavoriteService } from '../../../services/favorite.service';
+import { PurchaserAndSelectedVehiclesService } from '../../../services/purchaser-and-selected-vehicles.service';
+import { CardsAndMotosCardsComponent } from "../../Cards/cards-and-motos-cards/cards-and-motos-cards.component";
 
 @Component({
   selector: 'app-cars-and-motos-details',
+  imports: [CommonModule, FormsModule, GoBackComponent, CardsAndMotosCardsComponent],
   imports: [CommonModule, FormsModule, GoBackComponent, CardsAndMotosCardsComponent],
   templateUrl: './cars-and-motos-details.component.html',
   styleUrl: './cars-and-motos-details.component.css'
@@ -22,6 +26,8 @@ import { CardsAndMotosCardsComponent } from "../../Cards/cards-and-motos-cards/c
 export class CarsAndMotosDetailsComponent {
   @Input() car: Car | undefined = undefined;
   @Input() moto: Moto | undefined = undefined;
+  cars: Car[] = [];
+  motos: Moto[] = [];
   cars: Car[] = [];
   motos: Moto[] = [];
 
@@ -34,9 +40,14 @@ export class CarsAndMotosDetailsComponent {
   authState: AuthData | null = null;
   isSelected: boolean = false;
   isBuyed: boolean | null = null;
+  isSelected: boolean = false;
+  isBuyed: boolean | null = null;
 
   urlImage: string = "http://localhost:8000";
   constructor(private route: ActivatedRoute, private location: Location) {
+    this.authService.authState$.subscribe((state) => {
+      this.authState = state;
+    });
     this.authService.authState$.subscribe((state) => {
       this.authState = state;
     });
@@ -44,9 +55,11 @@ export class CarsAndMotosDetailsComponent {
     if (type == "car") {
       this.getCarDetails();
       this.carService.getCarsNum(4).then((cars: Car[]) => { this.cars = cars; });
+      this.carService.getCarsNum(4).then((cars: Car[]) => { this.cars = cars; });
     }
     else {
       this.getMotoDetails();
+      this.motoService.getMotosNum(4).then((motos: Moto[]) => { this.motos = motos; });
       this.motoService.getMotosNum(4).then((motos: Moto[]) => { this.motos = motos; });
     }
   }
