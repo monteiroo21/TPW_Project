@@ -52,12 +52,11 @@ export class MotoService {
     }
   }
 
-  async updateMoto(moto: Moto): Promise<void> {
+  async updateMoto(moto: FormData): Promise<void> {
     const url = `${this.baseURL}/motos/update`;
     const response = await fetch(url, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(moto),
+      body: moto,
     });
   
     if (!response.ok) {

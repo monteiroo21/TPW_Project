@@ -56,7 +56,14 @@ class CarSerializer(serializers.ModelSerializer):
             'id', 'model', 'year', 'new', 'kilometers', 'price', 'image',
             'interestedCustomers', 'purchaser', 'color', 'doors', 'electric'
         ]
-
+        extra_kwargs = {
+            'interestedCustomers': {'required': False},
+            'purchaser': {'required': False, 'allow_null': True},
+            'image': {'required': False, 'allow_null': True},  # Permitir null
+            'color': {'required': False, 'allow_null': True},
+            'doors': {'required': False, 'allow_null': True},
+            'electric': {'required': False, 'allow_null': True}
+        }
 
 class MotoSerializer(serializers.ModelSerializer):
     model = CarModelSerializer()
@@ -69,7 +76,12 @@ class MotoSerializer(serializers.ModelSerializer):
             'id', 'model', 'year', 'new', 'kilometers', 'price', 'image',
             'interestedCustomers', 'purchaser', 'color'
         ]
-
+        extra_kwargs = {
+            'interestedCustomers': {'required': False},
+            'purchaser': {'required': False, 'allow_null': True},
+            'image': {'required': False, 'allow_null': True},
+            'color': {'required': False, 'allow_null': True}
+        }
 
 class FavoriteSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
