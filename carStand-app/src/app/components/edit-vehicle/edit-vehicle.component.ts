@@ -21,6 +21,7 @@ export class EditVehicleComponent {
   vehicleData: Car | Moto | any = {};
   models: CarModel[] = [];
   message: string = '';
+  modelID: number|string='';
   error: boolean = false;
 
   carService = inject(CarService);
@@ -58,9 +59,14 @@ export class EditVehicleComponent {
   async submitForm() {
     try {
       const formData = new FormData();
+
       Object.keys(this.vehicleData).forEach((key) => {
         if (key === 'image' && this.vehicleData[key] instanceof File) {
           formData.append(key, this.vehicleData[key]);
+        } else if (key === 'model') {
+          console.log(key, this.modelID);
+          
+          formData.append(key,this.modelID!='' ? this.modelID.toString() : this.vehicleData[key].id);
         } else {
           formData.append(key, this.vehicleData[key] !== undefined ? this.vehicleData[key] : '');
         }

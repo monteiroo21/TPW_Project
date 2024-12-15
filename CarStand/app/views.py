@@ -689,18 +689,29 @@ def update_car(request):
 
     try:
         car = Car.objects.get(id=id)
+        oldModel=car.model
     except Car.DoesNotExist:
         return Response({'error': 'Car not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    updatable_fields = {key: request.data[key] for key in ['id','year','kilometers','price','color','doors','electric','image'] if key in request.data}
+    updatable_fields = {key: request.data[key] for key in ['model','id','year','kilometers','price','color','doors','electric','image'] if key in request.data}
     if 'image' in updatable_fields and not hasattr(updatable_fields['image'], 'read'):
         print(updatable_fields.pop('image'))
-
+    if 'model' in updatable_fields:
+        model_id = updatable_fields.pop('model')  # Remove do dicionário de campos atualizáveis
+        try:
+            model_instance = CarModel.objects.get(id=model_id)
+            car.model=model_instance  
+            car.save()      
+        except CarModel.DoesNotExist:
+            return Response({'error': f'CarModel with id {model_id} not found.'}, status=status.HTTP_400_BAD_REQUEST)
+    print(car.model)  
     serializer = CarSerializer(car, data=updatable_fields, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
     else: 
+        car.model=oldModel  
+        car.save()    
         print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -753,23 +764,34 @@ def create_motorbike(request):
 @api_view(['PUT'])
 def update_motorbike(request):
     id = request.data['id']
+    print(request.data)
     try:
         moto = Moto.objects.get(id=id)
+        oldModel=moto.model
     except Moto.DoesNotExist:
         return Response({'error': 'Motorbike not found'}, status=status.HTTP_404_NOT_FOUND)
     
-    updatable_fields = {key: request.data[key] for key in ['id','year','kilometers','price','color','image'] if key in request.data}
-    if 'kilometers' in updatable_fields and not updatable_fields['kilometers']:
+    updatable_fields = {key: request.data[key] for key in ['id','model','year','kilometers','price','color','image'] if key in request.data}
+    if  'kilometers' not in updatable_fields or ('kilometers' in updatable_fields and not updatable_fields['kilometers']):
         updatable_fields['kilometers']=0
         updatable_fields['new']=True    
     if 'image' in updatable_fields and not hasattr(updatable_fields['image'], 'read'):
         print(updatable_fields.pop('image'))
-
-    serializer = MotoSerializer(moto, data=updatable_fields, partial=True)
+    if 'model' in updatable_fields:
+        model_id = updatable_fields.pop('model')  # Remove do dicionário de campos atualizáveis
+        try:
+            model_instance = CarModel.objects.get(id=model_id)
+            moto.model=model_instance  
+            moto.save()      
+        except CarModel.DoesNotExist:
+            return Response({'error': f'CarModel with id {model_id} not found.'}, status=status.HTTP_400_BAD_REQUEST)
+    serializer = CarSerializer(moto, data=updatable_fields, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
     else: 
+        moto.model=oldModel  
+        moto.save()    
         print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
