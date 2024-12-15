@@ -667,25 +667,31 @@ def get_car(request):
 
 @api_view(['POST'])
 def create_car(request):
-    serializer = CarSerializer(data=request.data)
+    data = dict(request.data.copy())  # Copia os dados recebidos
+    data['image'] = request.FILES.get('image')  # Adiciona o arquivo no serializer
+    serializer = CarSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
 def update_car(request):
-    id = request.data['id']
     try:
-        car = Car.objects.get(id=id)
+        car = Car.objects.get(id=request.data['id'])
     except Car.DoesNotExist:
         return Response({'error': 'Car not found'}, status=status.HTTP_404_NOT_FOUND)
-    
-    serializer = CarSerializer(car, data=request.data)
+
+    serializer = CarSerializer(car, data=request.data, partial=True)  # Use partial=True para atualizações parciais
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
+    else:
+        print(serializer.error_messages)
+        print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -840,7 +846,14 @@ def get_models_by_brand(request, brand_id):
         return Response({'error': 'Brand not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(['GET'])
+def get_models_by_type(request, vehicle_type):
+    if vehicle_type not in ['Car', 'Motorbike']:
+        return Response({"error": "Invalid vehicle type."}, status=status.HTTP_400_BAD_REQUEST)
 
+    models = CarModel.objects.filter(vehicle_type=vehicle_type)
+    serializer = CarModelSerializer(models, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 ################# Search #################
 

@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Car } from '../../../interfaces/car';
 import { Moto } from '../../../interfaces/moto';
 import { CarService } from '../../../services/car.service';
@@ -11,15 +11,16 @@ import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
 import { AuthData } from '../../../interfaces/authData';
 import { FavoriteService } from '../../../services/favorite.service';
 import { PurchaserAndSelectedVehiclesService } from '../../../services/purchaser-and-selected-vehicles.service';
-import { CardsAndMotosCardsComponent } from "../../Cards/cards-and-motos-cards/cards-and-motos-cards.component";
+import { CardsAndMotosCardsComponent } from '../../Cards/cards-and-motos-cards/cards-and-motos-cards.component';
 
 @Component({
   selector: 'app-cars-and-motos-details',
-  imports: [CommonModule, FormsModule, GoBackComponent, CardsAndMotosCardsComponent],
+  imports: [CommonModule, FormsModule, GoBackComponent, CardsAndMotosCardsComponent, RouterLink],
   templateUrl: './cars-and-motos-details.component.html',
   styleUrl: './cars-and-motos-details.component.css'
 })
 export class CarsAndMotosDetailsComponent {
+
   @Input() car: Car | undefined = undefined;
   @Input() moto: Moto | undefined = undefined;
   cars: Car[] = [];
@@ -35,8 +36,8 @@ export class CarsAndMotosDetailsComponent {
   isSelected: boolean = false;
   isBuyed: boolean | null = null;
 
-  urlImage: string = "http://localhost:8000";
-  constructor(private route: ActivatedRoute, private location: Location) {
+  urlImage: string = 'http://localhost:8000';
+  constructor(private route: ActivatedRoute, private location: Location, private router: Router) {
     this.authService.authState$.subscribe((state) => {
       this.authState = state;
     });
@@ -44,7 +45,7 @@ export class CarsAndMotosDetailsComponent {
       this.authState = state;
     });
     let type: string = this.route.snapshot.params['type'];
-    if (type == "car") {
+    if (type == 'car') {
       this.getCarDetails();
       this.carService.getCarsNum(4).then((cars: Car[]) => { this.cars = cars; });
       this.carService.getCarsNum(4).then((cars: Car[]) => { this.cars = cars; });
@@ -62,7 +63,7 @@ export class CarsAndMotosDetailsComponent {
       return undefined;
     num = +num;
     this.carService.getCar(num).then((car: Car) => { this.car = car; });
-    this.checkVehicleStatus("car");
+    this.checkVehicleStatus('car');
 
   }
 
@@ -72,7 +73,7 @@ export class CarsAndMotosDetailsComponent {
       return undefined;
     num = +num;
     this.motoService.getMoto(num).then((moto: Moto) => { this.moto = moto; });
-    this.checkVehicleStatus("moto");
+    this.checkVehicleStatus('moto');
 
   }
 
@@ -126,5 +127,30 @@ export class CarsAndMotosDetailsComponent {
       this.checkVehicleStatus(type) // Atualiza o estado após alternar
     }
   }
+
+  async deleteVehicle(): Promise<void> {
+    const num: any = this.route.snapshot.params['num'];
+    if (num == null) return;
+  
+    const id = +num;
+    const type = this.car ? 'car' : 'moto';
+    
+    if (type === 'car') {
+      try {
+        await this.carService.deleteCar(id);
+        this.router.navigate(['/cars']);
+      } catch (error) {
+        console.error('Error deleting car:', error);
+      }
+    } else {
+      try {
+        await this.motoService.deleteMoto(id);
+        this.router.navigate(['/motorbikes']);
+      } catch (error) {
+        console.error('Error deleting motorbike:', error);
+      }
+    }
+  }
+  
 
 }

@@ -65,6 +65,7 @@ urlpatterns = [
     path('api/motos/create', views.create_motorbike, name='api_create_motorbike'),
     path('api/motos/update', views.update_motorbike, name='api_update_motorbike'),
     path('api/motos/delete/<int:id>', views.delete_motorbike, name='api_delete_motorbike'),
+    path('api/models/<str:vehicle_type>/', views.get_models_by_type, name='get_models_by_type'),
     path('api/brands', views.get_brands, name='api_get_brands'),
     path('api/brand', views.get_brand, name='api_get_brand'),
     path('api/brands/<int:brand_id>/vehicles', views.get_models_by_brand, name='api_get_models_by_brand'),
