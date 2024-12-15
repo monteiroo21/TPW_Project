@@ -28,11 +28,10 @@ export class CarService {
     return await data.json() ?? [];
   }
 
-  async createCar(car: any): Promise<any> {
+  async createCar(car: FormData): Promise<any> {
     const url = `${this.baseURL}/cars/create`;
     const response = await fetch(url, {
       method: 'POST',
-
       body: car,
     });
     return await response.json();

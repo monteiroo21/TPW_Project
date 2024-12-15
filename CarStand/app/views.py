@@ -666,15 +666,82 @@ def get_car(request):
 
 @api_view(['POST'])
 def create_car(request):
-    data = dict(request.data.copy())  # Copia os dados recebidos
-    data['image'] = request.FILES.get('image')  # Adiciona o arquivo no serializer
-    serializer = CarSerializer(data=data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    else:
-        print(serializer.errors)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    print("FILES:", request.FILES)
+    print("DATA:", request.data)
+
+    data = request.data.copy()
+
+    model_id = data.get('model')
+    year_str = data.get('year')
+    price_str = data.get('price')
+
+    try:
+        model_instance = CarModel.objects.get(id=int(model_id))
+    except (ValueError, CarModel.DoesNotExist):
+        return Response({'error': f'CarModel with id {model_id} not found or invalid.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        year = int(year_str)
+    except ValueError:
+        return Response({'error': 'Year must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Valida price
+    try:
+        from decimal import Decimal
+        price = Decimal(price_str)
+    except:
+        return Response({'error': 'Price must be a valid decimal number.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Kilometers
+    kilometers_str = data.get('kilometers', '0')
+    try:
+        kilometers = float(kilometers_str)
+    except ValueError:
+        return Response({'error': 'Kilometers must be a float.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Color (opcional, default "Black")
+    color = data.get('color', 'Black')
+
+    # Doors (opcional, default 4)
+    doors_str = data.get('doors', '4')
+    try:
+        doors = int(doors_str)
+    except ValueError:
+        return Response({'error': 'Doors must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    electric_str = data.get('electric', 'false').lower()
+    electric = (electric_str == 'true')
+
+    if 'image' in request.FILES:
+        image = data.get('image')
+
+    new_car = Car(
+        model=model_instance,
+        year=year,
+        kilometers=kilometers,
+        new=(kilometers == 0),
+        price=price,
+        image=image,
+        color=color,
+        doors=doors,
+        electric=electric
+    )
+    new_car.save()
+    car_data = {
+        'id': new_car.id,
+        'model': new_car.model.id,
+        'year': new_car.year,
+        'new': new_car.new,
+        'kilometers': new_car.kilometers,
+        'price': str(new_car.price),
+        'image': new_car.image.url if new_car.image else None,
+        'color': new_car.color,
+        'doors': new_car.doors,
+        'electric': new_car.electric
+    }
+
+    return Response(car_data, status=status.HTTP_201_CREATED)
+
 
 
 @api_view(['PUT'])
