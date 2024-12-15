@@ -15,6 +15,7 @@ import { PurchasedVehiclesComponent } from './components/purchased-vehicles/purc
 import { CreateVehicleComponent } from './components/create-vehicle/create-vehicle.component';
 import { EditVehicleComponent } from './components/edit-vehicle/edit-vehicle.component';
 import { CreateVehicleModelComponent } from './components/create-vehicle-model/create-vehicle-model.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
