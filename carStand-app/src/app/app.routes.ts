@@ -8,6 +8,7 @@ import { CarsAndMotosDetailsComponent } from './components/Details/cars-and-moto
 import { GroupsAndBrandsDetailsComponent } from './components/Details/groups-and-brands-details/groups-and-brands-details.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -22,4 +23,5 @@ export const routes: Routes = [
     { path: 'groupdetails/:type/:num', component: GroupsAndBrandsDetailsComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
+    { path: 'edit_profile', component: ProfileComponent}
 ];

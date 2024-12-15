@@ -1,0 +1,14 @@
+<div>
+    <div class="absolute flex z-50 top-0 left-0 mt-24">
+        <app-go-back></app-go-back>
+    </div>
+
+    <div class="flex items-center justify-center mt-48">
+        <div *ngIf="profile">
+            <img class="h-36 w-36" src="../../../../assets/user.png" alt="User Avatar" />
+            <div>
+                <p>Name: {{ profile.first_name }}</p>
+              </div>
+        </div>
+    </div>
+</div>

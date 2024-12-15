@@ -83,6 +83,7 @@ urlpatterns = [
     path('api/vehicles/<int:vehicle_id>/<int:profile_id>/<str:type>/negate/', views.negate_customer, name='negate_customer'),
     path('api/vehicles/<int:vehicle_id>/<str:type>/status/', views.get_vehicle_status, name='get_vehicle_status'),
     path('api/vehicles/approval/', views.get_vehicles_for_approval, name='get_vehicles_for_approval'),
+    path('api/profile/', views.get_profile, name='get_profile'),
 
 ]
 

@@ -1209,3 +1209,17 @@ def negate_customer(request, vehicle_id, profile_id, type):
 
     return Response({"message": "Customer removed from interested list."})
 
+
+################# Profile #################
+
+@api_view(['GET'])
+def get_profile(request):
+    if not request.user.is_authenticated:
+        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    try:
+        profile = Profile.objects.get(user=request.user) 
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data, status=200)
+    except Profile.DoesNotExist:
+        return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
