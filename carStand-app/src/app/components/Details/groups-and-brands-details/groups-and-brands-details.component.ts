@@ -9,11 +9,10 @@ import { Moto } from '../../../interfaces/moto';
 import { GroupService } from '../../../services/group.service';
 import { BrandService } from '../../../services/brand.service';
 import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
-import { BrandsAndGroupsCardsComponent } from '../../Cards/brands-and-groups-cards/brands-and-groups-cards.component';
 
 @Component({
   selector: 'app-groups-and-brands-details',
-  imports: [CommonModule, FormsModule, GoBackComponent, BrandsAndGroupsCardsComponent],
+  imports: [CommonModule, FormsModule, GoBackComponent],
   templateUrl: './groups-and-brands-details.component.html',
   styleUrl: './groups-and-brands-details.component.css'
 })
@@ -21,8 +20,8 @@ export class GroupsAndBrandsDetailsComponent implements OnInit {
   @Input() group: Group | undefined = undefined;
   @Input() brands: Brand[] | undefined = undefined;
   @Input() brand: Brand | undefined = undefined;
-  @Input() cars: Car[] | undefined = undefined;
-  @Input() motos: Moto[] | undefined = undefined;
+  @Input() cars: any[] = [];
+  @Input() motos: any[] = [];
 
   groupService: GroupService = inject(GroupService);
   brandService: BrandService = inject(BrandService);
@@ -34,6 +33,16 @@ export class GroupsAndBrandsDetailsComponent implements OnInit {
   ngOnInit(): void {
     const type = this.route.snapshot.params['type'];
     const num = this.route.snapshot.params['num'];
+    const id = this.route.snapshot.params['id'];
+
+    if (id) {
+      this.brandService.getBrandVehicles(id).then((data) => {
+        console.log("Brand vehicles fetched:", data);
+        this.brand = data.brand;
+        this.cars = data.cars;
+        this.motos = data.motos;
+      });
+    }
 
     if (!type || !num) {
       console.error("Missing route parameters: type or num");
@@ -60,10 +69,6 @@ export class GroupsAndBrandsDetailsComponent implements OnInit {
         this.group = group;
         this.brands = group.brands;
         console.log("Group details fetched:", group);
-
-        this.brands?.forEach((brand) => {
-          this.fetchBrandModels(brand);
-        });
       })
       .catch((error) => {
         console.error("Error fetching group details:", error);
@@ -85,31 +90,16 @@ export class GroupsAndBrandsDetailsComponent implements OnInit {
         console.error("Error fetching brand details:", error);
       });
 
-    this.brandService.getModelsByBrand(brandId)
-      .then((data: { cars: Car[], motos: Moto[] }) => {
+    this.brandService.getBrandVehicles(brandId)
+      .then((data) => {
+        console.log("Brand vehicles fetched:", data);
         this.cars = data.cars;
         this.motos = data.motos;
-        console.log("Cars fetched:", data.cars);
-        console.log("Motos fetched:", data.motos);
       })
       .catch((error) => {
-        console.error("Error fetching cars and motos:", error);
+        console.error("Error fetching brand vehicles:", error);
       });
-  }
 
-  fetchBrandModels(brand: Brand): void {
-    this.brandService.getModelsByBrand(brand.id)
-      .then((data: { cars: Car[], motos: Moto[] }) => {
-        brand.models = [...data.cars, ...data.motos];
-        brand.cars = data.cars;
-        brand.motos = data.motos;
 
-        console.log(`Models for brand ${brand.name}:`, brand.models);
-        console.log(`Cars for brand ${brand.name}:`, brand.cars);
-        console.log(`Motos for brand ${brand.name}:`, brand.motos);
-      })
-      .catch((error) => {
-        console.error(`Error fetching models for brand ${brand.name}:`, error);
-      });
   }
 }

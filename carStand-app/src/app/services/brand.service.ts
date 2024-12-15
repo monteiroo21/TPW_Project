@@ -23,9 +23,9 @@ export class BrandService {
     return await data.json() ?? undefined;
   }
 
-  async getModelsByBrand(id: number): Promise<{ cars: Car[], motos: Moto[] }> {
-    const url = `${this.baseURL}/brands/${id}/models`;
+  async getBrandVehicles(id: number): Promise<{brand: Brand; cars: Car[]; motos: Moto[]}> {
+    const url = `${this.baseURL}/brands/${id}/vehicles`;
     const data = await fetch(url);
-    return await data.json() ?? { cars: [], motos: [] };
+    return await data.json() ?? [];
   }
 }

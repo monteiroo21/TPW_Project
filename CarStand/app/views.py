@@ -834,16 +834,23 @@ def get_brand(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def get_models_by_brand(request):
-    brand_id = int(request.GET['id'])
+def get_models_by_brand(request, brand_id):
     try:
         brand = Brand.objects.get(id=brand_id)
+        cars = Car.objects.filter(model__brand=brand)
+        motos = Moto.objects.filter(model__brand=brand)
+
+        car_serializer = CarSerializer(cars, many=True)
+        moto_serializer = MotoSerializer(motos, many=True)
+
+        return Response({
+            'brand': brand.name,
+            'cars': car_serializer.data,
+            'motos': moto_serializer.data
+        })
     except Brand.DoesNotExist:
         return Response({'error': 'Brand not found'}, status=status.HTTP_404_NOT_FOUND)
-    
-    models = CarModel.objects.filter(brand=brand)
-    serializer = CarModelSerializer(models, many=True)
-    return Response(serializer.data)
+
 
 
 
