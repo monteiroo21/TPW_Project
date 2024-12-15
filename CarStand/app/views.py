@@ -680,19 +680,30 @@ def create_car(request):
 
 @api_view(['PUT'])
 def update_car(request):
+    print(1)
+    print(request.FILES)  # Confirme que o arquivo está sendo recebido
+    print(request.data)   # Confirme os dados recebidos
+    id = request.data.get('id')
+    if not id:
+        return Response({'error': 'ID not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
     try:
-        car = Car.objects.get(id=request.data['id'])
+        car = Car.objects.get(id=id)
     except Car.DoesNotExist:
         return Response({'error': 'Car not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    serializer = CarSerializer(car, data=request.data, partial=True)  # Use partial=True para atualizações parciais
+    updatable_fields = {key: request.data[key] for key in ['id','year','kilometers','price','color','doors','electric','image'] if key in request.data}
+    if 'image' in updatable_fields and not hasattr(updatable_fields['image'], 'read'):
+        print(updatable_fields.pop('image'))
+
+    serializer = CarSerializer(car, data=updatable_fields, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
-    else:
-        print(serializer.error_messages)
+    else: 
         print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['DELETE'])
@@ -747,11 +758,21 @@ def update_motorbike(request):
     except Moto.DoesNotExist:
         return Response({'error': 'Motorbike not found'}, status=status.HTTP_404_NOT_FOUND)
     
-    serializer = MotoSerializer(moto, data=request.data)
+    updatable_fields = {key: request.data[key] for key in ['id','year','kilometers','price','color','image'] if key in request.data}
+    if 'kilometers' in updatable_fields and not updatable_fields['kilometers']:
+        updatable_fields['kilometers']=0
+        updatable_fields['new']=True    
+    if 'image' in updatable_fields and not hasattr(updatable_fields['image'], 'read'):
+        print(updatable_fields.pop('image'))
+
+    serializer = MotoSerializer(moto, data=updatable_fields, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
+    else: 
+        print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['DELETE'])

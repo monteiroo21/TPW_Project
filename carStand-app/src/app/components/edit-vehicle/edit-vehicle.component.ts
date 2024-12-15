@@ -7,12 +7,14 @@ import { Car } from '../../interfaces/car';
 import { Moto } from '../../interfaces/moto';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { GoBackComponent } from '../Buttons/go-back/go-back.component';
 
 @Component({
   selector: 'app-edit-vehicle',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, GoBackComponent],
   templateUrl: './edit-vehicle.component.html',
-  styleUrl: './edit-vehicle.component.css'
+  styleUrls: ['./edit-vehicle.component.css']
 })
 export class EditVehicleComponent {
   vehicleType: string = 'cars';
@@ -55,15 +57,28 @@ export class EditVehicleComponent {
 
   async submitForm() {
     try {
+      const formData = new FormData();
+      Object.keys(this.vehicleData).forEach((key) => {
+        if (key === 'image' && this.vehicleData[key] instanceof File) {
+          formData.append(key, this.vehicleData[key]);
+        } else {
+          formData.append(key, this.vehicleData[key] !== undefined ? this.vehicleData[key] : '');
+        }
+      });
+
+      console.log('FormData keys:', Array.from(formData.keys()));
+
       if (this.vehicleType === 'cars') {
-        await this.carService.updateCar(this.vehicleData as Car);
+        await this.carService.updateCar(formData); // Envia formData sem headers manual
         this.message = 'Car updated successfully!';
+        this.router.navigate([`/carsdetails/car/${this.vehicleData.id}`]);
+
       } else {
-        await this.motoService.updateMoto(this.vehicleData as Moto);
+        await this.motoService.updateMoto(formData); // Envia formData sem headers manual
         this.message = 'Moto updated successfully!';
+        this.router.navigate([`/motosdetails/moto/${this.vehicleData.id}`]);
       }
       this.error = false;
-      this.router.navigate([`/${this.vehicleType}`]);
     } catch (error) {
       this.message = 'Error updating vehicle.';
       this.error = true;
@@ -74,7 +89,7 @@ export class EditVehicleComponent {
   handleFileInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input?.files?.[0]) {
-      this.vehicleData.image = input.files[0].name; // Save file name only
+      this.vehicleData.image = input.files[0]; // Agora armazena o próprio arquivo
     }
   }
 }
