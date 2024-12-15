@@ -63,7 +63,7 @@ export class CarService {
   
   async updateCar(car: FormData): Promise<void> {
     const url = `${this.baseURL}/cars/update`;
-    console.log(car);
+    console.log(car.values());
     const response = await fetch(url, {
       method: 'PUT',
       body: car,
