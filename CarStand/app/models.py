@@ -55,7 +55,7 @@ class Brand(models.Model):
     
 # Vehicle Model
 class CarModel(models.Model):
-    brand = models.ForeignKey(Brand, related_name='brand_cars', on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, related_name='models', on_delete=models.CASCADE)
     name = models.CharField(max_length=70)
     base_price = models.FloatField()
     specifications = models.TextField()
@@ -66,7 +66,7 @@ class CarModel(models.Model):
         return self.name + ", " + self.brand.name
 
 class Car(models.Model):
-    model = models.ForeignKey(CarModel, related_name='model_cars', on_delete=models.CASCADE)    # Car is related to CarModel
+    model = models.ForeignKey(CarModel, related_name='cars', on_delete=models.CASCADE)    # Car is related to CarModel
     year = models.PositiveIntegerField(validators=[MinValueValidator(1990), MaxValueValidator(2024)])
     new = models.BooleanField(default=True)
     kilometers = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
@@ -84,7 +84,7 @@ class Car(models.Model):
         return self.model.name + ", " + self.model.brand.name
 
 class Moto(models.Model):
-    model = models.ForeignKey(CarModel, on_delete=models.CASCADE)   # Moto is related to CarModel
+    model = models.ForeignKey(CarModel, on_delete=models.CASCADE, related_name='motos')   # Moto is related to CarModel
     year = models.PositiveIntegerField(validators=[MinValueValidator(1990), MaxValueValidator(2024)])
     new = models.BooleanField(default=True)
     kilometers = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])

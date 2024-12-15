@@ -12,9 +12,13 @@ import { AuthData } from '../../../interfaces/authData';
 import { FavoriteService } from '../../../services/favorite.service';
 import { PurchaserAndSelectedVehiclesService } from '../../../services/purchaser-and-selected-vehicles.service';
 import { CardsAndMotosCardsComponent } from "../../Cards/cards-and-motos-cards/cards-and-motos-cards.component";
+import { FavoriteService } from '../../../services/favorite.service';
+import { PurchaserAndSelectedVehiclesService } from '../../../services/purchaser-and-selected-vehicles.service';
+import { CardsAndMotosCardsComponent } from "../../Cards/cards-and-motos-cards/cards-and-motos-cards.component";
 
 @Component({
   selector: 'app-cars-and-motos-details',
+  imports: [CommonModule, FormsModule, GoBackComponent, CardsAndMotosCardsComponent],
   imports: [CommonModule, FormsModule, GoBackComponent, CardsAndMotosCardsComponent],
   templateUrl: './cars-and-motos-details.component.html',
   styleUrl: './cars-and-motos-details.component.css'
@@ -24,13 +28,18 @@ export class CarsAndMotosDetailsComponent {
   @Input() moto: Moto | undefined = undefined;
   cars: Car[] = [];
   motos: Moto[] = [];
+  cars: Car[] = [];
+  motos: Moto[] = [];
 
   carService: CarService = inject(CarService);
   motoService: MotoService = inject(MotoService);
   authService: AuthService = inject(AuthService);
   favoriteService: FavoriteService = inject(FavoriteService);
   purchaserService: PurchaserAndSelectedVehiclesService = inject(PurchaserAndSelectedVehiclesService);
+
   authState: AuthData | null = null;
+  isSelected: boolean = false;
+  isBuyed: boolean | null = null;
   isSelected: boolean = false;
   isBuyed: boolean | null = null;
 
@@ -39,13 +48,18 @@ export class CarsAndMotosDetailsComponent {
     this.authService.authState$.subscribe((state) => {
       this.authState = state;
     });
+    this.authService.authState$.subscribe((state) => {
+      this.authState = state;
+    });
     let type: string = this.route.snapshot.params['type'];
     if (type == "car") {
       this.getCarDetails();
       this.carService.getCarsNum(4).then((cars: Car[]) => { this.cars = cars; });
+      this.carService.getCarsNum(4).then((cars: Car[]) => { this.cars = cars; });
     }
     else {
       this.getMotoDetails();
+      this.motoService.getMotosNum(4).then((motos: Moto[]) => { this.motos = motos; });
       this.motoService.getMotosNum(4).then((motos: Moto[]) => { this.motos = motos; });
     }
   }
@@ -57,6 +71,7 @@ export class CarsAndMotosDetailsComponent {
     num = +num;
     this.carService.getCar(num).then((car: Car) => { this.car = car; });
     this.checkVehicleStatus("car");
+
   }
 
   getMotoDetails(): void {
@@ -66,6 +81,7 @@ export class CarsAndMotosDetailsComponent {
     num = +num;
     this.motoService.getMoto(num).then((moto: Moto) => { this.moto = moto; });
     this.checkVehicleStatus("moto");
+
   }
 
   isFavorite(): boolean {
@@ -98,7 +114,6 @@ export class CarsAndMotosDetailsComponent {
     const num: any = this.route.snapshot.params['num'];
     if (num == null)
       return undefined;
-
     const id = +num;
     console.log(id);
 
