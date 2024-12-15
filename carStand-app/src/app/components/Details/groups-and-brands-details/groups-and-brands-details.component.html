@@ -57,7 +57,7 @@
                     *ngFor="let brand of group.brands">
                     <a href="{{ '/branddetails/brand/'+brand.id }}">
                         <div class="flex items-center justify-center">
-                            <img [src]="brand.logo" [alt]="brand.name"
+                            <img [src]="urlImage + brand.logo" [alt]="brand.name"
                                 class="w-full h-56 object-contain p-4 bg-white" />
                         </div>
                         <div class="px-8 mt-4">
@@ -70,39 +70,37 @@
             </div>
         </ng-container>
         <ng-container *ngIf="brand">
-            <h2 class="text-3xl text-white font-bold mb-8">Cars</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-              <ng-container *ngFor="let car of cars">
-                <div
-                  class="bg-white rounded-2xl shadow-md w-72 h-68 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
-                  <a href="{{ '/cardetails/car/' + car.id }}">
-                    <div class="flex items-center justify-center">
-                      <img [src]="car.image" [alt]="car.model.name" class="w-full h-56 object-contain p-4 bg-white" />
-                    </div>
-                    <div class="px-8 mt-4">
-                      <h3 class="text-2xl text-slate-900 font-bold mb-5 truncate">{{ car.model.name }}</h3>
-                    </div>
-                  </a>
+            <ng-container *ngIf="cars.length > 0">
+                <h2 class="text-3xl text-white font-bold mb-8">Cars</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+                  <div *ngFor="let car of cars" class="bg-white rounded-2xl shadow-md w-72 h-68 overflow-hidden hover:scale-105 hover:shadow-2xl">
+                    <a href="{{ '/carsdetails/car/' + car.id }}">
+                      <div class="flex justify-center">
+                        <img [src]="urlImage + car.image" [alt]="car.model.name" class="rounded-t-2xl w-52 h-52 object-contain transition-opacity hover:opacity-90" />
+                      </div>
+                      <div class="px-8 mt-4 mb-4">
+                        <h3 class="text-2xl text-slate-900 font-bold truncate">{{ car.model.name }}</h3>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </ng-container>
-            </div>
-          
-            <h2 class="text-3xl text-white font-bold mb-8">Motos</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-              <ng-container *ngFor="let moto of motos">
-                <div
-                  class="bg-white rounded-2xl shadow-md w-72 h-68 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
-                  <a href="{{ '/motodetails/moto/' + moto.id }}">
-                    <div class="flex items-center justify-center">
-                      <img [src]="moto.image" [alt]="moto.model.name" class="w-full h-56 object-contain p-4 bg-white" />
-                    </div>
-                    <div class="px-8 mt-4">
-                      <h3 class="text-2xl text-slate-900 font-bold mb-5 truncate">{{ moto.model.name }}</h3>
-                    </div>
-                  </a>
+              
+              <ng-container *ngIf="motos.length > 0">
+                <h2 class="text-3xl text-white font-bold mb-8">Motos</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+                  <div *ngFor="let moto of motos" class="bg-white rounded-2xl shadow-md w-72 h-68 overflow-hidden hover:scale-105 hover:shadow-2xl">
+                    <a href="{{ '/motosdetails/motorbike/' + moto.id }}">
+                      <div class="flex justify-center">
+                        <img [src]="urlImage + moto.image" [alt]="moto.model.name" class="rounded-t-2xl w-52 h-52 object-contain transition-opacity hover:opacity-90" />
+                      </div>
+                      <div class="px-8 mt-4 mb-4">
+                        <h3 class="text-2xl text-slate-900 font-bold truncate">{{ moto.model.name }}</h3>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </ng-container>
-            </div>
         </ng-container>
     </div>
 </div>
