@@ -16,7 +16,7 @@ export class LoginComponent {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
   async onLogin() {
     try {
@@ -24,10 +24,10 @@ export class LoginComponent {
       if (response.message) {
         this.router.navigate(['/']);
       } else {
-        this.errorMessage = 'Invalid username or password.';
+        this.showErrorMessage('Invalid username or password.');
       }
     } catch (error) {
-      this.errorMessage = 'An error occurred. Please try again.';
+      this.showErrorMessage('An error occurred. Please try again.');
     }
   }
   async onLogout() {
@@ -36,10 +36,17 @@ export class LoginComponent {
       if (response.message) {
         this.router.navigate(['/']);
       } else {
-        this.errorMessage = 'Invalid username or password.';
+        this.showErrorMessage('Invalid username or password.');
       }
     } catch (error) {
-      this.errorMessage = 'An error occurred. Please try again.';
+      this.showErrorMessage('An error occurred. Please try again.');
     }
+  }
+
+  private showErrorMessage(message: string) {
+    this.errorMessage = message;
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 5000);
   }
 }

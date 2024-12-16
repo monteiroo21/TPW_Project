@@ -20,7 +20,6 @@
                 cars!</h4>
         </div>
 
-        <!-- Placeholder form without logic -->
         <form class="bg-white rounded-xl px-6 py-8 space-y-6 max-w-md md:ml-auto w-full">
             <h3 class="text-3xl font-extrabold mb-12">
                 Login
@@ -28,14 +27,18 @@
 
             <div class="mb-4">
                 <p class="text-black">Username</p>
-                <input type="text" [(ngModel)]="username"  name="email" class="w-full bg-lightgrey p-2 rounded-lg mt-1"
+                <input type="text" [(ngModel)]="username" name="email" class="w-full bg-lightgrey p-2 rounded-lg mt-1"
                     placeholder="Enter your username" />
             </div>
 
             <div class="mb-4">
                 <p class="text-black">Password</p>
-                <input type="password" [(ngModel)]="password"  name="password" class="w-full bg-lightgrey p-2 rounded-lg mt-1"
-                    placeholder="Enter your password" />
+                <input type="password" [(ngModel)]="password" name="password"
+                    class="w-full bg-lightgrey p-2 rounded-lg mt-1" placeholder="Enter your password" />
+            </div>
+
+            <div *ngIf="errorMessage" class="text-red-700 px-3 py-2 rounded relative" role="alert">
+                <span class="block sm:inline">{{ errorMessage }}</span>
             </div>
 
             <div class="flex flex-wrap items-center justify-between gap-4 mt-6">
