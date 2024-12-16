@@ -67,9 +67,33 @@
           {{ isSelected ? 'Marked Interested' : 'Show Interest' }}
         </button>
       </div>
+      <div *ngIf="authState?.authenticated && authState?.isManager">
+        <div class="flex items-center justify-end space-x-6 mt-6">
+          <!-- Botão Editar -->
+          <!-- (click)="editVehicle(car ? car.id : moto?.id)" -->
+          <button
+          [routerLink]="['/vehicleedit', car ? 'cars' : 'motos', car ? car.id : moto?.id]"
+          type="button"
+          class="flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none shadow-md transition-all duration-300"
+        >
+          <img src="../../../../assets/edit.svg" alt="Edit Icon" class="w-5 h-5 mr-2">
+          Edit
+        </button>
+        
+          <!-- Botão Eliminar -->
+          <button
+          type="button"
+          (click)="deleteVehicle()"
+          class="flex items-center px-4 py-2 rounded-lg bg-red-600 text-white font-medium hover:bg-red-700 focus:outline-none shadow-md transition-all duration-300"
+          >
+            <img src="../../../../assets/delete.svg" alt="Delete Icon" class="w-5 h-5 mr-2">
+            Delete
+          </button>
+        </div>
+        
+      </div>
 
-
-    </div>
+  </div>
   </div>
 
   <div class="mt-10 container mx-auto">

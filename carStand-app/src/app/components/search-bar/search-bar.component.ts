@@ -7,11 +7,12 @@ import { CardsAndMotosCardsComponent } from '../Cards/cards-and-motos-cards/card
 import { VehiclesFilterComponent } from '../vehicles-filter/vehicles-filter.component';
 import { FilterCar, FilterMoto } from '../../interfaces/filter.interface';
 import { FilterSortService } from '../../services/filter-sort.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [CommonModule, FormsModule, BrandsAndGroupsCardsComponent, CardsAndMotosCardsComponent, HttpClientModule, VehiclesFilterComponent],
+  imports: [CommonModule, FormsModule, BrandsAndGroupsCardsComponent, CardsAndMotosCardsComponent, VehiclesFilterComponent,RouterLink],
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.css']
 })
@@ -20,7 +21,6 @@ export class SearchBarComponent {
   searchQuery: string = '';
   results: any[] = [];
   filters: FilterCar | FilterMoto | undefined = undefined;
-  filtersApplied: boolean = false;
   sortOption: string = '';
 
   constructor(private filterSortService: FilterSortService) { }

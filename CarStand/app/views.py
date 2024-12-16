@@ -663,29 +663,128 @@ def get_car(request):
     serializer = CarSerializer(car)
     return Response(serializer.data)
 
-
+import time
 @api_view(['POST'])
 def create_car(request):
-    serializer = CarSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    print("FILES:", request.FILES)
+    print("DATA:", request.data)
+
+    data = request.data.copy()
+
+    model_id = data.get('model')
+    year_str = data.get('year')
+    price_str = data.get('price')
+
+    try:
+        model_instance = CarModel.objects.get(id=int(model_id))
+    except (ValueError, CarModel.DoesNotExist):
+        return Response({'error': f'CarModel with id {model_id} not found or invalid.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        year = int(year_str)%time.localtime().tm_year
+        print(year,time.localtime().tm_year)
+        if 1886>year or year>time.localtime().tm_year:
+            return Response({'error': 'Year must be more than 1885 and not future.'}, status=status.HTTP_400_BAD_REQUEST)
+    except ValueError:
+        return Response({'error': 'Year must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Valida price
+    try:
+        price = float(price_str)
+    except:
+        return Response({'error': 'Price must be a valid decimal number.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Kilometers
+    kilometers_str = data.get('kilometers', '0')
+    if kilometers_str=="null" or kilometers_str=="":
+        kilometers_str=0
+    try:
+        kilometers = float(kilometers_str)
+    except ValueError:
+        return Response({'error': 'Kilometers must be a float.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Color (opcional, default "Black")
+    color = data.get('color', 'Black')
+
+    # Doors (opcional, default 4)
+    doors_str = data.get('doors', '4')
+    try:
+        doors = int(doors_str)
+    except ValueError:
+        return Response({'error': 'Doors must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    electric_str = data.get('electric', 'false').lower()
+    electric = (electric_str == 'true')
+
+    if 'image' in request.FILES:
+        image = data.get('image')
+
+    new_car = Car(
+        model=model_instance,
+        year=year,
+        kilometers=kilometers,
+        new=(kilometers == 0),
+        price=price,
+        image=image,
+        color=color,
+        doors=doors,
+        electric=electric
+    )
+    new_car.save()
+    car_data = {
+        'id': new_car.id,
+        'model': new_car.model.id,
+        'year': new_car.year,
+        'new': new_car.new,
+        'kilometers': new_car.kilometers,
+        'price': str(new_car.price),
+        'image': new_car.image.url if new_car.image else None,
+        'color': new_car.color,
+        'doors': new_car.doors,
+        'electric': new_car.electric
+    }
+
+    return Response({'error': 'Car create.'}, status=status.HTTP_201_CREATED)
+
 
 
 @api_view(['PUT'])
 def update_car(request):
-    id = request.data['id']
+    print(1)
+    print(request.FILES)  # Confirme que o arquivo está sendo recebido
+    print(request.data)   # Confirme os dados recebidos
+    id = request.data.get('id')
+    if not id:
+        return Response({'error': 'ID not provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
     try:
         car = Car.objects.get(id=id)
+        oldModel=car.model
     except Car.DoesNotExist:
         return Response({'error': 'Car not found'}, status=status.HTTP_404_NOT_FOUND)
-    
-    serializer = CarSerializer(car, data=request.data)
+
+    updatable_fields = {key: request.data[key] for key in ['model','id','year','kilometers','price','color','doors','electric','image'] if key in request.data}
+    if 'image' in updatable_fields and not hasattr(updatable_fields['image'], 'read'):
+        print(updatable_fields.pop('image'))
+    if 'model' in updatable_fields:
+        model_id = updatable_fields.pop('model')  # Remove do dicionário de campos atualizáveis
+        try:
+            model_instance = CarModel.objects.get(id=model_id)
+            car.model=model_instance  
+            car.save()      
+        except CarModel.DoesNotExist:
+            return Response({'error': f'CarModel with id {model_id} not found.'}, status=status.HTTP_400_BAD_REQUEST)
+    print(car.model)  
+    serializer = CarSerializer(car, data=updatable_fields, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
+    else: 
+        car.model=oldModel  
+        car.save()    
+        print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['DELETE'])
@@ -725,26 +824,114 @@ def get_motorbike(request):
 
 @api_view(['POST'])
 def create_motorbike(request):
-    serializer = MotoSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    print("FILES:", request.FILES)
+    print("DATA:", request.data)
+
+    data = request.data.copy()
+
+    # Valida o modelo
+    model_id = data.get('model')
+    year_str = data.get('year')
+    price_str = data.get('price')
+
+    try:
+        model_instance = CarModel.objects.get(id=int(model_id))
+    except (ValueError, CarModel.DoesNotExist):
+        return Response({'error': f'Motorbike model with id {model_id} not found or invalid.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Valida o ano
+    try:
+        year = int(year_str)
+        current_year = time.localtime().tm_year
+        if year < 1886 or year > current_year:
+            return Response({'error': 'Year must be between 1886 and the current year.'}, status=status.HTTP_400_BAD_REQUEST)
+    except ValueError:
+        return Response({'error': 'Year must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Valida o preço
+    try:
+        price = float(price_str)
+    except ValueError:
+        return Response({'error': 'Price must be a valid decimal number.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Kilometers
+    kilometers_str = data.get('kilometers', '0')
+    if kilometers_str == "null" or kilometers_str == "":
+        kilometers_str = 0
+    print(kilometers_str)
+    try:
+        kilometers = float(kilometers_str)
+    except ValueError:
+        return Response({'error': 'Kilometers must be a float.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Color (opcional, default "Black")
+    color = data.get('color', 'Black')
+
+    # Valida a imagem
+    image = None
+    if 'image' in request.FILES:
+        image = data.get('image')
+
+    # Criação da mota
+    new_motorbike = Moto(
+        model=model_instance,
+        year=year,
+        kilometers=kilometers,
+        new=(kilometers == 0),
+        price=price,
+        image=image,
+        color=color,
+    )
+    new_motorbike.save()
+    # Retorna os dados da mota criada
+    motorbike_data = {
+        'id': new_motorbike.id,
+        'model': new_motorbike.model.id,
+        'year': new_motorbike.year,
+        'new': new_motorbike.new,
+        'kilometers': new_motorbike.kilometers,
+        'price': str(new_motorbike.price),
+        'image': new_motorbike.image.url if new_motorbike.image else None,
+        'color': new_motorbike.color,
+    }
+
+    return Response({'error': 'Moto create.'}, status=status.HTTP_201_CREATED)
 
 
 @api_view(['PUT'])
 def update_motorbike(request):
     id = request.data['id']
+    print(request.data)
     try:
         moto = Moto.objects.get(id=id)
+        oldModel=moto.model
     except Moto.DoesNotExist:
         return Response({'error': 'Motorbike not found'}, status=status.HTTP_404_NOT_FOUND)
     
-    serializer = MotoSerializer(moto, data=request.data)
+    updatable_fields = {key: request.data[key] for key in ['id','model','year','kilometers','price','color','image'] if key in request.data}
+    if  'kilometers' not in updatable_fields or ('kilometers' in updatable_fields and not updatable_fields['kilometers']):
+        updatable_fields['kilometers']=0
+        updatable_fields['new']=True    
+    if 'image' in updatable_fields and not hasattr(updatable_fields['image'], 'read'):
+        print(updatable_fields.pop('image'))
+    if 'model' in updatable_fields:
+        model_id = updatable_fields.pop('model')  # Remove do dicionário de campos atualizáveis
+        try:
+            model_instance = CarModel.objects.get(id=model_id)
+            moto.model=model_instance  
+            moto.save()      
+        except CarModel.DoesNotExist:
+            return Response({'error': f'CarModel with id {model_id} not found.'}, status=status.HTTP_400_BAD_REQUEST)
+    serializer = CarSerializer(moto, data=updatable_fields, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
+    else: 
+        moto.model=oldModel  
+        moto.save()    
+        print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['DELETE'])
@@ -821,6 +1008,14 @@ def get_brand(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
+def get_models_by_type(request, vehicle_type):
+    if vehicle_type not in ['Car', 'Motorbike']:
+        return Response({"error": "Invalid vehicle type."}, status=status.HTTP_400_BAD_REQUEST)
+    models = CarModel.objects.filter(vehicle_type=vehicle_type)
+    serializer = CarModelSerializer(models, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
 def get_models_by_brand(request, brand_id):
     try:
         brand = Brand.objects.get(id=brand_id)
@@ -837,8 +1032,6 @@ def get_models_by_brand(request, brand_id):
         })
     except Brand.DoesNotExist:
         return Response({'error': 'Brand not found'}, status=status.HTTP_404_NOT_FOUND)
-
-
 
 
 ################# Search #################

@@ -8,6 +8,8 @@ import { CarsAndMotosDetailsComponent } from './components/Details/cars-and-moto
 import { GroupsAndBrandsDetailsComponent } from './components/Details/groups-and-brands-details/groups-and-brands-details.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { CreateVehicleComponent } from './components/create-vehicle/create-vehicle.component';
+import { EditVehicleComponent } from './components/edit-vehicle/edit-vehicle.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -20,6 +22,8 @@ export const routes: Routes = [
     { path: 'motosdetails/:type/:num', component: CarsAndMotosDetailsComponent },
     { path: 'branddetails/:type/:num', component: GroupsAndBrandsDetailsComponent },
     { path: 'groupdetails/:type/:num', component: GroupsAndBrandsDetailsComponent },
+    { path: 'vehiclecreate/:type', component: CreateVehicleComponent },
+    { path: 'vehicleedit/:type/:id', component: EditVehicleComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
 ];

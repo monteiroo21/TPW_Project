@@ -27,5 +27,39 @@ export class MotoService {
     return await data.json() ?? [];
   }
 
+  async createMoto(moto: any): Promise<any> {
+    const url = `${this.baseURL}/motos/create`;
+    const response = await fetch(url, {
+      method: 'POST',
+      body: moto,
+    });
+    console.log(response.status);
+    
+    return await response.json();
+  }
+
+  async deleteMoto(id: number): Promise<void> {
+    const url = `${this.baseURL}/motos/delete/${id}`;
+    const response = await fetch(url, {
+      method: 'DELETE',
+    });
+  
+    if (!response.ok) {
+      throw new Error('Failed to delete motorbike');
+    }
+  }
+
+  async updateMoto(moto: FormData): Promise<void> {
+    const url = `${this.baseURL}/motos/update`;
+    const response = await fetch(url, {
+      method: 'PUT',
+      body: moto,
+    });
+  
+    if (!response.ok) {
+      throw new Error('Failed to update motorbike');
+    }
+  }
+  
   // Depois implementar o resto dos métodos
 }
