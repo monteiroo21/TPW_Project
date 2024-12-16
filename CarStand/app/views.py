@@ -664,7 +664,7 @@ def get_car(request):
     serializer = CarSerializer(car)
     return Response(serializer.data)
 
-
+import time
 @api_view(['POST'])
 def create_car(request):
     print("FILES:", request.FILES)
@@ -682,19 +682,23 @@ def create_car(request):
         return Response({'error': f'CarModel with id {model_id} not found or invalid.'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
-        year = int(year_str)
+        year = int(year_str)%time.localtime().tm_year
+        print(year,time.localtime().tm_year)
+        if 1886>year or year>time.localtime().tm_year:
+            return Response({'error': 'Year must be more than 1885 and not future.'}, status=status.HTTP_400_BAD_REQUEST)
     except ValueError:
         return Response({'error': 'Year must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
 
     # Valida price
     try:
-        from decimal import Decimal
-        price = Decimal(price_str)
+        price = float(price_str)
     except:
         return Response({'error': 'Price must be a valid decimal number.'}, status=status.HTTP_400_BAD_REQUEST)
 
     # Kilometers
     kilometers_str = data.get('kilometers', '0')
+    if kilometers_str=="null" or kilometers_str=="":
+        kilometers_str=0
     try:
         kilometers = float(kilometers_str)
     except ValueError:
@@ -741,7 +745,7 @@ def create_car(request):
         'electric': new_car.electric
     }
 
-    return Response(car_data, status=status.HTTP_201_CREATED)
+    return Response({'error': 'Car create.'}, status=status.HTTP_201_CREATED)
 
 
 
@@ -821,11 +825,78 @@ def get_motorbike(request):
 
 @api_view(['POST'])
 def create_motorbike(request):
-    serializer = MotoSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    print("FILES:", request.FILES)
+    print("DATA:", request.data)
+
+    data = request.data.copy()
+
+    # Valida o modelo
+    model_id = data.get('model')
+    year_str = data.get('year')
+    price_str = data.get('price')
+
+    try:
+        model_instance = CarModel.objects.get(id=int(model_id))
+    except (ValueError, CarModel.DoesNotExist):
+        return Response({'error': f'Motorbike model with id {model_id} not found or invalid.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Valida o ano
+    try:
+        year = int(year_str)
+        current_year = time.localtime().tm_year
+        if year < 1886 or year > current_year:
+            return Response({'error': 'Year must be between 1886 and the current year.'}, status=status.HTTP_400_BAD_REQUEST)
+    except ValueError:
+        return Response({'error': 'Year must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Valida o preço
+    try:
+        price = float(price_str)
+    except ValueError:
+        return Response({'error': 'Price must be a valid decimal number.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Kilometers
+    kilometers_str = data.get('kilometers', '0')
+    if kilometers_str == "null" or kilometers_str == "":
+        kilometers_str = 0
+    print(kilometers_str)
+    try:
+        kilometers = float(kilometers_str)
+    except ValueError:
+        return Response({'error': 'Kilometers must be a float.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Color (opcional, default "Black")
+    color = data.get('color', 'Black')
+
+    # Valida a imagem
+    image = None
+    if 'image' in request.FILES:
+        image = data.get('image')
+
+    # Criação da mota
+    new_motorbike = Moto(
+        model=model_instance,
+        year=year,
+        kilometers=kilometers,
+        new=(kilometers == 0),
+        price=price,
+        image=image,
+        color=color,
+    )
+    new_motorbike.save()
+    # Retorna os dados da mota criada
+    motorbike_data = {
+        'id': new_motorbike.id,
+        'model': new_motorbike.model.id,
+        'year': new_motorbike.year,
+        'new': new_motorbike.new,
+        'kilometers': new_motorbike.kilometers,
+        'price': str(new_motorbike.price),
+        'image': new_motorbike.image.url if new_motorbike.image else None,
+        'color': new_motorbike.color,
+    }
+
+    return Response({'error': 'Moto create.'}, status=status.HTTP_201_CREATED)
 
 
 @api_view(['PUT'])

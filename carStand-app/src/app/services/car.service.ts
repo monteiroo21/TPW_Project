@@ -34,6 +34,7 @@ export class CarService {
       method: 'POST',
       body: car,
     });
+
     return await response.json();
   }
 
