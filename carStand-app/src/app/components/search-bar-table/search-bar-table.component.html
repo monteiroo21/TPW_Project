@@ -1,0 +1,9 @@
+<div class="flex items-center space-x-4 p-4">
+    <input type="text" [(ngModel)]="queryVehicle" placeholder="Search by vehicle"
+        class="border p-2 rounded focus:outline-none focus:ring" />
+    <input type="text" [(ngModel)]="queryUser" placeholder="Search by user"
+        class="border p-2 rounded focus:outline-none focus:ring" />
+    <button (click)="emitFilters()" class="p-2 bg-blue-500 text-white rounded shadow hover:bg-blue-700">
+        Search
+    </button>
+</div>

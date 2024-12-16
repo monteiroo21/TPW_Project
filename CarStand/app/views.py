@@ -1344,13 +1344,25 @@ def toggle_interest(request, vehicle_id, type):
     print("isSelected",isSelected)
     return Response({"message": f"Interest {isSelected} successfully."})
 
+
 @api_view(['GET'])
 def get_vehicles_for_approval(request):
     # filterProfile = request.GET.get('filterProfile', 'false').lower() == 'true'
 
+    query_vehicle = request.GET.get('qVehicle', '').strip()
+    query_user = request.GET.get('qUser', '').strip()
+
     cars = Car.objects.all()
     motos = Moto.objects.all()
+
+    if query_vehicle:
+        cars = filterByBrandAndName(query_vehicle,cars)
+        motos = filterByBrandAndName(query_vehicle,motos)
+
     profiles = Profile.objects.exclude(user__username="admin")
+
+    if query_user:
+        profiles = profiles.filter(Q(user__username__icontains=query_user))
 
     listForAccept = []
 
@@ -1373,7 +1385,8 @@ def get_vehicles_for_approval(request):
                 "type": "moto"
             })
 
-    return Response({"listForAccept": listForAccept})
+    return Response({"listForAccept": listForAccept}, status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 def approve_customer(request, vehicle_id, profile_id, type):
