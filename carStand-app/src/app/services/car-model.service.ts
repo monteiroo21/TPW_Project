@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CarModel } from '../interfaces/model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class CarModelService {
 
   constructor() { }
 
-  async createCarModel(modelData: FormData): Promise<any> {
+  async createCarModel(modelData: FormData): Promise<CarModel> {
     const url = `${this.baseURL}/carmodel/create`;
     const response = await fetch(url, {
       method: 'POST',
