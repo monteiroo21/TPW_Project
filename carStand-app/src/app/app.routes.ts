@@ -14,6 +14,7 @@ import { DesiredVehiclesComponent } from './components/desired-vehicles/desired-
 import { PurchasedVehiclesComponent } from './components/purchased-vehicles/purchased-vehicles.component';
 import { CreateVehicleComponent } from './components/create-vehicle/create-vehicle.component';
 import { EditVehicleComponent } from './components/edit-vehicle/edit-vehicle.component';
+import { CreateVehicleModelComponent } from './components/create-vehicle-model/create-vehicle-model.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -28,6 +29,7 @@ export const routes: Routes = [
     { path: 'groupdetails/:type/:num', component: GroupsAndBrandsDetailsComponent },
     { path: 'vehiclecreate/:type', component: CreateVehicleComponent },
     { path: 'vehicleedit/:type/:id', component: EditVehicleComponent },
+    { path: 'vehiclemodelcreate/:type', component: CreateVehicleModelComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'edit_profile', component: ProfileComponent},

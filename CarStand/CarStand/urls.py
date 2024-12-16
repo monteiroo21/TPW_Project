@@ -84,6 +84,9 @@ urlpatterns = [
     path('api/vehicles/<int:vehicle_id>/<int:profile_id>/<str:type>/negate/', views.negate_customer, name='negate_customer'),
     path('api/vehicles/<int:vehicle_id>/<str:type>/status/', views.get_vehicle_status, name='get_vehicle_status'),
     path('api/vehicles/approval/', views.get_vehicles_for_approval, name='get_vehicles_for_approval'),
+    path('api/carmodel/create', views.create_car_model, name='api_create_car_model'),
+
+
     path('api/profile/', views.get_profile, name='get_profile'),
     path('api/profile/purchased/', views.get_purchased_vehicles, name='get_purchased_vehicles'),
     path('api/profile/favorites/', views.get_favorite_vehicles, name='get_favorite_vehicles'),
