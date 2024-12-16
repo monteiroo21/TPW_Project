@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 })
 export class NavbarComponent {
   authState: AuthData | null = null;
+  isLogoutModalOpen: boolean = false;
   dropdownOpen = false;
   urlImage: string = "http://localhost:8000";
 
@@ -26,9 +27,19 @@ export class NavbarComponent {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
+  openLogoutModal(): void {
+    this.isLogoutModalOpen = true;
+    this.dropdownOpen = false; 
+  }
+
+  closeLogoutModal(): void {
+    this.isLogoutModalOpen = false;
+  }
+
   logout(): void {
     this.authService.logout().then(() => {
       this.dropdownOpen = false;
+      this.isLogoutModalOpen = false;
     });
   }
 }

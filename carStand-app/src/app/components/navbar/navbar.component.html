@@ -57,7 +57,7 @@
           Profile
         </a>
         <button
-          (click)="logout()"
+          (click)="openLogoutModal()"
           class="w-full text-left block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 rounded-md"
         >
           Logout
@@ -116,3 +116,28 @@
     </div>
   </div>
 </nav>
+
+<div
+  *ngIf="isLogoutModalOpen"
+  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+  >
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+    <h2 class="text-2xl text-gray-700 dark:text-gray-300">
+      Are you sure you want to log out?
+    </h2>
+    <div class="flex items-center justify-center mt-6 space-x-6">
+      <button
+        (click)="closeLogoutModal()"
+        class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="logout()"
+        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
