@@ -57,10 +57,12 @@
         </div>
 
         <button *ngIf="isBuyed === null" (click)="toggleInterest()"
-          class="flex items-center px-4 py-2 rounded-xl font-medium shadow-md transition-all duration-300" [ngClass]="{
-                    'bg-blue-500 text-white hover:bg-blue-700': !isSelected,
-                    'bg-green-500 text-white hover:bg-green-700': isSelected
+          class="flex items-center px-4 py-2 rounded-xl font-medium shadow-md transition-all duration-300 text-white"
+          [ngClass]="{
+                    'bg-slate-600 hover:bg-slate-800': !isSelected,
+                    'bg-sky-800 hover:bg-sky-950': isSelected
                   }">
+          <img src="../../../../assets/handshake.svg" alt="showInterest" class="w-5 h-5 mr-2">
           {{ isSelected ? 'Marked Interested' : 'Show Interest' }}
         </button>
       </div>
