@@ -3,12 +3,57 @@
         <app-go-back></app-go-back>
     </div>
 
-    <div class="flex items-center justify-center mt-48">
-        <div *ngIf="profile">
-            <img class="h-36 w-36" src="../../../../assets/user.png" alt="User Avatar" />
-            <div>
-                <p>Name: {{ profile.first_name }}</p>
-              </div>
+    <div class="flex flex-col items-center justify-center space-y-4 mt-24">
+        <div *ngIf="profile" class="text-center">
+            <div class="w-24 h-24 rounded-full flex items-center justify-center">
+                <img src="../../../../assets/user.png" alt="User Avatar" />
+            </div>
+
+            <h2 class="text-2xl font-extrabold text-white mt-4">
+                {{ profile.first_name }} {{ profile.last_name }}
+            </h2>
+
+            <button id="editProfileBtn" 
+                class="text-white bg-sky-800 hover:bg-sky-950 py-2 px-6 rounded-md font-semibold mt-4"
+                (click)="toggleModal(true)">
+                Edit Profile
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="isModalVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-8 w-96 text-center">
+            <h3 class="text-2xl font-bold mb-4">Edit Profile</h3>
+
+            <form (ngSubmit)="onSubmit()">
+                <div class="mb-4">
+                    <label for="first_name" class="block text-left font-semibold">First Name</label>
+                    <input id="first_name" type="text" [(ngModel)]="profile.first_name" name="first_name"
+                        class="w-full mt-1 p-2 border border-gray-300 rounded-md" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="last_name" class="block text-left font-semibold">Last Name</label>
+                    <input id="last_name" type="text" [(ngModel)]="profile.last_name" name="last_name"
+                        class="w-full mt-1 p-2 border border-gray-300 rounded-md" />
+                </div>
+
+                <div class="mb-4">
+                    <label for="email" class="block text-left font-semibold">Email</label>
+                    <input id="email" type="email" [(ngModel)]="profile.email" name="email"
+                        class="w-full mt-1 p-2 border border-gray-300 rounded-md" />
+                </div>
+
+                <div class="flex justify-between mt-6">
+                    <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-6 rounded-md" 
+                        (click)="toggleModal(false)">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-sky-800 hover:bg-sky-950 text-white py-2 px-6 rounded-md">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
