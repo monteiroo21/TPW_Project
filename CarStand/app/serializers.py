@@ -6,12 +6,40 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name','password']
+        extra_kwargs = {'password': {'write_only': True}}
+
     def create(self, validated_data):
         password = validated_data.pop('password')
         user = User(**validated_data)
         user.set_password(password)
         user.save()
         return user
+    
+    def validate_username(self, value):
+        # If we are updating an existing user
+        if self.instance and self.instance.pk:
+            # If the username hasn't changed, just return it
+            if value == self.instance.username:
+                return value
+
+            # If the username has changed, check for uniqueness
+            if User.objects.exclude(pk=self.instance.pk).filter(username=value).exists():
+                raise serializers.ValidationError("This username is already taken.")
+        else:
+            # Creating a new user, just check for uniqueness
+            if User.objects.filter(username=value).exists():
+                raise serializers.ValidationError("This username is already taken.")
+
+        return value
+    
+    def update(self, instance, validated_data):
+        if 'password' in validated_data:
+            instance.set_password(validated_data.pop('password'))
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
@@ -19,6 +47,19 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['id', 'user', 'first_name', 'last_name', 'email']
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user', None)
+        if user_data:
+            user_serializer = UserSerializer(instance.user, data=user_data, partial=True)
+            user_serializer.is_valid(raise_exception=True)
+            user_serializer.save()
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        return instance
 
 class MinimalGroupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -86,15 +127,12 @@ class MotoSerializer(serializers.ModelSerializer):
             'id', 'model', 'year', 'new', 'kilometers', 'price', 'image',
             'interestedCustomers', 'purchaser', 'color'
         ]
-
         extra_kwargs = {
             'interestedCustomers': {'required': False},
             'purchaser': {'required': False, 'allow_null': True},
             'image': {'required': False, 'allow_null': True},
             'color': {'required': False, 'allow_null': True}
         }
-
-
 class ModelSerializer(serializers.ModelSerializer):
     cars = CarSerializer(many=True, read_only=True)
     motos = MotoSerializer(many=True, read_only=True)

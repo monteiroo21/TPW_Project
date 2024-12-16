@@ -5,6 +5,7 @@ from .models import Group, Brand, Profile,Favorite,Car,CarModel,Moto
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 # Filters a queryset of vehicles based on a search string matching brand and model names.
 def filterByBrandAndName(name,listVehicle):
@@ -1024,6 +1025,15 @@ def get_models_by_brand(request, brand_id):
         return Response({'error': 'Brand not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(['GET'])
+def get_models_by_type(request, vehicle_type):
+    if vehicle_type not in ['Car', 'Motorbike']:
+        return Response({"error": "Invalid vehicle type."}, status=status.HTTP_400_BAD_REQUEST)
+
+    models = CarModel.objects.filter(vehicle_type=vehicle_type)
+    serializer = CarModelSerializer(models, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 ################# Search #################
 
 @api_view(['GET'])
@@ -1444,4 +1454,115 @@ def create_car_model(request):
 
     new_model.save()
 
-    return Response(CarModelSerializer(new_model).data, status=status.HTTP_201_CREATED)
+    return Response({
+        'id': new_model.id,
+        'brand': new_model.brand.id,
+        'name': new_model.name,
+        'base_price': new_model.base_price,
+        'specifications': new_model.specifications,
+        'releaseYear': new_model.releaseYear,
+        'vehicle_type': new_model.vehicle_type
+    }, status=status.HTTP_201_CREATED)
+
+################# Profile #################
+
+@api_view(['GET', 'PUT'])
+def get_profile(request):
+    user = cache.get("user")
+    if not user or not user.is_authenticated:
+        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    try:
+        profile = Profile.objects.get(user=user)
+        user_obj = User.objects.get(id=user.id)
+
+        if request.method == 'GET':
+            serializer = ProfileSerializer(profile)
+            return Response(serializer.data, status=200)
+                    
+        elif request.method == 'PUT':
+            print(request.data)
+            data = request.data.copy()
+            user_data = data.pop('user', None)
+
+            profile_serializer = ProfileSerializer(profile, data=data, partial=True)
+
+            user_serializer = None
+            if user_data:
+                user_serializer = UserSerializer(profile.user, data=user_data, partial=True)
+
+            if profile_serializer.is_valid() and (user_serializer is None or user_serializer.is_valid()):
+                profile_serializer.save()
+
+                if user_serializer:
+                    user_serializer.save()
+
+                updated_profile_serializer = ProfileSerializer(profile)
+                return Response(updated_profile_serializer.data, status=status.HTTP_200_OK)
+
+            print(serializer.errors)
+            print("UU", user_serializer.errors)
+            errors = profile_serializer.errors
+            if user_serializer and user_serializer.errors:
+                errors['user'] = user_serializer.errors
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+
+    except Profile.DoesNotExist:
+        return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def get_purchased_vehicles(request):
+    user = cache.get("user")
+    if not user or not user.is_authenticated:
+        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    profile = get_object_or_404(Profile, user=user)
+    cars = Car.objects.filter(purchaser=profile)
+    motos = Moto.objects.filter(purchaser=profile)
+
+    car_serializer = CarSerializer(cars, many=True)
+    moto_serializer = MotoSerializer(motos, many=True)
+
+    return Response({
+        'cars': car_serializer.data,
+        'motos': moto_serializer.data
+    })
+
+@api_view(['GET'])
+def get_desired_vehicles(request):
+    user = cache.get("user")
+    if not user or not user.is_authenticated:
+        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    profile = get_object_or_404(Profile, user=user)
+    cars = Car.objects.filter(interestedCustomers=profile)
+    motos = Moto.objects.filter(interestedCustomers=profile)
+
+    car_serializer = CarSerializer(cars, many=True)
+    moto_serializer = MotoSerializer(motos, many=True)
+
+    return Response({
+        'cars': car_serializer.data,
+        'motos': moto_serializer.data
+    })
+
+
+@api_view(['GET'])
+def get_favorite_vehicles(request):
+    user = cache.get("user")
+    if not user or not user.is_authenticated:
+        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    profile = get_object_or_404(Profile, user=user)
+    favorite = Favorite.objects.get(profile=profile)
+
+    favorite_cars = CarSerializer(favorite.favoritesCar, many=True).data
+    favorite_motos = MotoSerializer(favorite.favoritesMoto, many=True).data
+
+    print(favorite_cars)
+    print(favorite_motos)
+
+    return Response({
+        'favoriteCars': favorite_cars,
+        'favoriteMotos': favorite_motos
+    })

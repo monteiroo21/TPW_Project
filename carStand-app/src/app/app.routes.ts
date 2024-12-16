@@ -8,6 +8,10 @@ import { CarsAndMotosDetailsComponent } from './components/Details/cars-and-moto
 import { GroupsAndBrandsDetailsComponent } from './components/Details/groups-and-brands-details/groups-and-brands-details.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { FavouritesComponent } from './components/favourites/favourites.component';
+import { DesiredVehiclesComponent } from './components/desired-vehicles/desired-vehicles.component';
+import { PurchasedVehiclesComponent } from './components/purchased-vehicles/purchased-vehicles.component';
 import { CreateVehicleComponent } from './components/create-vehicle/create-vehicle.component';
 import { EditVehicleComponent } from './components/edit-vehicle/edit-vehicle.component';
 import { CreateVehicleModelComponent } from './components/create-vehicle-model/create-vehicle-model.component';
@@ -28,4 +32,8 @@ export const routes: Routes = [
     { path: 'vehiclemodelcreate/:type', component: CreateVehicleModelComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
+    { path: 'edit_profile', component: ProfileComponent},
+    { path: 'favourites', component: FavouritesComponent },
+    { path: 'desiredVehicles', component: DesiredVehiclesComponent },
+    { path: 'purchasedVehicles', component: PurchasedVehiclesComponent },
 ];
