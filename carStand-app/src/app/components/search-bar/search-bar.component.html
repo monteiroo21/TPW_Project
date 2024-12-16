@@ -1,6 +1,5 @@
 <div class="w-full">
-  <div class="flex flex-col space-y-4 ml-72 mt-4">
-    <!-- Linha superior: Pesquisa e Ordenação -->
+  <div class="flex flex-col space-y-4 ml-64 mt-4">
     <div class="flex items-center space-x-4">
       <div class="relative w-96">
         <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Search {{ type }}"
@@ -8,7 +7,7 @@
         <img src="../../../assets/search.svg" alt="SearchIcon"
           class="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500">
       </div>
-  
+
       <div *ngIf="type === 'cars' || type === 'motos'" class="ml-4">
         <select [(ngModel)]="sortOption" (change)="onSortChanged()"
           class="border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800">
@@ -21,32 +20,22 @@
           <option value="kilometers_desc">Sort by Kilometers ↓</option>
         </select>
       </div>
-    </div>
-  
-    <!-- Linha inferior: Filtros e Criação -->
-    <div class="flex items-center space-x-5">
+
       <div *ngIf="type === 'cars' || type === 'motos'">
         <app-vehicles-filter [type]="type" (applyFilters)="onFiltersApplied($event)"></app-vehicles-filter>
       </div>
       <div *ngIf="type === 'cars' || type === 'motos'">
-        <button
-          [routerLink]="['/vehiclecreate', type]"
+        <button [routerLink]="['/vehiclecreate', type]"
           class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md flex items-center space-x-2"
-          type="button"
-        >
-        <img
-        src="assets/plus.png"
-        alt="New Create Icon"
-        class="mr-2 w-4 h-4"
-      />
+          type="button">
+          <img src="assets/plus.png" alt="New Create Icon" class="mr-2 w-4 h-4" />
           Create {{ type === 'cars' ? 'Car' : 'Moto' }}
         </button>
       </div>
     </div>
   </div>
-  
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-16 justify-center items-center">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-10 justify-center items-center">
     <ng-container *ngIf="type === 'cars'">
       <app-cards-and-motos-cards class="flex justify-center items-center" *ngFor="let result of results"
         [car]="result"></app-cards-and-motos-cards>
