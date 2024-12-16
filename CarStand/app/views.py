@@ -1306,6 +1306,9 @@ def get_favorite_vehicles(request):
     favorite_cars = CarSerializer(favorite.favoritesCar, many=True).data
     favorite_motos = MotoSerializer(favorite.favoritesMoto, many=True).data
 
+    print(favorite_cars)
+    print(favorite_motos)
+
     return Response({
         'favoriteCars': favorite_cars,
         'favoriteMotos': favorite_motos
