@@ -1379,6 +1379,8 @@ def get_vehicles_for_approval(request):
 
     for moto in motos:
         for profile in moto.interestedCustomers.all():
+            if profile not in profiles:
+                continue
             listForAccept.append({
                 "vehicle": MotoSerializer(moto).data,
                 "profile": ProfileSerializer(profile).data,
