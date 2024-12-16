@@ -79,6 +79,7 @@ urlpatterns = [
     path('api/logout', views.post_logout_view, name='api_post_logout_view'),
     path('api/isAuth', views.get_isAuth, name='api_get_isAuth'),
     path('api/favorites/<str:type>/', views.save_favorites, name='api_save_favorites'),
+    path('api/favorites/<str:type>/get/', views.get_favorites, name='get_favorite_vehicles'),
     path('api/vehicles/<int:vehicle_id>/<str:type>/interest/', views.toggle_interest, name='toggle_interest'),
     path('api/vehicles/<int:vehicle_id>/<int:profile_id>/<str:type>/approve/', views.approve_customer, name='approve_customer'),
     path('api/vehicles/<int:vehicle_id>/<int:profile_id>/<str:type>/negate/', views.negate_customer, name='negate_customer'),
@@ -87,7 +88,6 @@ urlpatterns = [
     path('api/profile/', views.get_profile, name='get_profile'),
     path('api/carmodel/create', views.create_car_model, name='api_create_car_model'),
     path('api/profile/purchased/', views.get_purchased_vehicles, name='get_purchased_vehicles'),
-    path('api/profile/favorites/', views.get_favorite_vehicles, name='get_favorite_vehicles'),
     path('api/profile/desired/', views.get_desired_vehicles, name='get_desired_vehicles'),
 
 ]
