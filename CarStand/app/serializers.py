@@ -143,6 +143,7 @@ class ModelSerializer(serializers.ModelSerializer):
 
 
 
+
 class FavoriteSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
     favoritesCar = CarSerializer(many=True)
