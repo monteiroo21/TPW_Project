@@ -9,11 +9,10 @@ import { Moto } from '../../../interfaces/moto';
 import { GroupService } from '../../../services/group.service';
 import { BrandService } from '../../../services/brand.service';
 import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
-import { BrandsAndGroupsCardsComponent } from '../../Cards/brands-and-groups-cards/brands-and-groups-cards.component';
 
 @Component({
   selector: 'app-groups-and-brands-details',
-  imports: [CommonModule, FormsModule, GoBackComponent, BrandsAndGroupsCardsComponent],
+  imports: [CommonModule, FormsModule, GoBackComponent],
   templateUrl: './groups-and-brands-details.component.html',
   styleUrl: './groups-and-brands-details.component.css'
 })
@@ -21,15 +20,15 @@ export class GroupsAndBrandsDetailsComponent implements OnInit {
   @Input() group: Group | undefined = undefined;
   @Input() brands: Brand[] | undefined = undefined;
   @Input() brand: Brand | undefined = undefined;
-  @Input() cars: any[] = [];
-  @Input() motos: any[] = [];
+  @Input() cars: Car[] = [];
+  @Input() motos: Moto[] = [];
 
   groupService: GroupService = inject(GroupService);
   brandService: BrandService = inject(BrandService);
 
   urlImage: string = "http://localhost:8000";
 
-  constructor(private route: ActivatedRoute, private location: Location) {}
+  constructor(private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit(): void {
     const type = this.route.snapshot.params['type'];
