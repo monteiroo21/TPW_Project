@@ -732,20 +732,9 @@ def create_car(request):
         electric=electric
     )
     new_car.save()
-    car_data = {
-        'id': new_car.id,
-        'model': new_car.model.id,
-        'year': new_car.year,
-        'new': new_car.new,
-        'kilometers': new_car.kilometers,
-        'price': str(new_car.price),
-        'image': new_car.image.url if new_car.image else None,
-        'color': new_car.color,
-        'doors': new_car.doors,
-        'electric': new_car.electric
-    }
 
-    return Response({'error': 'Car create.'}, status=status.HTTP_201_CREATED)
+
+    return Response(CarSerializer(new_car).data, status=status.HTTP_201_CREATED)
 
 
 
@@ -892,18 +881,8 @@ def create_motorbike(request):
     )
     new_motorbike.save()
     # Retorna os dados da mota criada
-    motorbike_data = {
-        'id': new_motorbike.id,
-        'model': new_motorbike.model.id,
-        'year': new_motorbike.year,
-        'new': new_motorbike.new,
-        'kilometers': new_motorbike.kilometers,
-        'price': str(new_motorbike.price),
-        'image': new_motorbike.image.url if new_motorbike.image else None,
-        'color': new_motorbike.color,
-    }
 
-    return Response({'error': 'Moto create.'}, status=status.HTTP_201_CREATED)
+    return Response(MotoSerializer(new_motorbike).data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['PUT'])

@@ -1,15 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { CarModelService } from '../../services/car-model.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { GoBackComponent } from '../Buttons/go-back/go-back.component';
 import { Brand } from '../../interfaces/brand';
 import { BrandService } from '../../services/brand.service';
+import { CarModel } from '../../interfaces/model';
 
 @Component({
   selector: 'app-create-vehicle-model',
-  imports: [CommonModule, FormsModule, GoBackComponent, RouterLink],
+  imports: [CommonModule, FormsModule, GoBackComponent],
   templateUrl: './create-vehicle-model.component.html',
   styleUrl: './create-vehicle-model.component.css'
 })
@@ -46,9 +47,9 @@ export class CreateVehicleModelComponent {
     formData.append('vehicle_type', vehicle_type);
 
     try {
-      const result = await this.carModelService.createCarModel(formData);
-      this.message = 'Model created successfully!';
-      this.error = false;
+      const result:CarModel = await this.carModelService.createCarModel(formData);
+      console.log(result);
+      this.router.navigate(['/vehiclecreate/cars']);
     } catch (error) {
       this.message = 'Error creating model.';
       this.error = true;
