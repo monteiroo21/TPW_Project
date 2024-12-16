@@ -41,12 +41,14 @@ export class EditVehicleComponent {
       } else {
         this.vehicleData = await this.motoService.getMoto(id);
       }
+      this.modelID = this.vehicleData.model.id;
     } catch (error) {
       console.error('Error loading vehicle:', error);
     }
   }
 
   async loadModels() {
+    const id = +this.route.snapshot.params['id'];
     try {
       this.models = await this.carService.getModelsByType(
         this.vehicleType === 'cars' ? 'Car' : 'Motorbike'
@@ -75,12 +77,12 @@ export class EditVehicleComponent {
       console.log('FormData keys:', Array.from(formData.keys()));
 
       if (this.vehicleType === 'cars') {
-        await this.carService.updateCar(formData); // Envia formData sem headers manual
+        await this.carService.updateCar(formData);
         this.message = 'Car updated successfully!';
         this.router.navigate([`/carsdetails/car/${this.vehicleData.id}`]);
 
       } else {
-        await this.motoService.updateMoto(formData); // Envia formData sem headers manual
+        await this.motoService.updateMoto(formData);
         this.message = 'Moto updated successfully!';
         this.router.navigate([`/motosdetails/moto/${this.vehicleData.id}`]);
       }
@@ -95,7 +97,7 @@ export class EditVehicleComponent {
   handleFileInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input?.files?.[0]) {
-      this.vehicleData.image = input.files[0]; // Agora armazena o próprio arquivo
+      this.vehicleData.image = input.files[0]; 
     }
   }
 }

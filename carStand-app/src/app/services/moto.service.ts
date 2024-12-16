@@ -27,7 +27,7 @@ export class MotoService {
     return await data.json() ?? [];
   }
 
-  async createMoto(moto: any): Promise<any> {
+  async createMoto(moto: any): Promise<Moto> {
     const url = `${this.baseURL}/motos/create`;
     const response = await fetch(url, {
       method: 'POST',

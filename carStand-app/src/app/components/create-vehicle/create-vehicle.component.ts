@@ -1,11 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CarService } from '../../services/car.service';
 import { MotoService } from '../../services/moto.service';
 import { CarModel } from '../../interfaces/model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GoBackComponent } from '../Buttons/go-back/go-back.component';
+import { Car } from '../../interfaces/car';
+import { Moto } from '../../interfaces/moto';
 
 @Component({
   selector: 'app-create-vehicle',
@@ -34,7 +36,7 @@ export class CreateVehicleComponent {
   carService = inject(CarService);
   motoService = inject(MotoService);
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router) {
     this.vehicleType = this.route.snapshot.params['type'];
     this.loadModels();
   }
@@ -71,18 +73,27 @@ export class CreateVehicleComponent {
     });
 
     try {
+      let result;
       if (this.vehicleType === 'cars') {
-        ;
-        this.message = (await this.carService.createCar(formData))["error"];
+        result = await this.carService.createCar(formData);
       } else {
-        // await this.motoService.createMoto(formData);
-        this.message = (await this.motoService.createMoto(formData))["error"];
+        result = await this.motoService.createMoto(formData);
       }
-      this.error = false;
+  
+      // Check for errors in the response
+      if ('error' in result && result.error) {
+        this.message = <string>result.error; // Display the error from the backend
+        this.error = true;
+        console.error('Server error:', result.error);
+      } else {
+        this.message = `${this.vehicleType === 'cars' ? 'Car' : 'Motorbike'} created successfully!`;
+        this.error = false;
+        this.router.navigate([`/${this.vehicleType === 'cars' ? 'cars' : 'motorbikes'}`]);
+      }
     } catch (error) {
       this.message = 'Error creating vehicle.';
       this.error = true;
-      console.error(error);
+      console.error('Error:', error);
     }
   }
 
