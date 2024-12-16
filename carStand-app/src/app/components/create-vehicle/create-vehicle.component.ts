@@ -6,8 +6,6 @@ import { CarModel } from '../../interfaces/model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GoBackComponent } from '../Buttons/go-back/go-back.component';
-import { Car } from '../../interfaces/car';
-import { Moto } from '../../interfaces/moto';
 
 @Component({
   selector: 'app-create-vehicle',
@@ -26,8 +24,8 @@ export class CreateVehicleComponent {
     doors: "",
     electric: false,
     image: '',
-    interestedCustomers:[],
-    purchaser:null,
+    interestedCustomers: [],
+    purchaser: null,
   };
   models: CarModel[] = [];
   message: string = '';
@@ -59,19 +57,19 @@ export class CreateVehicleComponent {
     const missingFields = requiredFields.filter(
       (field) => !this.vehicleData[field]
     );
-  
+
     if (missingFields.length > 0) {
       this.message = `Please fill in all required fields: ${missingFields.join(', ')}`;
       this.error = true;
       console.error('Missing fields:', missingFields);
       return;
     }
-  
+
     const formData = new FormData();
     Object.keys(this.vehicleData).forEach((key) => {
       formData.append(key, this.vehicleData[key]);
     });
-  
+
     try {
       let result;
       if (this.vehicleType === 'cars') {
@@ -79,7 +77,7 @@ export class CreateVehicleComponent {
       } else {
         result = await this.motoService.createMoto(formData);
       }
-  
+
       // Check for errors in the response
       if ('error' in result && result.error) {
         this.message = <string>result.error; // Display the error from the backend
@@ -96,7 +94,7 @@ export class CreateVehicleComponent {
       console.error('Error:', error);
     }
   }
-  
+
 
   handleFileInput(event: Event): void {
     const input = event.target as HTMLInputElement;
