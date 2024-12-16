@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrandsAndGroupsCardsComponent } from '../Cards/brands-and-groups-cards/brands-and-groups-cards.component';
 import { CardsAndMotosCardsComponent } from '../Cards/cards-and-motos-cards/cards-and-motos-cards.component';
@@ -8,6 +8,8 @@ import { VehiclesFilterComponent } from '../vehicles-filter/vehicles-filter.comp
 import { FilterCar, FilterMoto } from '../../interfaces/filter.interface';
 import { FilterSortService } from '../../services/filter-sort.service';
 import { RouterLink } from '@angular/router';
+import { AuthData } from '../../interfaces/authData';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -22,8 +24,14 @@ export class SearchBarComponent {
   results: any[] = [];
   filters: FilterCar | FilterMoto | undefined = undefined;
   sortOption: string = '';
-
-  constructor(private filterSortService: FilterSortService) { }
+  authService: AuthService = inject(AuthService);
+  authState: AuthData | null = null;
+  
+  constructor(private filterSortService: FilterSortService) {
+    this.authService.authState$.subscribe((state) => {
+      this.authState = state;
+    });
+   }
 
   async onSearch() {
     if (this.searchQuery || this.filters || this.sortOption ) {
