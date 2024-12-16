@@ -1,5 +1,5 @@
 <div class="absolute flex z-50 top-0 left-0 mt-20">
-  <a routerLink="vehicleType === 'cars' ? '/cars' : '/motorbikes'"
+  <a [routerLink]="vehicleType === 'cars' ? '/cars' : '/motorbikes'"
     class="absolute top-4 left-4 flex items-center space-x-2 group">
     <app-go-back></app-go-back>
   </a>
