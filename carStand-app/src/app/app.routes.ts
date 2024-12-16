@@ -16,6 +16,9 @@ import { CreateVehicleComponent } from './components/create-vehicle/create-vehic
 import { EditVehicleComponent } from './components/edit-vehicle/edit-vehicle.component';
 import { CreateVehicleModelComponent } from './components/create-vehicle-model/create-vehicle-model.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { FavouritesComponent } from './components/favourites/favourites.component';
+import { DesiredVehiclesComponent } from './components/desired-vehicles/desired-vehicles.component';
+import { PurchasedVehiclesComponent } from './components/purchased-vehicles/purchased-vehicles.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
