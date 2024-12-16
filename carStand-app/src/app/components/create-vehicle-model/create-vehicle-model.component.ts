@@ -47,9 +47,13 @@ export class CreateVehicleModelComponent {
     formData.append('vehicle_type', vehicle_type);
 
     try {
-      const result:CarModel = await this.carModelService.createCarModel(formData);
+      const result: CarModel = await this.carModelService.createCarModel(formData);
       console.log(result);
-      this.router.navigate(['/vehiclecreate/cars']);
+      if (this.vehicleType === 'cars') {
+        this.router.navigate(['/vehiclecreate/cars']);
+      } else {
+        this.router.navigate(['/vehiclecreate/motorbikes']);
+      }
     } catch (error) {
       this.message = 'Error creating model.';
       this.error = true;

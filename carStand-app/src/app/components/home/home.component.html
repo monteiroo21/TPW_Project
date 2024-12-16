@@ -1,9 +1,9 @@
-<div class="flex justify-center min-h-screen mt-24">
+<div class="flex justify-center min-h-screen mt-8">
     <app-manager-table *ngIf="authState?.authenticated && authState?.isManager"></app-manager-table>
     <div *ngIf="!authState?.isManager">
         <app-carousel></app-carousel>
 
-        <div class="mt-20 container mx-auto">
+        <div class="mt-16 container mx-auto">
             <div class="bg-slate-900 rounded-xl shadow-xl px-8 pb-8 pt-4 mb-10">
                 <a routerLink="/cars">
                     <h1 class="text-xl font-medium text-white ml-6 hover:underline">Discover more cars available for
