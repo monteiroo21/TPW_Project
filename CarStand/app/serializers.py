@@ -1,4 +1,4 @@
-from app.models import Profile, Group, Brand, CarModel, Car, Moto, Favorite
+from app.models import Profile, Group, Brand, CarModel, Car, Moto, Favorite, CarModel
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
@@ -20,21 +20,31 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['id', 'user', 'first_name', 'last_name', 'email']
 
+class MinimalGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ['id', 'name']
+
+class MinimalCarModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CarModel
+        fields = ['id', 'name']
+
+
+class BrandSerializer(serializers.ModelSerializer):
+    group = MinimalGroupSerializer()
+    models = MinimalCarModelSerializer(many=True)
+    class Meta:
+        model = Brand
+        fields = ['id', 'name', 'email', 'country', 'website', 'cellPhone', 'description', 'logo', 'group', 'models']
+
 
 class GroupSerializer(serializers.ModelSerializer):
-    brands = serializers.StringRelatedField(many=True)
+    brands = BrandSerializer(many=True)
 
     class Meta:
         model = Group
         fields = ['id', 'name', 'email', 'country', 'website', 'logo', 'headquarters', 'brands']
-
-
-class BrandSerializer(serializers.ModelSerializer):
-    group = GroupSerializer()
-
-    class Meta:
-        model = Brand
-        fields = ['id', 'name', 'email', 'country', 'website', 'cellPhone', 'group', 'description', 'logo']
 
 
 class CarModelSerializer(serializers.ModelSerializer):
@@ -76,12 +86,25 @@ class MotoSerializer(serializers.ModelSerializer):
             'id', 'model', 'year', 'new', 'kilometers', 'price', 'image',
             'interestedCustomers', 'purchaser', 'color'
         ]
+
         extra_kwargs = {
             'interestedCustomers': {'required': False},
             'purchaser': {'required': False, 'allow_null': True},
             'image': {'required': False, 'allow_null': True},
             'color': {'required': False, 'allow_null': True}
         }
+
+
+class ModelSerializer(serializers.ModelSerializer):
+    cars = CarSerializer(many=True, read_only=True)
+    motos = MotoSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = CarModel
+        fields = ['id', 'name', 'description', 'cars', 'motos']
+
+
+
 
 class FavoriteSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()

@@ -1,3 +1,48 @@
 <div class="flex justify-center items-center min-h-screen">
-    <app-manager-table></app-manager-table>
+    <app-manager-table *ngIf="authState?.authenticated && authState?.isManager"></app-manager-table>
+    <div *ngIf="!authState?.isManager" class="mt-24">
+        <app-carousel></app-carousel>
+
+        <div class="mt-20 container mx-auto">
+            <div class="bg-slate-900 rounded-xl shadow-xl px-8 pb-8 pt-4 mb-10">
+                <a routerLink="/cars">
+                    <h1 class="text-xl font-medium text-white ml-6 hover:underline">Discover more cars available for
+                        you...</h1>
+                </a>
+                <div
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-8 justify-center items-center">
+                    <app-cards-and-motos-cards *ngFor=" let car of cars" [car]="car"></app-cards-and-motos-cards>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 rounded-xl shadow-xl px-8 pb-8 pt-4">
+                <a routerLink="/motorbikes">
+                    <h1 class="text-xl font-medium text-white ml-6 hover:underline">Discover more motorbikes available
+                        for you...</h1>
+                </a>
+                <div
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mt-8 justify-center items-center">
+                    <app-cards-and-motos-cards *ngFor=" let moto of motos" [moto]="moto"></app-cards-and-motos-cards>
+                </div>
+            </div>
+        </div>
+
+        <section class="mt-16 text-gray-300">
+            <h2 class="text-4xl font-extrabold mb-6 text-white text-center">Welcome to CarStand</h2>
+            <p class="max-w-3xl mx-auto text-lg leading-relaxed">
+                At <span class="text-white font-semibold">CarStand</span>, we bring you a premium selection of
+                <a routerLink="/cars" class="text-sky-500 hover:underline">cars</a> and
+                <a routerLink="/motorbikes" class="text-sky-500 hover:underline">motorbikes</a> tailored to meet your
+                lifestyle and preferences. Whether you're looking for speed, comfort, or affordability,
+                our diverse inventory has something for everyone.
+            </p>
+            <p class="max-w-3xl mx-auto mt-4 text-lg leading-relaxed">
+                Our mission is to redefine your vehicle-buying experience by offering not just high-quality
+                <span class="text-white font-semibold">vehicles</span>, but also unparalleled customer support.
+                Explore
+                our extensive range today and drive away with a vehicle that matches your style, needs, and budget.
+            </p>
+        </section>
+
+    </div>
 </div>

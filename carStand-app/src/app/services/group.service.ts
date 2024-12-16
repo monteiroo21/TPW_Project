@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Group } from '../interfaces/group';
+import { Brand } from '../interfaces/brand';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +20,11 @@ export class GroupService {
     const url = `${this.baseURL}/group?id=${id}`;
     const data = await fetch(url);
     return await data.json() ?? undefined;
+  }
+
+  async getBrandsByGroup(id: number): Promise<Brand[]> {
+    const url = `${this.baseURL}/groups/${id}/brands`;
+    const data = await fetch(url);
+    return await data.json() ?? [];
   }
 }

@@ -32,14 +32,15 @@ export class CarsAndMotosDetailsComponent {
   favoriteService: FavoriteService = inject(FavoriteService);
   purchaserService: PurchaserAndSelectedVehiclesService = inject(PurchaserAndSelectedVehiclesService);
 
-
-  
   authState: AuthData | null = null;
   isSelected: boolean = false;
-  isBuyed: boolean | null = null; 
+  isBuyed: boolean | null = null;
 
   urlImage: string = 'http://localhost:8000';
   constructor(private route: ActivatedRoute, private location: Location, private router: Router) {
+    this.authService.authState$.subscribe((state) => {
+      this.authState = state;
+    });
     this.authService.authState$.subscribe((state) => {
       this.authState = state;
     });
@@ -47,9 +48,11 @@ export class CarsAndMotosDetailsComponent {
     if (type == 'car') {
       this.getCarDetails();
       this.carService.getCarsNum(4).then((cars: Car[]) => { this.cars = cars; });
+      this.carService.getCarsNum(4).then((cars: Car[]) => { this.cars = cars; });
     }
     else {
       this.getMotoDetails();
+      this.motoService.getMotosNum(4).then((motos: Moto[]) => { this.motos = motos; });
       this.motoService.getMotosNum(4).then((motos: Moto[]) => { this.motos = motos; });
     }
   }
@@ -62,7 +65,6 @@ export class CarsAndMotosDetailsComponent {
     this.carService.getCar(num).then((car: Car) => { this.car = car; });
     this.checkVehicleStatus('car');
 
-
   }
 
   getMotoDetails(): void {
@@ -72,7 +74,6 @@ export class CarsAndMotosDetailsComponent {
     num = +num;
     this.motoService.getMoto(num).then((moto: Moto) => { this.moto = moto; });
     this.checkVehicleStatus('moto');
-
 
   }
 
@@ -106,16 +107,15 @@ export class CarsAndMotosDetailsComponent {
     const num: any = this.route.snapshot.params['num'];
     if (num == null)
       return undefined;
+    const id = +num;
+    console.log(id);
 
-      const id = +num;
-      console.log(id);
-      
-      if (id) {
-        const status = await this.purchaserService.getVehicleStatus(id, type);
-        this.isSelected = status.isSelected;
-        this.isBuyed = status.isBuyed;
-      
-  }
+    if (id) {
+      const status = await this.purchaserService.getVehicleStatus(id, type);
+      this.isSelected = status.isSelected;
+      this.isBuyed = status.isBuyed;
+
+    }
   }
 
   async toggleInterest(): Promise<void> {

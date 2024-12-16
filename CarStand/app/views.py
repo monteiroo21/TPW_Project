@@ -965,12 +965,33 @@ def get_group(request):
     serializer = GroupSerializer(group)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def get_brands_by_group(request, id):
+    try:
+        brand = Brand.objects.get(id=id)
+    except Brand.DoesNotExist:
+        return Response({'error': 'Brand not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    cars = Car.objects.filter(model__brand=brand)
+    motos = Moto.objects.filter(model__brand=brand)
+    
+    car_serializer = CarSerializer(cars, many=True)
+    moto_serializer = MotoSerializer(motos, many=True)
+    
+    return Response({
+        'cars': car_serializer.data,
+        'motos': moto_serializer.data
+    })
+
 
 ################# Brands #################
 
 @api_view(['GET'])
 def get_brands(request):
-    brands = Brand.objects.all()
+    brands = Brand.objects.prefetch_related(
+        'models__cars',
+        'models__motos'
+    ).all()
     serializer = BrandSerializer(brands, many=True)
     return Response(serializer.data)
 
@@ -987,9 +1008,29 @@ def get_brand(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
+
 def get_models_by_type(request, vehicle_type):
     if vehicle_type not in ['Car', 'Motorbike']:
         return Response({"error": "Invalid vehicle type."}, status=status.HTTP_400_BAD_REQUEST)
+
+def get_models_by_brand(request, brand_id):
+    try:
+        brand = Brand.objects.get(id=brand_id)
+        cars = Car.objects.filter(model__brand=brand)
+        motos = Moto.objects.filter(model__brand=brand)
+
+        car_serializer = CarSerializer(cars, many=True)
+        moto_serializer = MotoSerializer(motos, many=True)
+
+        return Response({
+            'brand': brand.name,
+            'cars': car_serializer.data,
+            'motos': moto_serializer.data
+        })
+    except Brand.DoesNotExist:
+        return Response({'error': 'Brand not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
 
     models = CarModel.objects.filter(vehicle_type=vehicle_type)
     serializer = CarModelSerializer(models, many=True)

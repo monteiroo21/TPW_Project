@@ -1,4 +1,7 @@
 import { Group } from "./group";
+import { Car } from "./car";
+import { Moto } from "./moto";
+import { CarModel } from "./model";
 
 export interface Brand {
     id: number;
@@ -10,4 +13,7 @@ export interface Brand {
     group: Group;
     description: string;
     logo?: string;  // path to the logo
+    models?: Car[] | Moto[] | CarModel[];
+    cars?: Car[];
+    motos?: Moto[];
 }
