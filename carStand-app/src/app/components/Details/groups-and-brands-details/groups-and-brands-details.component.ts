@@ -10,11 +10,11 @@ import { GroupService } from '../../../services/group.service';
 import { BrandService } from '../../../services/brand.service';
 import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
 import { BrandsAndGroupsCardsComponent } from "../../Cards/brands-and-groups-cards/brands-and-groups-cards.component";
-import { CardsAndMotosCardsComponent } from "../../Cards/cards-and-motos-cards/cards-and-motos-cards.component";
+import { CardsAndMotosBrandsCardComponent } from '../../Cards/cards-and-motos-brands-card/cards-and-motos-brands-card.component';
 
 @Component({
   selector: 'app-groups-and-brands-details',
-  imports: [CommonModule, FormsModule, GoBackComponent, BrandsAndGroupsCardsComponent, CardsAndMotosCardsComponent],
+  imports: [CommonModule, FormsModule, GoBackComponent, BrandsAndGroupsCardsComponent, CardsAndMotosBrandsCardComponent],
   templateUrl: './groups-and-brands-details.component.html',
   styleUrl: './groups-and-brands-details.component.css'
 })
