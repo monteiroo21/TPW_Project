@@ -1008,11 +1008,14 @@ def get_brand(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
-
 def get_models_by_type(request, vehicle_type):
     if vehicle_type not in ['Car', 'Motorbike']:
         return Response({"error": "Invalid vehicle type."}, status=status.HTTP_400_BAD_REQUEST)
+    models = CarModel.objects.filter(vehicle_type=vehicle_type)
+    serializer = CarModelSerializer(models, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
 def get_models_by_brand(request, brand_id):
     try:
         brand = Brand.objects.get(id=brand_id)
@@ -1030,11 +1033,6 @@ def get_models_by_brand(request, brand_id):
     except Brand.DoesNotExist:
         return Response({'error': 'Brand not found'}, status=status.HTTP_404_NOT_FOUND)
 
-
-
-    models = CarModel.objects.filter(vehicle_type=vehicle_type)
-    serializer = CarModelSerializer(models, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
 
 ################# Search #################
 
