@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Profile } from "../interfaces/profile";
+import { Car } from "../interfaces/car";
+import { Moto } from "../interfaces/moto";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +27,24 @@ export class ProfileService {
       },
       body: JSON.stringify(profile)
     });
+    return await data.json() ?? undefined;
+  }
+
+  async getPurchasedVehicles(): Promise<{ cars: Car[], motos: Moto[] }> {
+    const url = `${this.baseURL}/profile/purchased/`;
+    const data = await fetch(url);
+    return await data.json() ?? undefined;
+  }
+
+  async getDesiredVehicles(): Promise<{ cars: Car[], motos: Moto[] }> {
+    const url = `${this.baseURL}/profile/desired/`;
+    const data = await fetch(url);
+    return await data.json() ?? undefined;
+  }
+
+  async getFavourites(): Promise<{ cars: Car[], motos: Moto[] }> {
+    const url = `${this.baseURL}/profile/favorites/`;
+    const data = await fetch(url);
     return await data.json() ?? undefined;
   }
 

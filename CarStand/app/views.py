@@ -1256,3 +1256,57 @@ def get_profile(request):
 
     except Profile.DoesNotExist:
         return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def get_purchased_vehicles(request):
+    user = cache.get("user")
+    if not user or not user.is_authenticated:
+        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    profile = get_object_or_404(Profile, user=user)
+    cars = Car.objects.filter(purchaser=profile)
+    motos = Moto.objects.filter(purchaser=profile)
+
+    car_serializer = CarSerializer(cars, many=True)
+    moto_serializer = MotoSerializer(motos, many=True)
+
+    return Response({
+        'cars': car_serializer.data,
+        'motos': moto_serializer.data
+    })
+
+@api_view(['GET'])
+def get_desired_vehicles(request):
+    user = cache.get("user")
+    if not user or not user.is_authenticated:
+        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    profile = get_object_or_404(Profile, user=user)
+    cars = Car.objects.filter(interestedCustomers=profile)
+    motos = Moto.objects.filter(interestedCustomers=profile)
+
+    car_serializer = CarSerializer(cars, many=True)
+    moto_serializer = MotoSerializer(motos, many=True)
+
+    return Response({
+        'cars': car_serializer.data,
+        'motos': moto_serializer.data
+    })
+
+
+@api_view(['GET'])
+def get_favorite_vehicles(request):
+    user = cache.get("user")
+    if not user or not user.is_authenticated:
+        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    profile = get_object_or_404(Profile, user=user)
+    favorite = Favorite.objects.get(profile=profile)
+
+    favorite_cars = CarSerializer(favorite.favoritesCar, many=True).data
+    favorite_motos = MotoSerializer(favorite.favoritesMoto, many=True).data
+
+    return Response({
+        'favoriteCars': favorite_cars,
+        'favoriteMotos': favorite_motos
+    })

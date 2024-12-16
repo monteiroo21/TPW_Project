@@ -4,19 +4,28 @@ import { FormsModule } from '@angular/forms';
 import { ProfileService } from '../../services/profile.service';
 import { Profile } from '../../interfaces/profile';
 import { GoBackComponent } from '../Buttons/go-back/go-back.component';
+import { AuthService } from '../../services/auth.service';
+import { AuthData } from '../../interfaces/authData';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, FormsModule, GoBackComponent],
+  imports: [CommonModule, FormsModule, GoBackComponent, RouterLink],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
+  authService: AuthService = inject(AuthService);
+  authState: AuthData | null = null;
   profile!: Profile;
 
   isModalVisible: boolean = false;
 
-  constructor(private profileService: ProfileService) {}
+  constructor(private profileService: ProfileService) {
+    this.authService.authState$.subscribe((state) => {
+      this.authState = state;
+    });
+  }
 
   ngOnInit(): void {
     this.profileService.getProfile().then(

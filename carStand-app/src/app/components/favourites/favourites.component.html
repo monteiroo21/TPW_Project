@@ -1,0 +1,40 @@
+<div>
+    <div class="absolute flex z-50 top-0 left-0 mt-24">
+        <app-go-back></app-go-back>
+    </div>
+
+    <div class="mt-36 container mx-auto px-4">
+        <ng-container *ngIf="cars.length > 0">
+            <h2 class="text-3xl text-white font-bold mb-4">Cars</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+              <div *ngFor="let car of cars" class="bg-white rounded-2xl shadow-md w-72 h-68 overflow-hidden hover:scale-105 hover:shadow-2xl">
+                <a href="{{ '/carsdetails/car/' + car.id }}">
+                  <div class="flex justify-center">
+                    <img [src]="urlImage + car.image" [alt]="car.model.name" class="rounded-t-2xl w-52 h-52 object-contain transition-opacity hover:opacity-90" />
+                  </div>
+                  <div class="px-8 mt-4 mb-4">
+                    <h3 class="text-2xl text-slate-900 font-bold truncate">{{ car.model.name }}</h3>
+                  </div>
+                </a>
+              </div>
+            </div>
+        </ng-container>
+        
+        <ng-container *ngIf="motos.length > 0">
+            <h2 class="text-3xl text-white font-bold mb-4 mt-8">Motos</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+                <div *ngFor="let moto of motos" class="bg-white rounded-2xl shadow-md w-72 h-68 overflow-hidden hover:scale-105 hover:shadow-2xl">
+                <a href="{{ '/motosdetails/motorbike/' + moto.id }}">
+                    <div class="flex justify-center">
+                    <img [src]="urlImage + moto.image" [alt]="moto.model.name" class="rounded-t-2xl w-52 h-52 object-contain transition-opacity hover:opacity-90" />
+                    </div>
+                    <div class="px-8 mt-4 mb-4">
+                    <h3 class="text-2xl text-slate-900 font-bold truncate">{{ moto.model.name }}</h3>
+                    </div>
+                </a>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    
+</div>

@@ -21,6 +21,45 @@
         </div>
     </div>
 
+    <div *ngIf="authState?.authenticated && !authState?.isManager" class="flex gap-8 w-full py-6 px-2 mt-10 justify-center flex-wrap">
+        <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+            <a [routerLink]="['/favourites']">
+                <div class="flex items-center justify-center">
+                    <img src="../../../assets/favorite_inactive.png" alt="favourites" class="w-full h-40 object-contain p-4 bg-white" />
+                </div>
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl text-gray-800 font-bold mb-4">See Favourites</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+            <a [routerLink]="['/desiredVehicles']">
+                <div class="flex items-center justify-center">
+                    <img src="../../../assets/star.png" alt="wishlist" class="w-full h-40 object-contain p-4 bg-white" />
+                </div>
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl text-gray-800 font-bold mb-4">See Wishlist</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+            <a [routerLink]="['/purchasedVehicles']">
+                <div class="flex items-center justify-center">
+                    <img src="../../../assets/dollar-symbol.png" alt="purchased" class="w-full h-40 object-contain p-4 bg-white" />
+                </div>
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-2xl text-gray-800 font-bold mb-4">See Purchased Vehicles</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
     <div *ngIf="isModalVisible" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-lg p-8 w-96 text-center">
             <h3 class="text-2xl font-bold mb-4">Edit Profile</h3>
