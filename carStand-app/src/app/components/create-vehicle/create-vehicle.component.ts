@@ -50,18 +50,33 @@ export class CreateVehicleComponent {
   }
 
   async submitForm() {
+    const requiredFields = ['model', 'year', 'price', 'color', 'image'];
+    if (this.vehicleType === 'cars') {
+      requiredFields.push('doors');
+    }
+    const missingFields = requiredFields.filter(
+      (field) => !this.vehicleData[field]
+    );
+  
+    if (missingFields.length > 0) {
+      this.message = `Please fill in all required fields: ${missingFields.join(', ')}`;
+      this.error = true;
+      console.error('Missing fields:', missingFields);
+      return; 
+    }
+  
     const formData = new FormData();
     Object.keys(this.vehicleData).forEach((key) => {
       formData.append(key, this.vehicleData[key]);
     });
-    console.log(this.vehicleData);
+  
     try {
       if (this.vehicleType === 'cars') {
-        await this.carService.createCar(formData);
-        this.message = 'Car created successfully!';
+        ;
+        this.message = (await this.carService.createCar(formData))["error"];
       } else {
-        await this.motoService.createMoto(formData);
-        this.message = 'Moto created successfully!';
+        // await this.motoService.createMoto(formData);
+        this.message = (await this.motoService.createMoto(formData))["error"];
       }
       this.error = false;
     } catch (error) {
@@ -70,6 +85,7 @@ export class CreateVehicleComponent {
       console.error(error);
     }
   }
+  
 
   handleFileInput(event: Event): void {
     const input = event.target as HTMLInputElement;

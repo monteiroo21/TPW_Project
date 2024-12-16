@@ -31,10 +31,7 @@ export class MotoService {
     const url = `${this.baseURL}/motos/create`;
     const response = await fetch(url, {
       method: 'POST',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify(moto),
+      body: moto,
     });
     console.log(response.status);
     
