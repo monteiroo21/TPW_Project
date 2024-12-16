@@ -70,25 +70,27 @@ export class FavoriteService {
     }
   }
 
-  // async getFavoritesBackend(type: string, storageKey: string): Promise<any> {
-  //   const url = `${this.baseURL}/favorites/${type}/get`;
-  //   const favorites = this.getFavorites(storageKey)
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: 'GET',
-  //       headers: new Headers({
-  //         'Content-Type': 'application/json',
-  //       }),
-  //       body: JSON.stringify({ favorites }),
-  //     });
-
-  //     const data = await response.json();
-  //     console.log(`Fetched ${type} favorites from backend`, data);
-  //     return data.favorites;
-  //   } catch (error) {
-  //     console.error(error);
-  //     return [];
-  //   }
-  // }
+async getFavoritesBackend(type: string, storageKey: string): Promise<any> {
+  const favorites = this.getFavorites(storageKey);
+  const queryString = favorites.map(id => `favorites=${id}`).join('&');
+  const url = `${this.baseURL}/favorites/${type}/get/?${queryString}`;
+  
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${type} favorites: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.favorites;
+  } catch (error) {
+    console.error(`Error fetching ${type} favorites:`, error);
+    return [];
+  }
+}
 
 }

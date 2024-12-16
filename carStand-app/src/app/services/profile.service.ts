@@ -42,10 +42,5 @@ export class ProfileService {
     return await data.json() ?? undefined;
   }
 
-  async getFavourites(): Promise<{ cars: Car[], motos: Moto[] }> {
-    const url = `${this.baseURL}/profile/favorites/`;
-    const data = await fetch(url);
-    return await data.json() ?? undefined;
-  }
 
 }

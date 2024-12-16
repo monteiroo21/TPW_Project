@@ -1259,29 +1259,27 @@ def save_favorites(request, type):
     return Response({"message": f"{type.capitalize()} favorites updated successfully."})
 
 
-# @api_view(['GET'])
-# def get_favorites(request, type):
-#     user = request.user
-#     if not user.is_authenticated:
-#         return Response({"error": "User not authenticated."}, status=401)
+@api_view(['GET'])
+def get_favorites(request, type):
+    user = cache.get("user")
+    if not user:
+        return Response({"error": "User not authenticated."}, status=401)
     
-#     favorites_ids = request.GET.getlist('favorites[]')
-
-#     if type == "cars":
-#         favorites = Car.objects.filter(id__in=favorites_ids)
-#         serialized_favorites = CarSerializer(favorites, many=True).data
-#         print(f"Favorites for cars: {serialized_favorites}")
-#     elif type == "motos":
-#         favorites = Moto.objects.filter(id__in=favorites_ids)
-#         serialized_favorites = MotoSerializer(favorites, many=True).data
-#         print(f"Favorites for motos: {serialized_favorites}")
-#     else:
-#         return Response({"error": "Invalid type specified."}, status=400)
+    favorites_ids = request.GET.getlist('favorites')
+    print(favorites_ids)
+    if type == "cars":
+        favorites = Car.objects.filter(id__in=favorites_ids)
+        serialized_favorites = CarSerializer(favorites, many=True).data
+    elif type == "motos":
+        favorites = Moto.objects.filter(id__in=favorites_ids)
+        serialized_favorites = MotoSerializer(favorites, many=True).data
+    else:
+        return Response({"error": "Invalid type specified."}, status=400)
     
-#     return Response({
-#         "message": f"Fetched {type} favorites successfully.",
-#         "favorites": serialized_favorites
-#     })
+    return Response({
+        "message": f"Fetched {type} favorites successfully.",
+        "favorites": serialized_favorites
+    })
 
 
 @api_view(['GET'])
@@ -1484,18 +1482,21 @@ def get_profile(request):
             print(request.data)
             data = request.data.copy()
             user_data = data.pop('user', None)
-
             profile_serializer = ProfileSerializer(profile, data=data, partial=True)
-
+            print("profile_serializer",profile_serializer)
+            user_data['first_name']=data['first_name']
+            user_data['last_name']=data['last_name']
+            user_data['email']=data['email']
+            print("user_data",user_data)
             user_serializer = None
             if user_data:
-                user_serializer = UserSerializer(profile.user, data=user_data, partial=True)
+                user_serializer = UserSerializer(user_obj, data=user_data, partial=True)
 
-            if profile_serializer.is_valid() and (user_serializer is None or user_serializer.is_valid()):
+            print("user_serializer",user_serializer)
+            print()
+            if profile_serializer.is_valid() and  user_serializer.is_valid():
                 profile_serializer.save()
-
-                if user_serializer:
-                    user_serializer.save()
+                user_serializer.save()
 
                 updated_profile_serializer = ProfileSerializer(profile)
                 return Response(updated_profile_serializer.data, status=status.HTTP_200_OK)
@@ -1546,23 +1547,3 @@ def get_desired_vehicles(request):
         'motos': moto_serializer.data
     })
 
-
-@api_view(['GET'])
-def get_favorite_vehicles(request):
-    user = cache.get("user")
-    if not user or not user.is_authenticated:
-        return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
-    
-    profile = get_object_or_404(Profile, user=user)
-    favorite = Favorite.objects.get(profile=profile)
-
-    favorite_cars = CarSerializer(favorite.favoritesCar, many=True).data
-    favorite_motos = MotoSerializer(favorite.favoritesMoto, many=True).data
-
-    print(favorite_cars)
-    print(favorite_motos)
-
-    return Response({
-        'favoriteCars': favorite_cars,
-        'favoriteMotos': favorite_motos
-    })

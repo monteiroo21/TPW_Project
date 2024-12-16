@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { AuthData } from '../../interfaces/authData';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +16,7 @@ export class NavbarComponent {
   dropdownOpen = false;
   urlImage: string = "http://localhost:8000";
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.authService.authState$.subscribe((state) => {
       this.authState = state;
     });
@@ -40,6 +40,7 @@ export class NavbarComponent {
     this.authService.logout().then(() => {
       this.dropdownOpen = false;
       this.isLogoutModalOpen = false;
+      this.router.navigate(["/home"]);
     });
   }
 }

@@ -32,7 +32,7 @@ export const routes: Routes = [
     { path: 'vehiclemodelcreate/:type', component: CreateVehicleModelComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
-    { path: 'edit_profile', component: ProfileComponent},
+    { path: 'editprofile', component: ProfileComponent},
     { path: 'favourites', component: FavouritesComponent },
     { path: 'desiredVehicles', component: DesiredVehiclesComponent },
     { path: 'purchasedVehicles', component: PurchasedVehiclesComponent },
