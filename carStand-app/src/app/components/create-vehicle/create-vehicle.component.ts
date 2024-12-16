@@ -24,8 +24,8 @@ export class CreateVehicleComponent {
     doors: "",
     electric: false,
     image: '',
-    interestedCustomers:[],
-    purchaser:null,
+    interestedCustomers: [],
+    purchaser: null,
   };
   models: CarModel[] = [];
   message: string = '';
@@ -57,19 +57,19 @@ export class CreateVehicleComponent {
     const missingFields = requiredFields.filter(
       (field) => !this.vehicleData[field]
     );
-  
+
     if (missingFields.length > 0) {
       this.message = `Please fill in all required fields: ${missingFields.join(', ')}`;
       this.error = true;
       console.error('Missing fields:', missingFields);
-      return; 
+      return;
     }
-  
+
     const formData = new FormData();
     Object.keys(this.vehicleData).forEach((key) => {
       formData.append(key, this.vehicleData[key]);
     });
-  
+
     try {
       if (this.vehicleType === 'cars') {
         ;
@@ -85,7 +85,7 @@ export class CreateVehicleComponent {
       console.error(error);
     }
   }
-  
+
 
   handleFileInput(event: Event): void {
     const input = event.target as HTMLInputElement;
