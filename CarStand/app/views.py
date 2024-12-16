@@ -766,6 +766,13 @@ def update_car(request):
     updatable_fields = {key: request.data[key] for key in ['model','id','year','kilometers','price','color','doors','electric','image'] if key in request.data}
     if 'image' in updatable_fields and not hasattr(updatable_fields['image'], 'read'):
         print(updatable_fields.pop('image'))
+
+    kilometers_str = updatable_fields.get('kilometers', '0')
+    if kilometers_str=="null" or kilometers_str=="":
+        kilometers_str="0"
+    updatable_fields["kilometers"] =kilometers_str
+    updatable_fields["new"] =str(kilometers_str=="0")
+
     if 'model' in updatable_fields:
         model_id = updatable_fields.pop('model')  # Remove do dicionário de campos atualizáveis
         try:
@@ -909,9 +916,13 @@ def update_motorbike(request):
         return Response({'error': 'Motorbike not found'}, status=status.HTTP_404_NOT_FOUND)
     
     updatable_fields = {key: request.data[key] for key in ['id','model','year','kilometers','price','color','image'] if key in request.data}
-    if  'kilometers' not in updatable_fields or ('kilometers' in updatable_fields and not updatable_fields['kilometers']):
-        updatable_fields['kilometers']=0
-        updatable_fields['new']=True    
+
+    kilometers_str = updatable_fields.get('kilometers', '0')
+    if kilometers_str=="null" or kilometers_str=="":
+        kilometers_str="0"
+    updatable_fields["kilometers"] =kilometers_str
+    updatable_fields["new"] =str(kilometers_str=="0")
+
     if 'image' in updatable_fields and not hasattr(updatable_fields['image'], 'read'):
         print(updatable_fields.pop('image'))
     if 'model' in updatable_fields:
