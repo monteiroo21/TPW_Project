@@ -1402,3 +1402,49 @@ def negate_customer(request, vehicle_id, profile_id, type):
 
     return Response({"message": "Customer removed from interested list."})
 
+@api_view(['POST'])
+def create_car_model(request):
+    brand_id = request.data.get('brand')
+    name = request.data.get('name')
+    base_price_str = request.data.get('base_price')
+    specifications = request.data.get('specifications')
+    release_year_str = request.data.get('releaseYear')
+    vehicle_type = request.data.get('vehicle_type', 'Car')
+
+    try:
+        brand = Brand.objects.get(id=int(brand_id))
+    except (ValueError, Brand.DoesNotExist):
+        return Response({'error': f'Brand with id {brand_id} not found.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        base_price = float(base_price_str)
+    except ValueError:
+        return Response({'error': 'base_price must be a float.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        release_year = int(release_year_str)
+        if release_year < 1990 or release_year > 2024:
+            return Response({'error': 'releaseYear must be between 1990 and 2024.'}, status=status.HTTP_400_BAD_REQUEST)
+    except ValueError:
+        return Response({'error': 'releaseYear must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    new_model = CarModel(
+        brand=brand,
+        name=name,
+        base_price=base_price,
+        specifications=specifications,
+        releaseYear=release_year,
+        vehicle_type=vehicle_type
+    )
+
+    new_model.save()
+
+    return Response({
+        'id': new_model.id,
+        'brand': new_model.brand.id,
+        'name': new_model.name,
+        'base_price': new_model.base_price,
+        'specifications': new_model.specifications,
+        'releaseYear': new_model.releaseYear,
+        'vehicle_type': new_model.vehicle_type
+    }, status=status.HTTP_201_CREATED)

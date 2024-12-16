@@ -28,7 +28,7 @@
       <div *ngIf="type === 'cars' || type === 'motos'">
         <app-vehicles-filter [type]="type" (applyFilters)="onFiltersApplied($event)"></app-vehicles-filter>
       </div>
-      <div *ngIf="type === 'cars' || type === 'motos'">
+      <div *ngIf="authState?.isManager && (type === 'cars' || type === 'motos')">
         <button
           [routerLink]="['/vehiclecreate', type]"
           class="bg-sky-800 text-white text-base font-bold px-4 py-2 rounded-lg hover:bg-sky-950 focus:outline-none shadow-md flex items-center space-x-2"
