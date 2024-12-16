@@ -1,4 +1,4 @@
-<div class="flex justify-center min-h-screen mt-8">
+<div class="flex justify-center mt-8">
     <app-manager-table *ngIf="authState?.authenticated && authState?.isManager"></app-manager-table>
     <div *ngIf="!authState?.isManager">
         <app-carousel></app-carousel>

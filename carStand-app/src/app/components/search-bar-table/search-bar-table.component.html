@@ -1,7 +1,14 @@
-<div class="flex items-center space-x-4 p-4">
-    <input type="text" [(ngModel)]="queryVehicle" (input)="emitFilters()" placeholder="Search by vehicle"
-        class="border p-2 rounded focus:outline-none focus:ring" />
-    <input type="text" [(ngModel)]="queryUser" (input)="emitFilters()" placeholder="Search by user"
-        class="border p-2 rounded focus:outline-none focus:ring" />
-
+<div class="flex justify-center space-x-10 p-4 mb-4">
+    <div class="relative w-96">
+        <input type="text" [(ngModel)]="queryVehicle" (input)="emitFilters()" placeholder="Search by vehicle"
+            class="pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800 w-full" />
+        <img src="../../../assets/search.svg" alt="SearchIcon"
+            class="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500">
+    </div>
+    <div class="relative w-96">
+        <input type="text" [(ngModel)]="queryUser" (input)="emitFilters()" placeholder="Search by user"
+            class="pl-10 pr-4 py-2 border-2 border-sky-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800 w-full" />
+        <img src="../../../assets/search.svg" alt="SearchIcon"
+            class="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500">
+    </div>
 </div>
