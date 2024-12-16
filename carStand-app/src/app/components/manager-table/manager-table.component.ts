@@ -2,25 +2,49 @@ import { Component } from '@angular/core';
 import { PurchaserAndSelectedVehiclesService } from '../../services/purchaser-and-selected-vehicles.service';
 import { CommonModule } from '@angular/common';
 import { ElementForAccept } from '../../interfaces/elementForAccept';
+import { SearchBarTableComponent } from '../search-bar-table/search-bar-table.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-manager-table',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, SearchBarTableComponent],
   templateUrl: './manager-table.component.html',
   styleUrl: './manager-table.component.css'
 })
 export class ManagerTableComponent {
   vehiclesForApproval: ElementForAccept[] = [];
 
-  constructor(private purchaserService: PurchaserAndSelectedVehiclesService) {}
+  constructor(private purchaserService: PurchaserAndSelectedVehiclesService) { }
 
-  async ngOnInit() {
+  // async ngOnInit() {
+  //   try {
+  //     const response = await this.purchaserService.getVehiclesForApproval();
+  //     this.vehiclesForApproval = response?.listForAccept ?? [];
+  //   } catch (error) {
+  //     console.error('Erro ao buscar veículos para aprovação:', error);
+  //   }
+  // }
+
+  ngOnInit(): void {
+    this.fetchVehiclesForApproval();
+  }
+
+  // Busca veículos para aprovação
+  async fetchVehiclesForApproval(queryVehicle: string = '', queryUser: string = ''): Promise<void> {
+    // this.loading = true;
+
     try {
-      const response = await this.purchaserService.getVehiclesForApproval();
-      this.vehiclesForApproval = response?.listForAccept ?? [];
+      const data = await this.purchaserService.getVehiclesForApproval(queryVehicle, queryUser);
+      this.vehiclesForApproval = data.listForAccept;
     } catch (error) {
-      console.error('Erro ao buscar veículos para aprovação:', error);
+      console.error('Error fetching vehicles for approval', error);
+    } finally {
+      // this.loading = false;
     }
+  }
+
+  onSearchFilters(filters: { queryVehicle: string; queryUser: string }): void {
+    this.fetchVehiclesForApproval(filters.queryVehicle, filters.queryUser);
   }
 
   async approveCustomer(vehicleId: number, profileId: number, type: string) {

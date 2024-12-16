@@ -1,62 +1,53 @@
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+<div>
+  <app-search-bar-table (searchFilters)="onSearchFilters($event)" class="mt-4"></app-search-bar-table>
+
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-[900px] text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead class="text-xs uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-400">
-            <tr>
-              <th scope="col" class="px-8 py-4 text-base font-semibold text-gray-700 dark:text-gray-300">
-                Vehicle Name
-              </th>
-              <th scope="col" class="px-8 py-4 text-base font-semibold text-gray-700 dark:text-gray-300">
-                User Name
-              </th>
-              <th scope="col" class="px-8 py-4 text-base font-semibold text-gray-700 dark:text-gray-300">
-                Price
-              </th>
-              <th scope="col" class="px-8 py-4 text-base font-semibold text-gray-700 dark:text-gray-300">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let item of vehiclesForApproval; let i = index"
-              class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
-            >
-              <td class="px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {{ item.vehicle.model.brand.name + " " + item.vehicle.model.name }}
-              </td>
-              <td class="px-8 py-4 text-gray-700 dark:text-gray-300">
-                {{ item.profile.user.username }}
-              </td>
-              <td class="px-8 py-4 font-semibold text-gray-900 dark:text-gray-100">
-                ${{ item.vehicle.price }}
-              </td>
-              <td class="px-8 py-4 flex justify-start space-x-2">
-                <!-- Botão de Aprovar -->
-                <button
-                  (click)="approveCustomer(item.vehicle.id, item.profile.id, item.type)"
-                  type="button"
-                  class="p-2 bg-white rounded-full shadow hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200"
-                >
-                  <img src="assets/accept.svg" alt="Approve Icon" class="w-6 h-6">
-                </button>
-              
-                <!-- Botão de Rejeitar -->
-                <button
-                  (click)="negateCustomer(item.vehicle.id, item.profile.id, item.type)"
-                  type="button"
-                  class="p-2 bg-white rounded-full shadow hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200"
-                >
-                  <img src="assets/recuse.svg" alt="Reject Icon" class="w-6 h-6">
-                </button>
-              </td>              
-              
-            </tr>
-            <tr *ngIf="vehiclesForApproval.length === 0">
-              <td colspan="4" class="px-8 py-4 text-center text-gray-500 dark:text-gray-400">
-                No vehicles available for approval.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      
+      <thead class="text-xs uppercase bg-slate-300 dark:bg-gray-800 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-8 py-4 text-base font-semibold text-slate-800 dark:text-gray-300">
+            Vehicle Name
+          </th>
+          <th scope="col" class="px-8 py-4 text-base font-semibold text-slate-800 dark:text-gray-300">
+            User Name
+          </th>
+          <th scope="col" class="px-8 py-4 text-base font-semibold text-slate-800 dark:text-gray-300">
+            Price
+          </th>
+          <th scope="col" class="px-8 py-4 text-base font-semibold text-slate-800 dark:text-gray-300">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of vehiclesForApproval; let i = index"
+          class="bg-white border-b dark:bg-gray-900 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+          <td class="px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{ item.vehicle.model.brand.name + " " + item.vehicle.model.name }}
+          </td>
+          <td class="px-8 py-4 text-gray-700 dark:text-gray-300">
+            {{ item.profile.user.username }}
+          </td>
+          <td class="px-8 py-4 font-semibold text-gray-900 dark:text-gray-100">
+            ${{ item.vehicle.price }}
+          </td>
+          <td class="px-8 py-4 flex justify-start space-x-2">
+            <button (click)="approveCustomer(item.vehicle.id, item.profile.id, item.type)" type="button"
+              class="p-2 bg-white rounded-full shadow hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200">
+              <img src="assets/accept.svg" alt="Approve Icon" class="w-6 h-6">
+            </button>
+            <button (click)="negateCustomer(item.vehicle.id, item.profile.id, item.type)" type="button"
+              class="p-2 bg-white rounded-full shadow hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-200">
+              <img src="assets/recuse.svg" alt="Reject Icon" class="w-6 h-6">
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="vehiclesForApproval.length === 0">
+          <td colspan="4" class="px-8 py-4 text-center text-gray-500 dark:text-gray-400">
+            No vehicles available for approval.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

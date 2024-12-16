@@ -1,6 +1,6 @@
-<div class="flex justify-center items-center min-h-screen">
+<div class="flex justify-center min-h-screen mt-24">
     <app-manager-table *ngIf="authState?.authenticated && authState?.isManager"></app-manager-table>
-    <div *ngIf="!authState?.isManager" class="mt-24">
+    <div *ngIf="!authState?.isManager">
         <app-carousel></app-carousel>
 
         <div class="mt-20 container mx-auto">
