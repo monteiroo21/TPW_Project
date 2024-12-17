@@ -1,18 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { GoBackComponent } from '../Buttons/go-back/go-back.component';
-import { Car } from '../../interfaces/car';
-import { Moto } from '../../interfaces/moto';
-import { ProfileService } from '../../services/profile.service';
 import { CommonModule } from '@angular/common';
 import { FavoriteService } from '../../services/favorite.service';
+import { CardsAndMotosBrandsCardComponent } from '../Cards/cards-and-motos-brands-card/cards-and-motos-brands-card.component';
 
 @Component({
   selector: 'app-favourites',
-  imports: [CommonModule, GoBackComponent],
+  imports: [CommonModule, GoBackComponent, CardsAndMotosBrandsCardComponent],
   templateUrl: './favourites.component.html',
   styleUrl: './favourites.component.css'
 })
-export class FavouritesComponent  {
+export class FavouritesComponent {
   cars: any[] = [];
   motos: any[] = [];
   urlImage: string = "http://localhost:8000";

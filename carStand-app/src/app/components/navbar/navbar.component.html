@@ -23,7 +23,7 @@
 
       <div *ngIf="dropdownOpen"
         class="absolute -right-16 mt-36 w-48 bg-white border border-slate-200 rounded-md shadow-lg z-50 dark:bg-gray-700">
-        <a routerLink="/editprofile"
+        <a routerLink="/editprofile" (click)="toggleDropdown()"
           class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 rounded-md">
           Profile
         </a>

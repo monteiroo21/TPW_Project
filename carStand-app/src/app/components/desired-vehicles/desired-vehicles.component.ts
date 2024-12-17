@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { GoBackComponent } from '../Buttons/go-back/go-back.component';
-import { Car } from '../../interfaces/car';
-import { Moto } from '../../interfaces/moto';
 import { ProfileService } from '../../services/profile.service';
 import { CommonModule } from '@angular/common';
+import { CardsAndMotosBrandsCardComponent } from '../Cards/cards-and-motos-brands-card/cards-and-motos-brands-card.component';
 
 @Component({
   selector: 'app-desired-vehicles',
-  imports: [CommonModule, GoBackComponent],
+  imports: [CommonModule, GoBackComponent, CardsAndMotosBrandsCardComponent],
   templateUrl: './desired-vehicles.component.html',
   styleUrl: './desired-vehicles.component.css'
 })
