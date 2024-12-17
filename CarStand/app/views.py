@@ -688,8 +688,7 @@ def create_car(request):
                 return Response({'error': f'Year must be more than {model_instance.releaseYear} and not future.'}, status=status.HTTP_400_BAD_REQUEST)
         except ValueError:
             return Response({'error': 'Year must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Valida price
+  
         try:
             price = float(price_str)
             if 0>=price or int(price)>=1e8:
@@ -697,7 +696,6 @@ def create_car(request):
         except:
             return Response({'error': 'Price must be a valid decimal number.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Kilometers
         kilometers_str = data.get('kilometers', '0')
         if kilometers_str=="null" or kilometers_str=="":
             kilometers_str=0
@@ -705,11 +703,8 @@ def create_car(request):
             kilometers = float(kilometers_str)
         except ValueError:
             return Response({'error': 'Kilometers must be a float.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Color (opcional, default "Black")
+  
         color = data.get('color', 'Black')
-
-        # Doors (opcional, default 4)
         doors_str = data.get('doors', '4')
         try:
             doors = int(doors_str)
@@ -735,18 +730,16 @@ def create_car(request):
         )
         new_car.save()
 
-
         return Response(CarSerializer(new_car).data, status=status.HTTP_201_CREATED)
     except Exception as e:
             print("error:",e)
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-
 @api_view(['PUT'])
 def update_car(request):
     print(1)
-    print(request.FILES)  # Confirme que o arquivo está sendo recebido
-    print(request.data)   # Confirme os dados recebidos
+    print(request.FILES)  
+    print(request.data)   
     id = request.data.get('id')
     if not id:
         return Response({'error': 'ID not provided.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -768,7 +761,7 @@ def update_car(request):
     updatable_fields["new"] =str(kilometers_str=="0")
 
     if 'model' in updatable_fields:
-        model_id = updatable_fields.pop('model')  # Remove do dicionário de campos atualizáveis
+        model_id = updatable_fields.pop('model')  
         try:
             model_instance = CarModel.objects.get(id=model_id)
             car.model=model_instance  
@@ -835,7 +828,6 @@ def create_motorbike(request):
 
     data = request.data.copy()
 
-    # Valida o modelo
     model_id = data.get('model')
     year_str = data.get('year')
     price_str = data.get('price')
@@ -845,7 +837,6 @@ def create_motorbike(request):
     except (ValueError, CarModel.DoesNotExist):
         return Response({'error': f'Motorbike model with id {model_id} not found or invalid.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Valida o ano
     try:
         year = int(data.get('year', '0'))
         if model_instance.releaseYear>year or year>time.localtime().tm_year:
@@ -871,15 +862,12 @@ def create_motorbike(request):
     except ValueError:
         return Response({'error': 'Kilometers must be a float.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Color (opcional, default "Black")
     color = data.get('color', 'Black')
 
-    # Valida a imagem
     image = None
     if 'image' in request.FILES:
         image = data.get('image')
 
-    # Criação da mota
     new_motorbike = Moto(
         model=model_instance,
         year=year,
@@ -890,10 +878,7 @@ def create_motorbike(request):
         color=color,
     )
     new_motorbike.save()
-    # Retorna os dados da mota criada
-
     return Response(MotoSerializer(new_motorbike).data, status=status.HTTP_201_CREATED)
-
 
 @api_view(['PUT'])
 def update_motorbike(request):
@@ -916,7 +901,7 @@ def update_motorbike(request):
     if 'image' in updatable_fields and not hasattr(updatable_fields['image'], 'read'):
         print(updatable_fields.pop('image'))
     if 'model' in updatable_fields:
-        model_id = updatable_fields.pop('model')  # Remove do dicionário de campos atualizáveis
+        model_id = updatable_fields.pop('model')
         try:
             model_instance = CarModel.objects.get(id=model_id)
             moto.model=model_instance  
@@ -1113,11 +1098,9 @@ def search(request, type):
 
 ################# Filters #################
 
+# Search for vehicles, brands, or groups with filters and sorting.
 @api_view(['GET'])
 def unified_search_and_filter(request, type):
-    """
-    Search for vehicles, brands, or groups with filters and sorting.
-    """
     query = request.GET.get('q', '').strip()
     filters = {
         'minPrice': request.GET.get('minPrice'),
@@ -1160,7 +1143,6 @@ def unified_search_and_filter(request, type):
         if filters['condition'] != "" and filters['condition'] != None:
             objects = objects.filter(new=filters['condition'].lower() == 'new')
 
-        # Apply sorting
         if sort_option:
             sort_fields = {
                 'price_asc': 'price',
@@ -1173,15 +1155,20 @@ def unified_search_and_filter(request, type):
             if sort_option in sort_fields:
                 objects = objects.order_by(sort_fields[sort_option])
 
-        # Serialize and return data
         serializer = serializer_class(objects, many=True)
         return Response(serializer.data)
 
     return Response({'error': 'Invalid type or no results found'}, status=status.HTTP_404_NOT_FOUND)
 
 ################# Authentication #################
-
 from django.core.cache import cache
+def getUniqueID(request):
+        print(request.headers["User-Agent"])
+        ID=str((request.headers["User-Agent"]))
+        print("ID:",ID)
+        return ID
+        return "user"
+
 @api_view(['POST'])
 def post_sign_up(request):
     data = request.data
@@ -1192,7 +1179,7 @@ def post_sign_up(request):
         user.refresh_from_db()
         print(user)
         login(request, user)
-        cache.set("user",user,timeout=10800)
+        cache.set(getUniqueID(request),user,timeout=10800)
         return Response({"message": "User created and logged in successfully."}, status=status.HTTP_201_CREATED)
     print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -1209,25 +1196,25 @@ def post_log_in(request):
     print(user)
     if user is not None:
         login(request, user)
-        cache.set("user",user,timeout=10800)
-        print(cache.get("user"))
-        print(cache.get("user"))
+        cache.set(getUniqueID(request),user,timeout=10800)
+        print(cache.get(getUniqueID(request)))
+        print(cache.get(getUniqueID(request)))
         return Response({"message": "Login successful."}, status=status.HTTP_200_OK)
     return Response({"error": "Invalid username or password."}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['POST'])
 def post_logout_view(request):
-    user = cache.get("user")
+    user = cache.get(getUniqueID(request))
     print(user)
     logout(request)
-    cache.delete("user")
+    cache.delete(getUniqueID(request))
     return Response({"message": "Logged out and favorites saved."}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 def get_isAuth(request):
-    user = cache.get("user")
+    user = cache.get(getUniqueID(request))
     print(user)
     if user is None:
         data = {"authenticated": False, "isManager": False, "username": "", "favoriteCarList":[], "favoriteMotoList":[]}
@@ -1242,10 +1229,11 @@ def get_isAuth(request):
         data = {"authenticated": True, "isManager": user.username == "admin", "username": user.username, "favoriteCarList":favoriteCarList, "favoriteMotoList":favoriteMotoList}
     return Response(data)
 
+from django.http import JsonResponse
 
 @api_view(['POST'])
 def save_favorites(request, type):
-    user = cache.get("user")
+    user = cache.get(getUniqueID(request))
     if not user:
         return Response({"error": "User not authenticated."}, status=401)
     
@@ -1276,7 +1264,7 @@ def save_favorites(request, type):
 
 @api_view(['GET'])
 def get_favorites(request, type):
-    user = cache.get("user")
+    user = cache.get(getUniqueID(request))
     if not user:
         return Response({"error": "User not authenticated."}, status=401)
     
@@ -1299,7 +1287,7 @@ def get_favorites(request, type):
 
 @api_view(['GET'])
 def get_vehicle_status(request, vehicle_id, type):
-    user = cache.get("user")
+    user = cache.get(getUniqueID(request))
     if user is None:
         return Response({
         "isSelected": False
@@ -1327,7 +1315,7 @@ def get_vehicle_status(request, vehicle_id, type):
 
 @api_view(['POST'])
 def toggle_interest(request, vehicle_id, type):
-    user = cache.get("user")
+    user = cache.get(getUniqueID(request))
     if not user.is_authenticated:
         return Response({"error": "User not authenticated."}, status=401)
 
@@ -1350,7 +1338,6 @@ def toggle_interest(request, vehicle_id, type):
 
 @api_view(['GET'])
 def get_vehicles_for_approval(request):
-    # filterProfile = request.GET.get('filterProfile', 'false').lower() == 'true'
 
     query_vehicle = request.GET.get('qVehicle', '').strip()
     query_user = request.GET.get('qUser', '').strip()
@@ -1371,7 +1358,6 @@ def get_vehicles_for_approval(request):
 
     for car in cars:
         for profile in car.interestedCustomers.all():
-            # if filterProfile and profile not in profiles:
             if profile not in profiles:
                 continue
             listForAccept.append({
@@ -1395,7 +1381,7 @@ def get_vehicles_for_approval(request):
 
 @api_view(['POST'])
 def approve_customer(request, vehicle_id, profile_id, type):
-    user = cache.get("user")
+    user = cache.get(getUniqueID(request))
     if not user or not user.is_authenticated or not user.username=='admin':
         return Response({"error": "User not authenticated or Not is The Manager."}, status=401)
         return Response({"error": "User not authenticated or Not is The Manager."}, status=401)
@@ -1415,7 +1401,7 @@ def approve_customer(request, vehicle_id, profile_id, type):
 
 @api_view(['POST'])
 def negate_customer(request, vehicle_id, profile_id, type):
-    user = cache.get("user")
+    user = cache.get(getUniqueID(request))
     if not user or not user.is_authenticated or not user.username=='admin':
         return Response({"error": "User not authenticated or Not is The Manager."}, status=401)
     if type == "cars":
@@ -1473,7 +1459,7 @@ def create_car_model(request):
 
 @api_view(['GET', 'PUT'])
 def get_profile(request):
-    user = cache.get("user")
+    user = cache.get(getUniqueID(request))
     if not user or not user.is_authenticated:
         return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -1520,7 +1506,7 @@ def get_profile(request):
 
 @api_view(['GET'])
 def get_purchased_vehicles(request):
-    user = cache.get("user")
+    user = cache.get(getUniqueID(request))
     if not user or not user.is_authenticated:
         return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -1538,7 +1524,7 @@ def get_purchased_vehicles(request):
 
 @api_view(['GET'])
 def get_desired_vehicles(request):
-    user = cache.get("user")
+    user = cache.get(getUniqueID(request))
     if not user or not user.is_authenticated:
         return Response({'error': 'User is not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
     
