@@ -12,6 +12,7 @@ import { AuthData } from '../../../interfaces/authData';
 import { FavoriteService } from '../../../services/favorite.service';
 import { PurchaserAndSelectedVehiclesService } from '../../../services/purchaser-and-selected-vehicles.service';
 import { CardsAndMotosCardsComponent } from '../../Cards/cards-and-motos-cards/cards-and-motos-cards.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cars-and-motos-details',
@@ -35,8 +36,7 @@ export class CarsAndMotosDetailsComponent {
   authState: AuthData | null = null;
   isSelected: boolean = false;
   isBuyed: boolean | null = null;
-
-  urlImage: string = 'http://localhost:8000';
+  baseURL = environment.apiBaseUrl;
   constructor(private route: ActivatedRoute, private location: Location, private router: Router) {
     this.authService.authState$.subscribe((state) => {
       this.authState = state;
@@ -124,7 +124,7 @@ export class CarsAndMotosDetailsComponent {
 
     if (id) {
       await this.purchaserService.toggleInterest(id, type);
-      this.checkVehicleStatus(type) // Atualiza o estado após alternar
+      this.checkVehicleStatus(type)
     }
   }
 

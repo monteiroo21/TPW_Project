@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CarModel } from '../interfaces/model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarModelService {
-  private baseURL = 'http://localhost:8000/api';
+  private baseURL: string = environment.apiBaseUrlApi;
 
   constructor() { }
 

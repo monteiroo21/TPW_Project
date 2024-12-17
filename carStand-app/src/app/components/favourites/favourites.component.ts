@@ -3,6 +3,7 @@ import { GoBackComponent } from '../Buttons/go-back/go-back.component';
 import { CommonModule } from '@angular/common';
 import { FavoriteService } from '../../services/favorite.service';
 import { CardsAndMotosBrandsCardComponent } from '../Cards/cards-and-motos-brands-card/cards-and-motos-brands-card.component';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-favourites',
@@ -13,7 +14,7 @@ import { CardsAndMotosBrandsCardComponent } from '../Cards/cards-and-motos-brand
 export class FavouritesComponent {
   cars: any[] = [];
   motos: any[] = [];
-  urlImage: string = "http://localhost:8000";
+  
   errorMessage: string = "";
   favoriteService: FavoriteService = inject(FavoriteService);
   constructor() {

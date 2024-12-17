@@ -2,7 +2,7 @@ import { Brand } from "./brand";
 
 export interface CarModel {
     id: number;
-    brand: Brand; // Refers to the Brand ID
+    brand: Brand;
     name: string;
     base_price: number;
     specifications: string;

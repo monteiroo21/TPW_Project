@@ -7,7 +7,6 @@
         Edit {{ vehicleType === "cars" ? "Car" : "Moto" }}
       </h1>
       <form class="space-y-4 w-full max-w-3xl mx-auto" (submit)="submitForm(); $event.preventDefault()">
-        <!-- Model Selection -->
         <div class="flex items-center space-x-3 mb-3">
           <div class="w-2/3">
             <label for="model" class="block text-gray-700 font-semibold mb-1">Model</label>
@@ -24,8 +23,6 @@
             </select>
           </div>
         </div>
-  
-        <!-- Vehicle Details -->
         <div class="flex space-x-3 mb-3">
           <div class="w-1/2">
             <label for="year" class="block text-gray-700 font-semibold mb-1">Year</label>
@@ -71,8 +68,7 @@
             />
           </div>
         </div>
-  
-        <!-- Car-Specific Fields -->
+
         <div class="flex space-x-3 mb-3" *ngIf="vehicleType === 'cars'">
           <div class="w-1/2">
             <label for="doors" class="block text-gray-700 font-semibold mb-1">Doors</label>
@@ -95,8 +91,7 @@
             />
           </div>
         </div>
-  
-        <!-- File Upload -->
+
         <div class="mb-3">
           <label for="image" class="block text-gray-700 font-semibold mb-1">Image</label>
           <input
@@ -107,8 +102,7 @@
             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-800"
           />
         </div>
-  
-        <!-- Submit Button -->
+
         <div class="text-center">
           <button
             type="submit"
@@ -117,8 +111,7 @@
             Update Vehicle
           </button>
         </div>
-  
-        <!-- Success/Error Message -->
+
         <div *ngIf="message" class="text-center font-bold mt-3">
           <p class="text-green-500" *ngIf="!error">{{ message }}</p>
           <p class="text-red-500" *ngIf="error">{{ message }}</p>

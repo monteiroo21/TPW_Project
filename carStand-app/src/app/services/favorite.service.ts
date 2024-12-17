@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoriteService {
-  private baseURL = 'http://localhost:8000/api';
+  private baseURL: string = environment.apiBaseUrlApi;
 
   constructor() { }
 

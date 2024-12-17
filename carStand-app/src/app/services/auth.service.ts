@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthData } from '../interfaces/authData';
 import { FavoriteService } from './favorite.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private baseURL: string = environment.apiBaseUrlApi;
 
-  private baseURL: string = 'http://localhost:8000/api/';
   private authStateSubject = new BehaviorSubject<AuthData>({
     authenticated: false,
     isManager: false,
@@ -23,7 +24,7 @@ export class AuthService {
   }
 
   async signUp(userData: { username: string, email: string, first_name: string, last_name: string, password: string }): Promise<any> {
-    const url = `${this.baseURL}signup`;
+    const url = `${this.baseURL}/signup`;
     const response = await fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -39,7 +40,7 @@ export class AuthService {
   }
 
   async login(username: string, password: string): Promise<any> {
-    const url = `${this.baseURL}login`;
+    const url = `${this.baseURL}/login`;
     const response = await fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -55,7 +56,7 @@ export class AuthService {
 
   async logout(): Promise<any> {
     await this.sendFavorites();
-    const url = `${this.baseURL}logout`;
+    const url = `${this.baseURL}/logout`;
     const response = await fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -70,7 +71,7 @@ export class AuthService {
 
   async checkAuthStatus(): Promise<void> {
     try {
-      const url = `${this.baseURL}isAuth`;
+      const url = `${this.baseURL}/isAuth`;
       const response = await fetch(url);
       const data: AuthData = await response.json();
       this.authStateSubject.next(data);
@@ -99,5 +100,4 @@ export class AuthService {
     this.favoriteService.clearFavorite("favoriteCarList")
     this.favoriteService.clearFavorite("favoriteMotoList")
   }
-  //Implentar depois o edit_profile
 }

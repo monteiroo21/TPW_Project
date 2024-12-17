@@ -16,30 +16,18 @@ export class ManagerTableComponent {
 
   constructor(private purchaserService: PurchaserAndSelectedVehiclesService) { }
 
-  // async ngOnInit() {
-  //   try {
-  //     const response = await this.purchaserService.getVehiclesForApproval();
-  //     this.vehiclesForApproval = response?.listForAccept ?? [];
-  //   } catch (error) {
-  //     console.error('Erro ao buscar veículos para aprovação:', error);
-  //   }
-  // }
-
   ngOnInit(): void {
     this.fetchVehiclesForApproval();
   }
 
-  // Busca veículos para aprovação
+
   async fetchVehiclesForApproval(queryVehicle: string = '', queryUser: string = ''): Promise<void> {
-    // this.loading = true;
 
     try {
       const data = await this.purchaserService.getVehiclesForApproval(queryVehicle, queryUser);
       this.vehiclesForApproval = data.listForAccept;
     } catch (error) {
       console.error('Error fetching vehicles for approval', error);
-    } finally {
-      // this.loading = false;
     }
   }
 

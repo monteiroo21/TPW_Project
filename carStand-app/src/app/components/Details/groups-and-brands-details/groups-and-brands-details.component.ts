@@ -11,6 +11,7 @@ import { BrandService } from '../../../services/brand.service';
 import { GoBackComponent } from '../../Buttons/go-back/go-back.component';
 import { BrandsAndGroupsCardsComponent } from "../../Cards/brands-and-groups-cards/brands-and-groups-cards.component";
 import { CardsAndMotosBrandsCardComponent } from '../../Cards/cards-and-motos-brands-card/cards-and-motos-brands-card.component';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-groups-and-brands-details',
@@ -24,11 +25,11 @@ export class GroupsAndBrandsDetailsComponent implements OnInit {
   @Input() brand: Brand | undefined = undefined;
   @Input() cars: Car[] = [];
   @Input() motos: Moto[] = [];
+  
+  baseURL = environment.apiBaseUrl;
 
   groupService: GroupService = inject(GroupService);
   brandService: BrandService = inject(BrandService);
-
-  urlImage: string = "http://localhost:8000";
 
   constructor(private route: ActivatedRoute, private location: Location) { }
 

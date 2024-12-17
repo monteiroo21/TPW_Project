@@ -12,7 +12,7 @@ export interface Brand {
     cellPhone: string;
     group: Group;
     description: string;
-    logo?: string;  // path to the logo
+    logo?: string;
     models?: Car[] | Moto[] | CarModel[];
     cars?: Car[];
     motos?: Moto[];

@@ -6,7 +6,7 @@ export interface Group {
     email: string;
     country: string;
     website: string;
-    logo?: string;  // path to the logo
-    headquarters?: string;   // path to the headquarters
+    logo?: string;
+    headquarters?: string;
     brands?: Brand[];
 }

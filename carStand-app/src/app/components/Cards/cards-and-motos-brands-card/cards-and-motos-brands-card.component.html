@@ -1,7 +1,7 @@
 <div class="bg-white rounded-2xl shadow-md w-72 h-68 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer"
     (click)="navigateToDetails()">
     <div class="flex justify-center">
-        <img [src]="urlImage + item.image" [alt]="item.model?.name || item.name"
+        <img [src]="baseURL + item.image" [alt]="item.model?.name || item.name"
             class="rounded-t-2xl w-52 h-52 object-contain transition-opacity hover:opacity-90" />
     </div>
     <div class="px-8 mt-4 mb-4">

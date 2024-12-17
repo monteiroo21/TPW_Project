@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component, inject, Input } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrandsAndGroupsCardsComponent } from '../Cards/brands-and-groups-cards/brands-and-groups-cards.component';
 import { CardsAndMotosCardsComponent } from '../Cards/cards-and-motos-cards/cards-and-motos-cards.component';
 import { VehiclesFilterComponent } from '../vehicles-filter/vehicles-filter.component';

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Car } from '../interfaces/car';
 import { CarModel } from '../interfaces/model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarService {
-  private baseURL = 'http://localhost:8000/api';
+  private baseURL: string = environment.apiBaseUrlApi;
 
   constructor() { }
 
@@ -73,6 +74,5 @@ export class CarService {
       throw new Error('Failed to update car');
     }
   }
-  
-  // Depois implementar o resto dos métodos
+
 }

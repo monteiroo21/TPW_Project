@@ -14,7 +14,6 @@ export class SearchBarTableComponent {
 
   @Output() searchFilters = new EventEmitter<{ queryVehicle: string; queryUser: string }>();
 
-  // Emite os filtros para o componente pai
   emitFilters(): void {
     this.searchFilters.emit({
       queryVehicle: this.queryVehicle,

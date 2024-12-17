@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cards-and-motos-brands-card',
@@ -8,7 +9,8 @@ import { Component, Input } from '@angular/core';
 export class CardsAndMotosBrandsCardComponent {
   @Input() item: any;
   @Input() type: string = '';
-  urlImage: string = 'http://localhost:8000';
+  baseURL = environment.apiBaseUrl;
+  
 
   navigateToDetails(): void {
     const url = this.type === 'car'

@@ -13,8 +13,6 @@ import { CardsAndMotosBrandsCardComponent } from '../Cards/cards-and-motos-brand
 export class DesiredVehiclesComponent {
   cars: any[] = [];
   motos: any[] = [];
-  urlImage: string = "http://localhost:8000";
-
   constructor(private profileService: ProfileService) {
   }
 

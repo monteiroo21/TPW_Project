@@ -78,9 +78,8 @@ export class CreateVehicleComponent {
         result = await this.motoService.createMoto(formData);
       }
 
-      // Check for errors in the response
       if ('error' in result && result.error) {
-        this.message = <string>result.error; // Display the error from the backend
+        this.message = <string>result.error; 
         this.error = true;
         console.error('Server error:', result.error);
       } else {

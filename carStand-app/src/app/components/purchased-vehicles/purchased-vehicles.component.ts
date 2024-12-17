@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { GoBackComponent } from '../Buttons/go-back/go-back.component';
-import { Car } from '../../interfaces/car';
-import { Moto } from '../../interfaces/moto';
 import { ProfileService } from '../../services/profile.service';
 import { CommonModule } from '@angular/common';
 import { CardsAndMotosBrandsCardComponent } from '../Cards/cards-and-motos-brands-card/cards-and-motos-brands-card.component';
@@ -15,7 +13,6 @@ import { CardsAndMotosBrandsCardComponent } from '../Cards/cards-and-motos-brand
 export class PurchasedVehiclesComponent {
   cars: any[] = [];
   motos: any[] = [];
-  urlImage: string = "http://localhost:8000";
 
   constructor(private profileService: ProfileService) {
   }

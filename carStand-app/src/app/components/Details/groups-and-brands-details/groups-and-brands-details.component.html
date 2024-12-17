@@ -38,7 +38,7 @@
 
                 <div class="flex justify-end">
                     <img class="rounded-xl shadow-xl h-64 w-auto object-contain bg-slate-100"
-                        [src]="group ? urlImage + group.headquarters : urlImage + brand?.logo"
+                        [src]="group ? baseURL + group.headquarters : baseURL + brand?.logo"
                         [alt]="group ? group.name : brand?.name" />
                 </div>
             </div>

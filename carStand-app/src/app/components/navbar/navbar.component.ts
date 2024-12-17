@@ -14,7 +14,6 @@ export class NavbarComponent {
   authState: AuthData | null = null;
   isLogoutModalOpen: boolean = false;
   dropdownOpen = false;
-  urlImage: string = "http://localhost:8000";
 
   constructor(private authService: AuthService, private router: Router) {
     this.authService.authState$.subscribe((state) => {

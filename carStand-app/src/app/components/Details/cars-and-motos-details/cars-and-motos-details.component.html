@@ -7,7 +7,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div class="flex justify-center items-center mr-10">
           <img class="rounded-xl shadow-xl w-[600px] h-96 object-contain bg-slate-100"
-            [src]="urlImage + (car ? car.image : moto?.image)"
+            [src]="baseURL + (car ? car.image : moto?.image)"
             [alt]="car ? (car.model.brand.name + ' ' + car.model.name) : (moto?.model?.brand?.name + ' ' + moto?.model?.name)" />
         </div>
         <div>

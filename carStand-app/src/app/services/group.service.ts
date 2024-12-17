@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Group } from '../interfaces/group';
 import { Brand } from '../interfaces/brand';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupService {
-  private baseURL = 'http://localhost:8000/api';
+  private baseURL: string = environment.apiBaseUrlApi;
 
   constructor() { }
 

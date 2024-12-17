@@ -2,14 +2,14 @@ import { CarModel } from "./model";
 
 export interface Car {
     id: number;
-    model: CarModel;  // CarModel ID
+    model: CarModel;
     year: number;
     new: boolean;
     kilometers: number;
     price: number;
     image?: string;
-    interestedCustomers: number[];  // Customer ID
-    purchaser?: number;  // Customer ID
+    interestedCustomers: number[];
+    purchaser?: number;
     color: string;
     doors: number;
     electric: boolean;

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ElementForAccept } from '../interfaces/elementForAccept';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PurchaserAndSelectedVehiclesService {
-
-  private baseURL = 'http://localhost:8000/api/';
+  private baseURL: string = environment.apiBaseUrlApi;
 
   constructor() { }
 
   async toggleInterest(vehicleId: number, type: string): Promise<any> {
-    const url = `${this.baseURL}vehicles/${vehicleId}/${type}/interest/`;
+    const url = `${this.baseURL}/vehicles/${vehicleId}/${type}/interest/`;
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -27,7 +27,7 @@ export class PurchaserAndSelectedVehiclesService {
     }
   }
   async approveCustomer(vehicleId: number, profile_id: number, type: string): Promise<any> {
-    const url = `${this.baseURL}vehicles/${vehicleId}/${profile_id}/${type}/approve/`;
+    const url = `${this.baseURL}/vehicles/${vehicleId}/${profile_id}/${type}/approve/`;
     try {
       const response = await fetch(url, { method: 'POST' });
 
@@ -38,7 +38,7 @@ export class PurchaserAndSelectedVehiclesService {
   }
 
   async negateCustomer(vehicleId: number, profile_id: number, type: string): Promise<any> {
-    const url = `${this.baseURL}vehicles/${vehicleId}/${profile_id}/${type}/negate/`;
+    const url = `${this.baseURL}/vehicles/${vehicleId}/${profile_id}/${type}/negate/`;
     try {
       const response = await fetch(url, { method: 'POST' });
 
@@ -48,7 +48,7 @@ export class PurchaserAndSelectedVehiclesService {
     }
   }
   async getVehicleStatus(vehicleId: number, type: string): Promise<{ isSelected: boolean; isBuyed: boolean | null }> {
-    const url = `${this.baseURL}vehicles/${vehicleId}/${type}/status/`;
+    const url = `${this.baseURL}/vehicles/${vehicleId}/${type}/status/`;
 
     try {
       const response = await fetch(url);
@@ -60,7 +60,7 @@ export class PurchaserAndSelectedVehiclesService {
     }
   }
   async getVehiclesForApproval(queryVehicle: string = '', queryUser: string = ''): Promise<{ listForAccept: ElementForAccept[] }> {
-    const url = new URL(`${this.baseURL}vehicles/approval/`);
+    const url = new URL(`${this.baseURL}/vehicles/approval/`);
 
     if (queryVehicle) url.searchParams.append('qVehicle', queryVehicle);
     if (queryUser) url.searchParams.append('qUser', queryUser);

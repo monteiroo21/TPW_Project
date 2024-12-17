@@ -669,73 +669,77 @@ import time
 def create_car(request):
     print("FILES:", request.FILES)
     print("DATA:", request.data)
-
-    data = request.data.copy()
-
-    model_id = data.get('model')
-    year_str = data.get('year')
-    price_str = data.get('price')
-
     try:
-        model_instance = CarModel.objects.get(id=int(model_id))
-    except (ValueError, CarModel.DoesNotExist):
-        return Response({'error': f'CarModel with id {model_id} not found or invalid.'}, status=status.HTTP_400_BAD_REQUEST)
+        data = request.data.copy()
 
-    try:
-        year = int(year_str)%time.localtime().tm_year
-        print(year,time.localtime().tm_year)
-        if 1886>year or year>time.localtime().tm_year:
-            return Response({'error': 'Year must be more than 1885 and not future.'}, status=status.HTTP_400_BAD_REQUEST)
-    except ValueError:
-        return Response({'error': 'Year must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
+        model_id = data.get('model')
+        year_str = data.get('year')
+        price_str = data.get('price')
 
-    # Valida price
-    try:
-        price = float(price_str)
-    except:
-        return Response({'error': 'Price must be a valid decimal number.'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            model_instance = CarModel.objects.get(id=int(model_id))
+        except (ValueError, CarModel.DoesNotExist):
+            return Response({'error': f'CarModel with id {model_id} not found or invalid.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Kilometers
-    kilometers_str = data.get('kilometers', '0')
-    if kilometers_str=="null" or kilometers_str=="":
-        kilometers_str=0
-    try:
-        kilometers = float(kilometers_str)
-    except ValueError:
-        return Response({'error': 'Kilometers must be a float.'}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            year = int(year_str)
+            print(year,time.localtime().tm_year)
+            if model_instance.releaseYear>year or year>time.localtime().tm_year:
+                return Response({'error': f'Year must be more than {model_instance.releaseYear} and not future.'}, status=status.HTTP_400_BAD_REQUEST)
+        except ValueError:
+            return Response({'error': 'Year must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Color (opcional, default "Black")
-    color = data.get('color', 'Black')
+        # Valida price
+        try:
+            price = float(price_str)
+            if 0>=price or int(price)>=1e8:
+                return Response({'error': 'Ensure that there are no more than 8 digits before the decimal point.'}, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({'error': 'Price must be a valid decimal number.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Doors (opcional, default 4)
-    doors_str = data.get('doors', '4')
-    try:
-        doors = int(doors_str)
-    except ValueError:
-        return Response({'error': 'Doors must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
+        # Kilometers
+        kilometers_str = data.get('kilometers', '0')
+        if kilometers_str=="null" or kilometers_str=="":
+            kilometers_str=0
+        try:
+            kilometers = float(kilometers_str)
+        except ValueError:
+            return Response({'error': 'Kilometers must be a float.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    electric_str = data.get('electric', 'false').lower()
-    electric = (electric_str == 'true')
+        # Color (opcional, default "Black")
+        color = data.get('color', 'Black')
 
-    if 'image' in request.FILES:
-        image = data.get('image')
+        # Doors (opcional, default 4)
+        doors_str = data.get('doors', '4')
+        try:
+            doors = int(doors_str)
+        except ValueError:
+            return Response({'error': 'Doors must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    new_car = Car(
-        model=model_instance,
-        year=year,
-        kilometers=kilometers,
-        new=(kilometers == 0),
-        price=price,
-        image=image,
-        color=color,
-        doors=doors,
-        electric=electric
-    )
-    new_car.save()
+        electric_str = data.get('electric', 'false').lower()
+        electric = (electric_str == 'true')
+
+        if 'image' in request.FILES:
+            image = data.get('image')
+
+        new_car = Car(
+            model=model_instance,
+            year=year,
+            kilometers=kilometers,
+            new=(kilometers == 0),
+            price=price,
+            image=image,
+            color=color,
+            doors=doors,
+            electric=electric
+        )
+        new_car.save()
 
 
-    return Response(CarSerializer(new_car).data, status=status.HTTP_201_CREATED)
-
+        return Response(CarSerializer(new_car).data, status=status.HTTP_201_CREATED)
+    except Exception as e:
+            print("error:",e)
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
@@ -772,6 +776,11 @@ def update_car(request):
         except CarModel.DoesNotExist:
             return Response({'error': f'CarModel with id {model_id} not found.'}, status=status.HTTP_400_BAD_REQUEST)
     print(car.model)  
+
+    year = int(updatable_fields.get('year', '0'))
+    if model_instance.releaseYear>year or year>time.localtime().tm_year:
+        return Response({'error': f'Year must be more than {model_instance.releaseYear} and not future.'}, status=status.HTTP_400_BAD_REQUEST)
+
     serializer = CarSerializer(car, data=updatable_fields, partial=True)
     if serializer.is_valid():
         serializer.save()
@@ -838,20 +847,21 @@ def create_motorbike(request):
 
     # Valida o ano
     try:
-        year = int(year_str)
-        current_year = time.localtime().tm_year
-        if year < 1886 or year > current_year:
-            return Response({'error': 'Year must be between 1886 and the current year.'}, status=status.HTTP_400_BAD_REQUEST)
+        year = int(data.get('year', '0'))
+        if model_instance.releaseYear>year or year>time.localtime().tm_year:
+            return Response({'error': f'Year must be more than {model_instance.releaseYear} and not future.'}, status=status.HTTP_400_BAD_REQUEST)
+
     except ValueError:
         return Response({'error': 'Year must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Valida o preço
     try:
         price = float(price_str)
-    except ValueError:
+        if 0>=price or int(price)>=1e8:
+            return Response({'error': 'Ensure that there are no more than 8 digits before the decimal point.'}, status=status.HTTP_400_BAD_REQUEST)
+    except:
         return Response({'error': 'Price must be a valid decimal number.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Kilometers
+
     kilometers_str = data.get('kilometers', '0')
     if kilometers_str == "null" or kilometers_str == "":
         kilometers_str = 0
@@ -913,6 +923,11 @@ def update_motorbike(request):
             moto.save()      
         except CarModel.DoesNotExist:
             return Response({'error': f'CarModel with id {model_id} not found.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    year = int(updatable_fields.get('year', '0'))
+    if model_instance.releaseYear>year or year>time.localtime().tm_year:
+        return Response({'error': f'Year must be more than {model_instance.releaseYear} and not future.'}, status=status.HTTP_400_BAD_REQUEST)
+
     serializer = CarSerializer(moto, data=updatable_fields, partial=True)
     if serializer.is_valid():
         serializer.save()
@@ -1452,15 +1467,7 @@ def create_car_model(request):
 
     new_model.save()
 
-    return Response({
-        'id': new_model.id,
-        'brand': new_model.brand.id,
-        'name': new_model.name,
-        'base_price': new_model.base_price,
-        'specifications': new_model.specifications,
-        'releaseYear': new_model.releaseYear,
-        'vehicle_type': new_model.vehicle_type
-    }, status=status.HTTP_201_CREATED)
+    return Response(CarModelSerializer(new_model).data, status=status.HTTP_201_CREATED)
 
 ################# Profile #################
 

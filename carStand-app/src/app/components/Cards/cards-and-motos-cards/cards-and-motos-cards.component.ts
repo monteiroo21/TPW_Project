@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cards-and-motos-cards',
@@ -9,11 +10,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './cards-and-motos-cards.component.css'
 })
 export class CardsAndMotosCardsComponent {
+  baseURL = environment.apiBaseUrl;
   @Input() car: any;
-  urlImage: string = "http://localhost:8000";
-
   @Input() moto: any;
-  urlImageMoto: string = "http://localhost:8000";
   
   navigateToDetails(type: string, id: number): void {
     if (type == "car")

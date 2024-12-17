@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-brands-and-groups-cards',
   imports: [CommonModule],
@@ -8,9 +8,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './brands-and-groups-cards.component.css'
 })
 export class BrandsAndGroupsCardsComponent {
+  baseURL = environment.apiBaseUrl;
   @Input() group: any;
-  urlImage: string = "http://localhost:8000";
-
   @Input() brand: any;
-  urlImageBrand: string = "http://localhost:8000";
 }

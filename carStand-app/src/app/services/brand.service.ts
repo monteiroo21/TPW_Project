@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Brand } from '../interfaces/brand';
 import { Moto } from '../interfaces/moto';
 import { Car } from '../interfaces/car';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BrandService {
-  private baseURL = 'http://localhost:8000/api';
+  private baseURL: string = environment.apiBaseUrlApi;
 
   constructor() { }
 
