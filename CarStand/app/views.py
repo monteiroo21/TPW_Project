@@ -788,8 +788,8 @@ def update_car(request):
     else: 
         car.model=oldModel  
         car.save()    
-        print(serializer.errors)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        print({"error":str(serializer.errors)})
+    return Response({"error":str(serializer.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -935,8 +935,8 @@ def update_motorbike(request):
     else: 
         moto.model=oldModel  
         moto.save()    
-        print(serializer.errors)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        print({"error":str(serializer.errors)})
+    return Response({"error":str(serializer.errors)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

@@ -55,7 +55,9 @@ export class CreateVehicleModelComponent {
         this.router.navigate(['/vehiclecreate/motorbikes']);
       }
     } catch (error) {
-      this.message = 'Error creating model.';
+      this.message = 'Error creating model.'
+      if(this.modelData.releaseYear<1990||this.modelData.releaseYear>2024)
+      this.message = 'Year must be more than 1990 and not future.';
       this.error = true;
       console.error(error);
     }

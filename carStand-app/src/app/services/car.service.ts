@@ -62,7 +62,7 @@ export class CarService {
     }
   }
   
-  async updateCar(car: FormData): Promise<void> {
+  async updateCar(car: FormData): Promise<Car> {
     const url = `${this.baseURL}/cars/update`;
     console.log(car.values());
     const response = await fetch(url, {
@@ -70,9 +70,7 @@ export class CarService {
       body: car,
     });
   
-    if (!response.ok) {
-      throw new Error('Failed to update car');
-    }
+    return await response.json();
   }
 
 }

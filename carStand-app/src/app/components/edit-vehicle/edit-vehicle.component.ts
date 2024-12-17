@@ -75,18 +75,22 @@ export class EditVehicleComponent {
       });
 
       console.log('FormData keys:', Array.from(formData.keys()));
-
+      let result : any;
       if (this.vehicleType === 'cars') {
-        await this.carService.updateCar(formData);
-        this.message = 'Car updated successfully!';
-        this.router.navigate([`/carsdetails/car/${this.vehicleData.id}`]);
-
+        result = await this.carService.updateCar(formData);
       } else {
-        await this.motoService.updateMoto(formData);
-        this.message = 'Moto updated successfully!';
-        this.router.navigate([`/motosdetails/moto/${this.vehicleData.id}`]);
+        result = await this.motoService.updateMoto(formData);
       }
-      this.error = false;
+      console.log(result)
+      if ('error' in result && result.error) {
+        this.message = <string>result.error; 
+        this.error = true;
+        console.error('Server error:', result.error);
+      } else {
+        this.router.navigate([`/${this.vehicleType === 'cars' ? 'carsdetails/car' : 'motosdetails/moto'}/${this.vehicleData.id}`]);
+
+      }
+
     } catch (error) {
       this.message = 'Error updating vehicle.';
       this.error = true;

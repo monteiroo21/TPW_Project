@@ -50,16 +50,15 @@ export class MotoService {
     }
   }
 
-  async updateMoto(moto: FormData): Promise<void> {
+  async updateMoto(moto: FormData): Promise<Moto> {
     const url = `${this.baseURL}/motos/update`;
     const response = await fetch(url, {
       method: 'PUT',
       body: moto,
     });
   
-    if (!response.ok) {
-      throw new Error('Failed to update motorbike');
-    }
+    console.log(response.status);
+    return await response.json();
   }
   
 }
