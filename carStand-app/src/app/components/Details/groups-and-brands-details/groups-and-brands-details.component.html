@@ -3,7 +3,7 @@
         <app-go-back></app-go-back>
     </div>
     <div class="mt-28 container mx-auto px-4">
-        <div class="p-8 mb-14 bg-slate-900 rounded-xl shadow-lg">
+        <div class="p-8 mb-14">
             <div class="grid grid-cols-1 lg:grid-cols-2 items-center">
                 <div class="flex flex-col items-start text-white space-y-4">
                     <h1 class="text-5xl font-extrabold mb-4">
@@ -51,7 +51,7 @@
         </div>
 
         <ng-container *ngIf="group">
-            <div class="bg-slate-900 p-10 rounded-xl">
+            <div class="p-10">
                 <h2 class="text-3xl text-white font-bold mb-8">Brands</h2>
                 <div
                     class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 justify-center items-center">
@@ -65,7 +65,7 @@
 
         <ng-container *ngIf="brand">
             <ng-container *ngIf="cars.length > 0">
-                <div class="bg-slate-900 p-10 rounded-xl">
+                <div class="p-10">
                     <h2 class="text-3xl text-white font-bold mb-8">Cars</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
                         <app-cards-and-motos-brands-card *ngFor="let car of cars" [item]="car" type="car"
@@ -76,7 +76,7 @@
             </ng-container>
 
             <ng-container *ngIf="motos.length > 0">
-                <div class="bg-slate-900 p-10 rounded-xl">
+                <div class="p-10">
                     <h2 class="text-3xl text-white font-bold mb-8">Motos</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
                         <app-cards-and-motos-brands-card *ngFor="let moto of motos" [item]="moto" type="moto"
