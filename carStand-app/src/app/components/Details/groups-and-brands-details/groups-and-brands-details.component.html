@@ -51,30 +51,38 @@
         </div>
 
         <ng-container *ngIf="group">
-            <h2 class="text-3xl text-white font-bold mb-8">Brands</h2>
-            <div
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 justify-center items-center ml-10">
-                <div class="bg-white rounded-2xl shadow-md w-72 h-68 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl"
-                    *ngFor="let brand of group.brands">
-                    <app-brands-and-groups-cards [brand]="brand"></app-brands-and-groups-cards>
+            <div class="bg-slate-900 p-10 rounded-xl">
+                <h2 class="text-3xl text-white font-bold mb-8">Brands</h2>
+                <div
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 justify-center items-center">
+                    <div class="bg-white rounded-2xl shadow-md w-72 h-68 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl mx-auto"
+                        *ngFor="let brand of group.brands">
+                        <app-brands-and-groups-cards [brand]="brand"></app-brands-and-groups-cards>
+                    </div>
                 </div>
             </div>
         </ng-container>
 
         <ng-container *ngIf="brand">
             <ng-container *ngIf="cars.length > 0">
-                <h2 class="text-3xl text-white font-bold mb-8">Cars</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-                    <app-cards-and-motos-brands-card *ngFor="let car of cars" [item]="car" type="car">
-                    </app-cards-and-motos-brands-card>
+                <div class="bg-slate-900 p-10 rounded-xl">
+                    <h2 class="text-3xl text-white font-bold mb-8">Cars</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+                        <app-cards-and-motos-brands-card *ngFor="let car of cars" [item]="car" type="car"
+                            class="mx-auto">
+                        </app-cards-and-motos-brands-card>
+                    </div>
                 </div>
             </ng-container>
 
             <ng-container *ngIf="motos.length > 0">
-                <h2 class="text-3xl text-white font-bold mb-8">Motos</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-                    <app-cards-and-motos-brands-card *ngFor="let moto of motos" [item]="moto" type="moto">
-                    </app-cards-and-motos-brands-card>
+                <div class="bg-slate-900 p-10 rounded-xl">
+                    <h2 class="text-3xl text-white font-bold mb-8">Motos</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+                        <app-cards-and-motos-brands-card *ngFor="let moto of motos" [item]="moto" type="moto"
+                            class="mx-auto">
+                        </app-cards-and-motos-brands-card>
+                    </div>
                 </div>
             </ng-container>
         </ng-container>

@@ -4,16 +4,16 @@
     </div>
 
     <div class="flex flex-col items-center justify-center space-y-4 mt-24">
-        <div *ngIf="profile" class="text-center">
-            <div class="w-24 h-24 rounded-full flex items-center justify-center">
-                <img src="../../../../assets/user.png" alt="User Avatar" />
+        <div *ngIf="profile" class="text-center justify-center items-center">
+            <div class="w-24 h-24 rounded-full flex items-center justify-center mx-auto">
+                <img src="../../../../assets/user.png" alt="User Avatar" class="filter invert" />
             </div>
 
             <h2 class="text-2xl font-extrabold text-white mt-4">
                 {{ profile.first_name }} {{ profile.last_name }}
             </h2>
 
-            <button id="editProfileBtn" 
+            <button id="editProfileBtn"
                 class="text-white bg-sky-800 hover:bg-sky-950 py-2 px-6 rounded-md font-semibold mt-4"
                 (click)="toggleModal(true)">
                 Edit Profile
@@ -21,11 +21,14 @@
         </div>
     </div>
 
-    <div *ngIf="authState?.authenticated && !authState?.isManager" class="flex gap-8 w-full py-6 px-2 mt-10 justify-center flex-wrap">
-        <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+    <div *ngIf="authState?.authenticated && !authState?.isManager"
+        class="flex gap-8 w-full py-6 px-2 mt-10 justify-center flex-wrap">
+        <div
+            class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
             <a [routerLink]="['/favourites']">
                 <div class="flex items-center justify-center">
-                    <img src="../../../assets/favorite_inactive.png" alt="favourites" class="w-full h-40 object-contain p-4 bg-white" />
+                    <img src="../../../assets/favorite_inactive.png" alt="favourites"
+                        class="w-full h-40 object-contain p-4 bg-white" />
                 </div>
                 <div class="px-6 py-4">
                     <div class="flex items-center justify-between">
@@ -34,10 +37,12 @@
                 </div>
             </a>
         </div>
-        <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+        <div
+            class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
             <a [routerLink]="['/desiredVehicles']">
                 <div class="flex items-center justify-center">
-                    <img src="../../../assets/star.png" alt="wishlist" class="w-full h-40 object-contain p-4 bg-white" />
+                    <img src="../../../assets/star.png" alt="wishlist"
+                        class="w-full h-40 object-contain p-4 bg-white" />
                 </div>
                 <div class="px-6 py-4">
                     <div class="flex items-center justify-between">
@@ -46,10 +51,12 @@
                 </div>
             </a>
         </div>
-        <div class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+        <div
+            class="bg-white rounded-2xl shadow-lg max-w-xs w-80 h-140 overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-2xl">
             <a [routerLink]="['/purchasedVehicles']">
                 <div class="flex items-center justify-center">
-                    <img src="../../../assets/dollar-symbol.png" alt="purchased" class="w-full h-40 object-contain p-4 bg-white" />
+                    <img src="../../../assets/dollar-symbol.png" alt="purchased"
+                        class="w-full h-40 object-contain p-4 bg-white" />
                 </div>
                 <div class="px-6 py-4">
                     <div class="flex items-center justify-between">
@@ -84,7 +91,7 @@
                 </div>
 
                 <div class="flex justify-between mt-6">
-                    <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-6 rounded-md" 
+                    <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-6 rounded-md"
                         (click)="toggleModal(false)">
                         Cancel
                     </button>
