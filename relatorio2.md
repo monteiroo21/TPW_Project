@@ -189,3 +189,16 @@ npx tailwindcss -i ./app/static/content/tailwind.css -o ./app/static/content/sty
 ## Conclusion
 This project aimed to develop a web-based system capable of managing a vehicle stand. Within the system we incorporated distinct functionalities for customers and administrators. Through the use of these technologies we were able to create a system capable of fulfilling the main requirements.
 Throughout the development of the system we encountered challenges, especially related to the management of the relationships between different entities, that allowed us to improve our knowledge in the area.
+
+
+
+Notes:
+    Não é preciso introdução
+    Deployment information e falar da experiencia (onde, dificuldades, etc.)
+    Dados de users e passwords
+    Explicar autenticação (que tipo de autenticação, tipo de tecnologia, fontes onde nos inspiramos)
+    Quais os WebServices implementados e uma breve explicação
+    Angular:
+        Listagem dos components e o que cada um faz
+        Relação entre eles
+        Arquitetura
