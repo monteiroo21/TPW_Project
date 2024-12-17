@@ -20,15 +20,28 @@ João Monteiro - 114547
 
     For each object in a class, it is possible to see details about it, as well as the existent relations in-between different classes
 
-    ![Entities](screenshots/entities.png)
+    ![Entities](screenshots2delivery/entities.png)
 
 - **Search**
 
     It is possible to search for groups, brands, cars and motos. For cars and motos that search can be more personalized, with the help of filters
 
-    ![Search Filters](screenshots/searchFilters.png)
+    ![Search Filters](screenshots2delivery/searchFilters.png)
 
-    ![Search](screenshots/search.png)
+
+
+    ![Search](screenshots2delivery/search.png)
+
+### Home Page
+
+- **Regular User Home Page**
+
+    ![Default Home](screenshots2delivery/defaultHome.png)
+
+
+- **Admin Home Page**
+
+    ![Admin Home](screenshots2delivery/adminHome.png)
 
 ### Customer
 
@@ -44,50 +57,44 @@ João Monteiro - 114547
     A key point to highlight is that the management of favorites operates on a session-based approach, where users add or remove their favorite cars and motorcycles dynamically during their session. These changes are stored temporarily in the session and are not immediately saved in the database. Instead, the data is only persisted to the database upon user logout, ensuring that the session serves as a flexible and temporary workspace before finalizing the user's choices in permanent storage.
 
 
-    ![No interest](screenshots/noInterest.png)
+    ![No interest](screenshots2delivery/noInterest.png)
 
-    ![Interested](screenshots/interestAndFavorite.png)
+    ![Interested](screenshots2delivery/interestAndFavorite.png)
 
 - **Profile page**
 
     In the profile page, the customer can edit his profile, but can also see his favourite vehicles, the list of vehicles he has shown interest in (Wishlist) and an history log of the cars he already bought.
 
-    ![Profile](screenshots/profile.png)    
+    ![Profile](screenshots2delivery/profile.png)    
 
 - **Edit Profile**
 
     It is possible to edit the profile, where an user can change his name and the email associated.
 
-    ![Edit Profile](screenshots/editProfile.png)
+    ![Edit Profile](screenshots2delivery/editProfile.png)
 
 - **Favourites**
 
     An user, as previously seen, has the possibility to add a car to his favourites. To facilitate his experience, a customer can check a list with the cars he added to the favourites. The favourites are added/removed while an user session is ongoing. When an user logouts, those favourites are loaded into the database. When an user is authenticated again, that information is loaded again into that session.
 
-    ![Edit Profile](screenshots/favourites.png)
+    ![Edit Profile](screenshots2delivery/favourites.png)
 
 - **Wishlist**
 
     As we said before, an user can show interest in a vehicle. In his profile page he will have a wishlist where he can observe the cars he has shown interest.
 
-    ![Edit Profile](screenshots/desired.png)
+    ![Edit Profile](screenshots2delivery/desired.png)
 
 - **Purchased Vehicles**
 
     Lastly, an user also has the possibility to check the vehicles he already purchased within the system. 
 
-    ![Edit Profile](screenshots/purchased.png)
+    ![Edit Profile](screenshots2delivery/purchased.png)
 
     **It is important to refer that these functionalities (with the exception of editing a profile) are not possible with an administrator account, since his purpose in the system is different than the one from the client.**
 
 
 ### Admin
-
-- **Accept or decline purchase requests**
-
-    The administrator is responsible for accepting or not a request from a customer. Once a vehicle is purchased, he will be no longer available for sale and other pending requests will be automatically declined.
-
-    ![Accept Requests](screenshots/acceptRequests.png)
 
 - **Add, edit or delete vehicles**
 
@@ -95,13 +102,15 @@ João Monteiro - 114547
 
     It is important to emphasize that the relationship between Car Model and Car, and Motorbike is hierarchical, where Car Model acts as a shared template for both Car and Motorbike. This means that Car Model defines general attributes common to a vehicle model, such as brand, name, specifications, release year, and base price, while Car and Motorbike extend this by adding specific details for individual vehicles, such as year of manufacture, color, mileage, price, and customer-related information. Both Car and Motorbike reference Car Model via a ForeignKey, ensuring that multiple vehicles (cars or motorcycles) can share the same model data while maintaining their unique characteristics.
 
-    ![Add Car](screenshots/createCar.png)
+    ![Add Car](screenshots2delivery/createCar.png)
 
-    ![Add Model](screenshots/createNewModel.png)
+    ![New Car](screenshots2delivery/newCarResult.png)
 
-    ![Edit Moto](screenshots/updateMoto.png)
+    ![Add Model](screenshots2delivery/createNewModel.png)
 
-    ![Delete Moto](screenshots/deleteMoto.png)
+    ![Edit Moto](screenshots2delivery/updateMoto.png)
+
+    ![Delete Moto](screenshots2delivery/deleteMoto.png)
 
 
 ## Access Information
@@ -128,13 +137,14 @@ https://jorgedomingues.pythonanywhere.com/index/
     ```
 
 
-- **Administrators**:
+- **Administrator**:
     ```
     username: admin
     password: admin
     ```
 
 ### Local execution
+Open two terminals in the root of the project. On the first one do:
 ```
 python3 -m venv venv
 
@@ -150,6 +160,18 @@ python3 manage.py migrate
 
 python3 manage.py runserver
 ```
+
+On the second one do:
+```
+python3 -m venv venv
+
+cd carStand-app/
+
+ng serve
+```
+
+In the browser navigate to the following url: http://localhost:4200/home.
+
 
 **Tailwind:**
 ```
